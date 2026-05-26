@@ -1,0 +1,17 @@
+backend:
+  name: github
+  repo: ACCOUNT_NAME/REPO_NAME # เปลี่ยนเป็นชื่อ GitHub Account และชื่อ Repo ของคุณ เช่น kwan-clinic/my-website
+  branch: main
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "announcements"
+    label: "ประกาศวันหยุด"
+    files:
+      - file: "index.html"
+        label: "แก้ไขข้อความประกาศ"
+        name: "announcement"
+        fields:
+          - {label: "ข้อความประกาศบนแถบสีทอง", name: "announcement-text", widget: "string"}
