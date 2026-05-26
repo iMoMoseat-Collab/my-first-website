@@ -1,5 +1,6 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: iMoMoseat-Collab/my-first-website
   branch: main
 
 media_folder: "images/uploads"
