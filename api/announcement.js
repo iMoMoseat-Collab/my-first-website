@@ -12,7 +12,6 @@ const FILE_PATH = process.env.GITHUB_FILE;
 const TOKEN     = process.env.GITHUB_TOKEN;
 const PASSWORD  = process.env.ADMIN_PASSWORD;
 
-// Helper: ดึงข้อมูลจาก GitHub
 async function getFileFromGitHub() {
     const url = `https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`;
     const res = await fetch(url, {
@@ -25,7 +24,6 @@ async function getFileFromGitHub() {
     return res.json();
 }
 
-// Helper: อัปเดตข้อมูลบน GitHub
 async function putFileToGitHub(content, sha) {
     const url = `https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`;
     const res = await fetch(url, {
@@ -46,41 +44,41 @@ async function putFileToGitHub(content, sha) {
 }
 
 export default async function handler(req, res) {
-    // CORS Headers
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
     if (req.method === "OPTIONS") return res.status(200).end();
 
-    // ─── GET: ดึงข้อความประกาศ ────────────────────────────────
+    // ─── GET ──────────────────────────────────────────────────
     if (req.method === "GET") {
         try {
-            const data        = await getFileFromGitHub();
-            const decoded     = Buffer.from(data.content, "base64").toString("utf-8");
-            const parsed      = JSON.parse(decoded);
+            const data    = await getFileFromGitHub();
+            const decoded = Buffer.from(data.content, "base64").toString("utf-8");
+            const parsed  = JSON.parse(decoded);
             return res.status(200).json({ text: parsed.text, sha: data.sha });
         } catch (err) {
             return res.status(500).json({ error: "ไม่สามารถดึงข้อมูลได้", detail: err.message });
         }
     }
 
-    // ─── POST: อัปเดตข้อความประกาศ (ต้องผ่าน password) ──────
+    // ─── POST ─────────────────────────────────────────────────
     if (req.method === "POST") {
-        const { password, text, sha } = req.body || {};
+        const { password, text } = req.body || {};
 
-        // ตรวจสอบ password ฝั่ง server
         if (!password || password !== PASSWORD) {
             return res.status(401).json({ error: "รหัสผ่านไม่ถูกต้อง" });
         }
-        if (!text || !sha) {
+        if (!text) {
             return res.status(400).json({ error: "ข้อมูลไม่ครบถ้วน" });
         }
 
         try {
-            const jsonStr    = JSON.stringify({ text: text.trim() });
-            const b64Content = Buffer.from(jsonStr, "utf-8").toString("base64");
-            await putFileToGitHub(b64Content, sha);
+            // ดึง sha ล่าสุดจาก GitHub ทุกครั้ง ป้องกัน 409 Conflict
+            const latest     = await getFileFromGitHub();
+            const freshSha   = latest.sha;
+            const b64Content = Buffer.from(JSON.stringify({ text: text.trim() }), "utf-8").toString("base64");
+            await putFileToGitHub(b64Content, freshSha);
             return res.status(200).json({ ok: true, message: "อัปเดตสำเร็จ" });
         } catch (err) {
             return res.status(500).json({ error: "อัปเดตไม่สำเร็จ", detail: err.message });
