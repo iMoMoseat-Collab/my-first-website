@@ -75,6 +75,7 @@
             <a href="#services" class="hover:text-accent transition-colors duration-200">บริการหัตถการ</a>
             <a href="#checker" class="hover:text-accent font-semibold text-emerald-700 transition-colors duration-200">✨ เช็กสุขภาพออนไลน์</a>
             <a href="#articles" class="hover:text-accent transition-colors duration-200">บทความความรู้</a>
+            <a href="#faq" class="hover:text-accent transition-colors duration-200">FAQ</a>
             <a href="#contact" class="hover:text-accent transition-colors duration-200">ติดต่อคลินิก</a>
         </div>
         <a href="tel:0646689544" class="bg-primary hover:bg-emeraldLight text-white px-5 py-2.5 text-xs font-semibold rounded tracking-wider shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5">
@@ -193,6 +194,50 @@
     </div>
 </section>
 
+
+<!-- REVIEWS -->
+<section id="reviews" class="py-20 bg-white border-y border-gray-100">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center max-w-2xl mx-auto mb-16">
+            <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Testimonials</span>
+            <h2 class="text-3xl md:text-4xl font-serif text-primary font-bold">เสียงจากผู้รับการรักษา</h2>
+            <div class="w-12 h-[2px] bg-accent mx-auto mt-4"></div>
+        </div>
+        <div id="reviews-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="text-center text-gray-400 py-10 col-span-3 text-sm">กำลังโหลดรีวิว...</div>
+        </div>
+        <!-- Line CTA -->
+        <div class="mt-16 bg-gradient-to-r from-primary to-emeraldLight rounded-2xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+            <div>
+                <h3 class="font-serif font-bold text-xl text-accent mb-2">พร้อมรับการดูแลจากหมอขวัญแล้วหรือยัง?</h3>
+                <p class="text-gray-300 text-sm font-light">ติดต่อได้ทาง Line หรือโทรตรงได้เลยครับ ตอบเร็ว ไม่มีค่าใช้จ่ายในการปรึกษา</p>
+            </div>
+            <div class="flex gap-3 shrink-0">
+                <a href="https://line.me/R/ti/p/@687dobfj" target="_blank" rel="noopener noreferrer"
+                   class="flex items-center gap-2 bg-[#06C755] hover:bg-green-500 text-white font-bold px-6 py-3 rounded-xl text-sm transition-all shadow-md">
+                    <i class="fa-brands fa-line text-lg"></i> แชท Line
+                </a>
+                <a href="tel:0646689544"
+                   class="flex items-center gap-2 bg-accent hover:bg-yellow-600 text-primary font-bold px-6 py-3 rounded-xl text-sm transition-all shadow-md">
+                    <i class="fa-solid fa-phone"></i> โทรเลย
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="py-20 max-w-3xl mx-auto px-6">
+    <div class="text-center mb-16">
+        <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">FAQ</span>
+        <h2 class="text-3xl md:text-4xl font-serif text-primary font-bold">คำถามที่พบบ่อย</h2>
+        <div class="w-12 h-[2px] bg-accent mx-auto mt-4"></div>
+    </div>
+    <div id="faq-list" class="space-y-3">
+        <div class="text-center text-gray-400 py-10 text-sm">กำลังโหลด FAQ...</div>
+    </div>
+</section>
+
 <!-- CONTACT -->
 <section id="contact" class="py-20 bg-primary text-white">
     <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-12 items-stretch">
@@ -219,8 +264,15 @@
     <p>© 2026 หมอขวัญแพทย์แผนจีน คลินิกฝังเข็มและสมุนไพรจีนศรีราชา. All Rights Reserved.</p>
 </footer>
 
-<div class="fixed bottom-6 right-6 z-40">
-    <a href="tel:0646689544" class="w-12 h-12 bg-accent text-primary rounded-full shadow-2xl flex items-center justify-center text-lg hover:scale-110 transition-transform" title="โทรนัดหมาย"><i class="fa-solid fa-phone"></i></a>
+<div class="fixed bottom-6 right-6 z-40 flex flex-col gap-3 items-center">
+    <a href="https://line.me/R/ti/p/@687dobfj" target="_blank" rel="noopener noreferrer"
+       class="w-12 h-12 bg-[#06C755] text-white rounded-full shadow-2xl flex items-center justify-center text-xl hover:scale-110 transition-transform" title="แชท Line">
+        <i class="fa-brands fa-line"></i>
+    </a>
+    <a href="tel:0646689544"
+       class="w-12 h-12 bg-accent text-primary rounded-full shadow-2xl flex items-center justify-center text-lg hover:scale-110 transition-transform" title="โทรนัดหมาย">
+        <i class="fa-solid fa-phone"></i>
+    </a>
 </div>
 
 <!-- ══════════════════ ARTICLE DRAWER ══════════════════ -->
@@ -273,6 +325,8 @@
             <div class="flex gap-2 px-8 pb-4 shrink-0">
                 <button class="admin-tab active" onclick="switchTab('announcement')">📢 ประกาศ</button>
                 <button class="admin-tab" onclick="switchTab('articles')">📝 บทความ</button>
+                <button class="admin-tab" onclick="switchTab('reviews')">⭐ รีวิว</button>
+                <button class="admin-tab" onclick="switchTab('faq')">❓ FAQ</button>
             </div>
 
             <div class="overflow-y-auto flex-1 px-8 pb-8">
@@ -284,6 +338,54 @@
                     <p id="save-status" class="text-xs text-center font-medium min-h-[16px]"></p>
                 </div>
 
+
+                <!-- Tab: Reviews -->
+                <div id="tab-reviews" class="hidden space-y-4">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-semibold text-gray-600">รีวิวทั้งหมด (<span id="review-count">0</span>)</span>
+                        <button onclick="openNewReviewForm()" class="bg-primary text-white px-4 py-2 rounded-lg text-xs font-semibold hover:bg-emeraldLight transition-colors"><i class="fa-solid fa-plus mr-1"></i>เพิ่มรีวิว</button>
+                    </div>
+                    <div id="admin-reviews-list" class="space-y-3"></div>
+                    <div id="review-form" class="hidden space-y-3 border border-accent/30 rounded-xl p-4 bg-bgLight">
+                        <h4 id="review-form-title" class="font-semibold text-sm text-primary">เพิ่มรีวิวใหม่</h4>
+                        <input type="hidden" id="form-review-id">
+                        <div><label class="text-xs text-gray-500 block mb-1">ชื่อผู้รีวิว *</label><input type="text" id="form-reviewer" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent" placeholder="เช่น คุณสมชาย (ออฟฟิศซินโดรม)"></div>
+                        <div><label class="text-xs text-gray-500 block mb-1">ดาว (1-5) *</label>
+                            <div class="flex gap-2">
+                                <label class="flex items-center gap-1 text-xs cursor-pointer"><input type="radio" name="form-stars" value="5" checked> ⭐⭐⭐⭐⭐</label>
+                                <label class="flex items-center gap-1 text-xs cursor-pointer"><input type="radio" name="form-stars" value="4"> ⭐⭐⭐⭐</label>
+                                <label class="flex items-center gap-1 text-xs cursor-pointer"><input type="radio" name="form-stars" value="3"> ⭐⭐⭐</label>
+                            </div>
+                        </div>
+                        <div><label class="text-xs text-gray-500 block mb-1">อาการที่รักษา</label><input type="text" id="form-condition" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent" placeholder="เช่น ออฟฟิศซินโดรม, ไมเกรน"></div>
+                        <div><label class="text-xs text-gray-500 block mb-1">ข้อความรีวิว *</label><textarea id="form-review-text" rows="3" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent resize-none"></textarea></div>
+                        <div class="flex gap-2 pt-1">
+                            <button onclick="saveReviewForm()" id="save-review-btn" class="flex-1 bg-accent text-primary py-2.5 rounded-lg text-xs font-bold hover:bg-yellow-500 transition-colors">บันทึกรีวิว</button>
+                            <button onclick="cancelReviewForm()" class="px-4 py-2.5 rounded-lg text-xs text-gray-500 hover:bg-gray-100 border transition-colors">ยกเลิก</button>
+                        </div>
+                        <p id="review-save-status" class="text-xs text-center font-medium min-h-[16px]"></p>
+                    </div>
+                </div>
+
+                <!-- Tab: FAQ -->
+                <div id="tab-faq" class="hidden space-y-4">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-semibold text-gray-600">FAQ ทั้งหมด (<span id="faq-count">0</span>)</span>
+                        <button onclick="openNewFaqForm()" class="bg-primary text-white px-4 py-2 rounded-lg text-xs font-semibold hover:bg-emeraldLight transition-colors"><i class="fa-solid fa-plus mr-1"></i>เพิ่ม FAQ</button>
+                    </div>
+                    <div id="admin-faq-list" class="space-y-3"></div>
+                    <div id="faq-form" class="hidden space-y-3 border border-accent/30 rounded-xl p-4 bg-bgLight">
+                        <h4 id="faq-form-title" class="font-semibold text-sm text-primary">เพิ่ม FAQ ใหม่</h4>
+                        <input type="hidden" id="form-faq-id">
+                        <div><label class="text-xs text-gray-500 block mb-1">คำถาม *</label><input type="text" id="form-faq-q" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent" placeholder="เช่น ฝังเข็มเจ็บไหม?"></div>
+                        <div><label class="text-xs text-gray-500 block mb-1">คำตอบ *</label><textarea id="form-faq-a" rows="3" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent resize-none"></textarea></div>
+                        <div class="flex gap-2 pt-1">
+                            <button onclick="saveFaqForm()" id="save-faq-btn" class="flex-1 bg-accent text-primary py-2.5 rounded-lg text-xs font-bold hover:bg-yellow-500 transition-colors">บันทึก FAQ</button>
+                            <button onclick="cancelFaqForm()" class="px-4 py-2.5 rounded-lg text-xs text-gray-500 hover:bg-gray-100 border transition-colors">ยกเลิก</button>
+                        </div>
+                        <p id="faq-save-status" class="text-xs text-center font-medium min-h-[16px]"></p>
+                    </div>
+                </div>
                 <!-- Tab: Articles -->
                 <div id="tab-articles" class="hidden space-y-4">
                     <div class="flex justify-between items-center">
@@ -326,6 +428,8 @@ let articlesCache  = [];
 window.addEventListener("DOMContentLoaded", async () => {
     loadAnnouncement();
     loadArticles();
+    loadReviews();
+    loadFaq();
 });
 
 async function loadAnnouncement() {
@@ -449,12 +553,16 @@ async function checkAdminPassword() {
 }
 
 function switchTab(tab) {
-    document.getElementById("tab-announcement").classList.toggle("hidden", tab !== "announcement");
-    document.getElementById("tab-articles").classList.toggle("hidden", tab !== "articles");
-    document.querySelectorAll(".admin-tab").forEach((el, i) => {
-        el.classList.toggle("active", (i === 0) === (tab === "announcement"));
+    ["announcement","articles","reviews","faq"].forEach(t => {
+        document.getElementById("tab-" + t).classList.toggle("hidden", t !== tab);
+    });
+    document.querySelectorAll(".admin-tab").forEach(el => {
+        const t = el.getAttribute("onclick").match(/switchTab\('(\w+)'\)/)?.[1];
+        el.classList.toggle("active", t === tab);
     });
     if (tab === "articles") renderAdminArticles();
+    if (tab === "reviews")  renderAdminReviews();
+    if (tab === "faq")      renderAdminFaq();
 }
 
 // ── Save Announcement ──────────────────────────────────────
@@ -635,6 +743,270 @@ function resetHealthQuiz() {
     document.getElementById("quiz-result-box").classList.add("hidden");
     latestAnalysisText = "";
 }
+
+// ── Reviews ───────────────────────────────────────────────
+let reviewsCache = [];
+
+async function loadReviews() {
+    try {
+        const res  = await fetch(`${API_BASE}/api/announcement?type=reviews`);
+        const data = await res.json();
+        reviewsCache = data.reviews || [];
+        renderReviews(reviewsCache.filter(r => r.published));
+    } catch {
+        document.getElementById("reviews-grid").innerHTML =
+            '<p class="text-center text-gray-400 text-sm py-10 col-span-3">ยังไม่มีรีวิว</p>';
+    }
+}
+
+function renderReviews(reviews) {
+    const grid = document.getElementById("reviews-grid");
+    if (!reviews.length) {
+        grid.innerHTML = '<p class="text-center text-gray-400 text-sm py-10 col-span-3">ยังไม่มีรีวิวในขณะนี้</p>';
+        return;
+    }
+    grid.innerHTML = reviews.map(r => `
+        <div class="bg-bgLight rounded-2xl p-6 border border-gray-100 premium-shadow space-y-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-accent font-bold text-sm shrink-0">
+                    ${r.name ? r.name.charAt(0) : '?'}
+                </div>
+                <div>
+                    <p class="font-semibold text-sm text-primary">${r.name}</p>
+                    <p class="text-[11px] text-gray-400">${r.condition || ''}</p>
+                </div>
+                <div class="ml-auto text-sm">${'⭐'.repeat(parseInt(r.stars) || 5)}</div>
+            </div>
+            <p class="text-sm text-gray-600 font-light leading-relaxed border-l-2 border-accent/40 pl-3 italic">"${r.text}"</p>
+        </div>
+    `).join('');
+}
+
+// ── FAQ ───────────────────────────────────────────────────
+let faqCache = [];
+
+async function loadFaq() {
+    try {
+        const res  = await fetch(`${API_BASE}/api/announcement?type=faq`);
+        const data = await res.json();
+        faqCache = data.faq || [];
+        renderFaq(faqCache.filter(f => f.published));
+    } catch {
+        document.getElementById("faq-list").innerHTML =
+            '<p class="text-center text-gray-400 text-sm py-10">ยังไม่มี FAQ</p>';
+    }
+}
+
+function renderFaq(faqs) {
+    const list = document.getElementById("faq-list");
+    if (!faqs.length) {
+        list.innerHTML = '<p class="text-center text-gray-400 text-sm py-10">ยังไม่มี FAQ ในขณะนี้</p>';
+        return;
+    }
+    list.innerHTML = faqs.map((f, i) => `
+        <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden premium-shadow">
+            <button onclick="toggleFaq(${i})" class="w-full flex items-center justify-between px-6 py-4 text-left gap-4 hover:bg-bgLight transition-colors">
+                <span class="font-semibold text-sm text-primary">${f.question}</span>
+                <i id="faq-icon-${i}" class="fa-solid fa-plus text-accent shrink-0 transition-transform"></i>
+            </button>
+            <div id="faq-answer-${i}" class="hidden px-6 pb-5">
+                <div class="w-8 h-[1px] bg-accent mb-3"></div>
+                <p class="text-sm text-gray-600 font-light leading-relaxed">${f.answer}</p>
+            </div>
+        </div>
+    `).join('');
+}
+
+function toggleFaq(i) {
+    const ans  = document.getElementById(`faq-answer-${i}`);
+    const icon = document.getElementById(`faq-icon-${i}`);
+    const open = !ans.classList.contains("hidden");
+    ans.classList.toggle("hidden", open);
+    icon.className = open
+        ? "fa-solid fa-plus text-accent shrink-0 transition-transform"
+        : "fa-solid fa-minus text-accent shrink-0 transition-transform";
+}
+
+// ── Admin Reviews ─────────────────────────────────────────
+function renderAdminReviews() {
+    const list = document.getElementById("admin-reviews-list");
+    document.getElementById("review-count").innerText = reviewsCache.length;
+    if (!reviewsCache.length) { list.innerHTML = '<p class="text-xs text-gray-400 text-center py-4">ยังไม่มีรีวิว</p>'; return; }
+    list.innerHTML = reviewsCache.map(r => `
+        <div class="flex items-start justify-between gap-3 border border-gray-100 rounded-xl p-3 bg-white">
+            <div class="flex-1 min-w-0">
+                <p class="text-xs font-semibold text-primary">${r.name} ${'⭐'.repeat(parseInt(r.stars)||5)}</p>
+                <p class="text-[11px] text-gray-400 truncate mt-0.5">${r.text}</p>
+            </div>
+            <div class="flex gap-1 shrink-0">
+                <button onclick="toggleReviewPublish('${r.id}')" class="w-7 h-7 rounded-lg bg-gray-50 hover:bg-gray-100 flex items-center justify-center text-gray-500 text-xs">
+                    <i class="fa-solid ${r.published ? 'fa-eye-slash' : 'fa-eye'}"></i>
+                </button>
+                <button onclick="editReview('${r.id}')" class="w-7 h-7 rounded-lg bg-gray-50 hover:bg-gray-100 flex items-center justify-center text-gray-500 text-xs"><i class="fa-solid fa-pen"></i></button>
+                <button onclick="deleteReview('${r.id}')" class="w-7 h-7 rounded-lg bg-red-50 hover:bg-red-100 flex items-center justify-center text-red-400 text-xs"><i class="fa-solid fa-trash"></i></button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function openNewReviewForm() {
+    document.getElementById("review-form-title").innerText = "เพิ่มรีวิวใหม่";
+    document.getElementById("form-review-id").value = "";
+    document.getElementById("form-reviewer").value  = "";
+    document.getElementById("form-condition").value = "";
+    document.getElementById("form-review-text").value = "";
+    document.querySelector('input[name="form-stars"][value="5"]').checked = true;
+    document.getElementById("review-save-status").innerText = "";
+    document.getElementById("review-form").classList.remove("hidden");
+}
+
+function editReview(id) {
+    const r = reviewsCache.find(x => x.id === id);
+    if (!r) return;
+    document.getElementById("review-form-title").innerText = "แก้ไขรีวิว";
+    document.getElementById("form-review-id").value  = r.id;
+    document.getElementById("form-reviewer").value   = r.name;
+    document.getElementById("form-condition").value  = r.condition || '';
+    document.getElementById("form-review-text").value = r.text;
+    const starEl = document.querySelector(`input[name="form-stars"][value="${r.stars}"]`);
+    if (starEl) starEl.checked = true;
+    document.getElementById("review-save-status").innerText = "";
+    document.getElementById("review-form").classList.remove("hidden");
+}
+
+function cancelReviewForm() { document.getElementById("review-form").classList.add("hidden"); }
+
+async function saveReviewForm() {
+    const name = document.getElementById("form-reviewer").value.trim();
+    const text = document.getElementById("form-review-text").value.trim();
+    const status = document.getElementById("review-save-status");
+    const btn    = document.getElementById("save-review-btn");
+    if (!name || !text) { status.innerText = "กรุณากรอกชื่อและข้อความรีวิวครับ"; status.className = "text-xs text-center font-medium text-red-500"; return; }
+    const id      = document.getElementById("form-review-id").value;
+    const stars   = document.querySelector('input[name="form-stars"]:checked')?.value || '5';
+    const review  = { id: id || String(Date.now()), name, stars, condition: document.getElementById("form-condition").value.trim(), text, published: true };
+    const newList = id ? reviewsCache.map(r => r.id === id ? review : r) : [...reviewsCache, review];
+    btn.disabled = true; status.innerText = "กำลังบันทึก..."; status.className = "text-xs text-center font-medium text-blue-600";
+    try {
+        const res  = await fetch(`${API_BASE}/api/announcement?type=reviews`, {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ password: adminPassword, reviews: newList }),
+        });
+        const data = await res.json();
+        if (res.ok && data.ok) {
+            reviewsCache = newList; renderAdminReviews(); renderReviews(reviewsCache.filter(r => r.published));
+            cancelReviewForm(); status.innerText = "บันทึกสำเร็จ! 🎉"; status.className = "text-xs text-center font-medium text-green-600";
+        } else { status.innerText = data.error || "เกิดข้อผิดพลาด"; status.className = "text-xs text-center font-medium text-red-500"; }
+    } catch { status.innerText = "ไม่สามารถเชื่อมต่อได้"; status.className = "text-xs text-center font-medium text-red-500"; }
+    finally { btn.disabled = false; }
+}
+
+async function toggleReviewPublish(id) {
+    const newList = reviewsCache.map(r => r.id === id ? { ...r, published: !r.published } : r);
+    const res = await fetch(`${API_BASE}/api/announcement?type=reviews`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: adminPassword, reviews: newList }),
+    });
+    if ((await res.json()).ok) { reviewsCache = newList; renderAdminReviews(); renderReviews(reviewsCache.filter(r => r.published)); }
+}
+
+async function deleteReview(id) {
+    if (!confirm("ยืนยันลบรีวิวนี้?")) return;
+    const newList = reviewsCache.filter(r => r.id !== id);
+    const res = await fetch(`${API_BASE}/api/announcement?type=reviews`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: adminPassword, reviews: newList }),
+    });
+    if ((await res.json()).ok) { reviewsCache = newList; renderAdminReviews(); renderReviews(reviewsCache.filter(r => r.published)); }
+}
+
+// ── Admin FAQ ─────────────────────────────────────────────
+function renderAdminFaq() {
+    const list = document.getElementById("admin-faq-list");
+    document.getElementById("faq-count").innerText = faqCache.length;
+    if (!faqCache.length) { list.innerHTML = '<p class="text-xs text-gray-400 text-center py-4">ยังไม่มี FAQ</p>'; return; }
+    list.innerHTML = faqCache.map(f => `
+        <div class="flex items-start justify-between gap-3 border border-gray-100 rounded-xl p-3 bg-white">
+            <div class="flex-1 min-w-0">
+                <p class="text-xs font-semibold text-primary truncate">${f.question}</p>
+                <p class="text-[11px] text-gray-400 truncate mt-0.5">${f.answer}</p>
+            </div>
+            <div class="flex gap-1 shrink-0">
+                <button onclick="toggleFaqPublish('${f.id}')" class="w-7 h-7 rounded-lg bg-gray-50 hover:bg-gray-100 flex items-center justify-center text-gray-500 text-xs">
+                    <i class="fa-solid ${f.published ? 'fa-eye-slash' : 'fa-eye'}"></i>
+                </button>
+                <button onclick="editFaq('${f.id}')" class="w-7 h-7 rounded-lg bg-gray-50 hover:bg-gray-100 flex items-center justify-center text-gray-500 text-xs"><i class="fa-solid fa-pen"></i></button>
+                <button onclick="deleteFaq('${f.id}')" class="w-7 h-7 rounded-lg bg-red-50 hover:bg-red-100 flex items-center justify-center text-red-400 text-xs"><i class="fa-solid fa-trash"></i></button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function openNewFaqForm() {
+    document.getElementById("faq-form-title").innerText = "เพิ่ม FAQ ใหม่";
+    document.getElementById("form-faq-id").value = "";
+    document.getElementById("form-faq-q").value  = "";
+    document.getElementById("form-faq-a").value  = "";
+    document.getElementById("faq-save-status").innerText = "";
+    document.getElementById("faq-form").classList.remove("hidden");
+}
+
+function editFaq(id) {
+    const f = faqCache.find(x => x.id === id);
+    if (!f) return;
+    document.getElementById("faq-form-title").innerText = "แก้ไข FAQ";
+    document.getElementById("form-faq-id").value = f.id;
+    document.getElementById("form-faq-q").value  = f.question;
+    document.getElementById("form-faq-a").value  = f.answer;
+    document.getElementById("faq-save-status").innerText = "";
+    document.getElementById("faq-form").classList.remove("hidden");
+}
+
+function cancelFaqForm() { document.getElementById("faq-form").classList.add("hidden"); }
+
+async function saveFaqForm() {
+    const q = document.getElementById("form-faq-q").value.trim();
+    const a = document.getElementById("form-faq-a").value.trim();
+    const status = document.getElementById("faq-save-status");
+    const btn    = document.getElementById("save-faq-btn");
+    if (!q || !a) { status.innerText = "กรุณากรอกคำถามและคำตอบครับ"; status.className = "text-xs text-center font-medium text-red-500"; return; }
+    const id      = document.getElementById("form-faq-id").value;
+    const item    = { id: id || String(Date.now()), question: q, answer: a, published: true };
+    const newList = id ? faqCache.map(f => f.id === id ? item : f) : [...faqCache, item];
+    btn.disabled = true; status.innerText = "กำลังบันทึก..."; status.className = "text-xs text-center font-medium text-blue-600";
+    try {
+        const res  = await fetch(`${API_BASE}/api/announcement?type=faq`, {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ password: adminPassword, faq: newList }),
+        });
+        const data = await res.json();
+        if (res.ok && data.ok) {
+            faqCache = newList; renderAdminFaq(); renderFaq(faqCache.filter(f => f.published));
+            cancelFaqForm(); status.innerText = "บันทึกสำเร็จ! 🎉"; status.className = "text-xs text-center font-medium text-green-600";
+        } else { status.innerText = data.error || "เกิดข้อผิดพลาด"; status.className = "text-xs text-center font-medium text-red-500"; }
+    } catch { status.innerText = "ไม่สามารถเชื่อมต่อได้"; status.className = "text-xs text-center font-medium text-red-500"; }
+    finally { btn.disabled = false; }
+}
+
+async function toggleFaqPublish(id) {
+    const newList = faqCache.map(f => f.id === id ? { ...f, published: !f.published } : f);
+    const res = await fetch(`${API_BASE}/api/announcement?type=faq`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: adminPassword, faq: newList }),
+    });
+    if ((await res.json()).ok) { faqCache = newList; renderAdminFaq(); renderFaq(faqCache.filter(f => f.published)); }
+}
+
+async function deleteFaq(id) {
+    if (!confirm("ยืนยันลบ FAQ นี้?")) return;
+    const newList = faqCache.filter(f => f.id !== id);
+    const res = await fetch(`${API_BASE}/api/announcement?type=faq`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: adminPassword, faq: newList }),
+    });
+    if ((await res.json()).ok) { faqCache = newList; renderAdminFaq(); renderFaq(faqCache.filter(f => f.published)); }
+}
+
 </script>
 </body>
 </html>
