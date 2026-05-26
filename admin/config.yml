@@ -1,6 +1,5 @@
 backend:
-  name: github
-  repo: iMoMoseat-Collab/my-first-website
+  name: git-gateway
   branch: main
 
 media_folder: "images/uploads"
@@ -9,9 +8,12 @@ public_folder: "/images/uploads"
 collections:
   - name: "announcements"
     label: "ประกาศวันหยุด"
+    delete: false
+    editor:
+      preview: false
     files:
-      - file: "index.html"
-        label: "แก้ไขข้อความประกาศ"
+      - file: "_data/announcement.json"
+        label: "ข้อความประกาศบนแถบสีทอง"
         name: "announcement"
         fields:
-          - {label: "ข้อความประกาศบนแถบสีทอง", name: "announcement-text", widget: "string"}
+          - {label: "ข้อความประกาศ", name: "text", widget: "string"}
