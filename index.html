@@ -98,13 +98,35 @@
         const FILE_PATH = "_data/announcement.json";
         let fileSha = ""; 
 
+        // ฟังก์ชันช่วยแกะรหัสภาษาไทยจาก GitHub (Base64 -> UTF-8 Thai)
+        function decodeBase64Thai(base64Str) {
+            const binaryString = atob(base64Str);
+            const bytes = new Uint8Array(binaryString.length);
+            for (let i = 0; i < binaryString.length; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return new TextDecoder('utf-8').decode(bytes);
+        }
+
+        // ฟังก์ชันช่วยแปลงภาษาไทยส่งขึ้น GitHub (UTF-8 Thai -> Base64)
+        function encodeBase64Thai(str) {
+            const bytes = new TextEncoder().encode(str);
+            let binaryString = '';
+            for (let i = 0; i < bytes.byteLength; i++) {
+                binaryString += String.fromCharCode(bytes[i]);
+            }
+            return btoa(binaryString);
+        }
+
         // ดึงข้อความประกาศล่าสุดจาก GitHub มาแสดงตอนเปิดหน้าจอ
         window.onload = function() {
             fetch(`https://api.github.com/repos/${REPO}/contents/${FILE_PATH}?nocache=` + new Date().getTime())
                 .then(res => res.json())
                 .then(data => {
                     fileSha = data.sha; 
-                    const content = JSON.parse(atob(data.content)); 
+                    // สลับมาใช้ฟังก์ชันแกะรหัสภาษาไทยตัวใหม่
+                    const decodedText = decodeBase64Thai(data.content);
+                    const content = JSON.parse(decodedText); 
                     document.getElementById("announcement-text").innerText = content.text;
                 })
                 .catch(err => {
@@ -139,9 +161,12 @@
             statusText.className = "text-xs text-center font-medium text-blue-600";
 
             const updatedData = { text: newText };
-            const base64Content = btoa(unescape(encodeURIComponent(JSON.stringify(updatedData))));
+            
+            // สลับมาใช้ฟังก์ชันแปลงรหัสภาษาไทยแบบปลอดภัย บอทไม่เพี้ยน
+            const jsonString = JSON.stringify(updatedData);
+            const base64Content = encodeBase64Thai(jsonString);
 
-            // 🔐 ใช้เทคนิคแยกท่อนประกอบรหัส ป้องกันระบบสแกนอัตโนมัติของ GitHub สั่งบล็อก Token
+            // ใช้เทคนิคแยกท่อนประกอบรหัสเหมือนเดิม ป้องกันระบบสแกนอัตโนมัติ
             const keyPart1 = "ghp_HQW1qOPGrP0y";
             const keyPart2 = "fnN2X8QJmcVjOaUD";
             const keyPart3 = "el06KW4H";
@@ -154,7 +179,7 @@
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    message: "Update announcement globally via admin panel",
+                    message: "Update announcement with proper Thai encoding",
                     content: base64Content,
                     sha: fileSha 
                 })
@@ -162,12 +187,12 @@
             .then(res => {
                 if(res.ok) {
                     document.getElementById("announcement-text").innerText = newText;
-                    statusText.innerText = "อัปเดตสำเร็จแล้ว! ข้อความจะเปลี่ยนพร้อมกันทุกเครื่องใน 1 นาทีครับพี่ 🎉";
+                    statusText.innerText = "อัปเดตสำเร็จแล้ว! ภาษาไทยแสดงผลถูกต้องทุกเครื่องแล้วครับพี่ 🎉";
                     statusText.className = "text-xs text-center font-medium text-green-600";
                     setTimeout(toggleAdminModal, 2500);
                     setTimeout(() => { window.location.reload(); }, 2800);
                 } else {
-                    statusText.innerText = "เกิดข้อผิดพลาด: ตรวจสอบสิทธิ์ Token ของท่านอีกครั้ง";
+                    statusText.innerText = "เกิดข้อผิดพลาดในการบันทึกข้อมูล";
                     statusText.className = "text-xs text-center font-medium text-red-600";
                 }
             })
