@@ -393,12 +393,14 @@
     </div>
 
     <script>
-        const ADMIN_PASSWORD = "0955183360";
-        const REPO = "iMoMoseat-Collab/my-first-website";
-        const FILE_PATH = "_data/announcement.json";
-        let fileSha = ""; 
+        /**
+         * ✅ ความปลอดภัย:
+         * - ไม่มี ADMIN_PASSWORD, GITHUB_TOKEN อยู่ในไฟล์นี้อีกต่อไป
+         * - ทุก Request ส่งผ่าน Netlify Function ที่เก็บ Secret ไว้ฝั่ง Server
+         */
+        const API_URL = "/.netlify/functions/announcement";
 
-        let latestAnalysisText = ""; 
+        let latestAnalysisText = "";
         function calculateHealthResult() {
             const q1 = document.querySelector('input[name="q1"]:checked')?.value;
             const q2 = document.querySelector('input[name="q2"]:checked')?.value || 'normal';
@@ -459,34 +461,16 @@
             document.getElementById("copy-toast").innerText = "";
         }
 
-        function decodeBase64Thai(base64Str) {
-            const binaryString = atob(base64Str);
-            const bytes = new Uint8Array(binaryString.length);
-            for (let i = 0; i < binaryString.length; i++) {
-                bytes[i] = binaryString.charCodeAt(i);
-            }
-            return new TextDecoder('utf-8').decode(bytes);
-        }
-
-        function encodeBase64Thai(str) {
-            const bytes = new TextEncoder().encode(str);
-            let binaryString = '';
-            for (let i = 0; i < bytes.byteLength; i++) {
-                binaryString += String.fromCharCode(bytes[i]);
-            }
-            return btoa(binaryString);
-        }
-
+        // ── โหลดข้อความประกาศจาก Backend (GET) ──────────────────────────────
         window.onload = function() {
-            fetch(`https://api.github.com/repos/${REPO}/contents/${FILE_PATH}?nocache=` + new Date().getTime())
+            fetch(API_URL)
                 .then(res => res.json())
                 .then(data => {
-                    fileSha = data.sha; 
-                    const decodedText = decodeBase64Thai(data.content);
-                    const content = JSON.parse(decodedText); 
-                    document.getElementById("announcement-text").innerText = content.text;
+                    if (data.text) {
+                        document.getElementById("announcement-text").innerText = data.text;
+                    }
                 })
-                .catch(err => {
+                .catch(() => {
                     document.getElementById("announcement-text").innerText = "ยินดีต้อนรับสู่คลินิกหมอขวัญแพทย์แผนจีน คลินิกเปิดทำการปกติค่ะ";
                 });
         };
@@ -500,58 +484,69 @@
             document.getElementById("save-status").innerText = "";
         }
 
+        // ── ตรวจสอบรหัสผ่าน (ส่ง Request ไป Backend ตรวจ — Client ไม่รู้รหัสผ่าน) ──
         function checkAdminPassword() {
-            if (document.getElementById("admin-password").value === ADMIN_PASSWORD) {
-                document.getElementById("admin-login-box").classList.add("hidden");
-                document.getElementById("admin-content-box").classList.remove("hidden");
-                document.getElementById("input-announcement").value = document.getElementById("announcement-text").innerText;
-            } else {
-                alert("รหัสผ่านไม่ถูกต้องครับพี่!");
+            const passwordInput = document.getElementById("admin-password").value;
+            if (!passwordInput) {
+                alert("กรุณากรอกรหัสผ่านครับ");
+                return;
             }
+            // ส่งไปทดสอบกับ Backend ด้วยการลอง Save ข้อความเดิม
+            // วิธีง่ายที่สุดคือ เก็บ password ชั่วคราวใน memory แล้วตรวจสอบตอน Save จริง
+            sessionPassword = passwordInput;
+            document.getElementById("admin-login-box").classList.add("hidden");
+            document.getElementById("admin-content-box").classList.remove("hidden");
+            document.getElementById("input-announcement").value = document.getElementById("announcement-text").innerText;
         }
 
+        let sessionPassword = ""; // เก็บแค่ใน Memory — ไม่ได้ hardcode ใน Source Code
+
+        // ── บันทึกประกาศผ่าน Backend (POST) — Token อยู่ที่ Server เท่านั้น ──
         function saveWebDataToGitHub() {
-            const newText = document.getElementById("input-announcement").value;
+            const newText    = document.getElementById("input-announcement").value;
             const statusText = document.getElementById("save-status");
-            
-            statusText.innerText = "กำลังอัปเดตข้อมูลไปยังเซิร์ฟเวอร์หลัก...";
+
+            if (!newText.trim()) {
+                statusText.innerText  = "กรุณากรอกข้อความประกาศก่อนบันทึกครับ";
+                statusText.className = "text-xs text-center font-medium text-red-600";
+                return;
+            }
+
+            statusText.innerText  = "กำลังอัปเดตข้อมูลไปยังเซิร์ฟเวอร์หลัก...";
             statusText.className = "text-xs text-center font-medium text-blue-600";
 
-            const updatedData = { text: newText };
-            const jsonString = JSON.stringify(updatedData);
-            const base64Content = encodeBase64Thai(jsonString);
-
-            const keyPart1 = "ghp_HQW1qOPGrP0y";
-            const keyPart2 = "fnN2X8QJmcVjOaUD";
-            const keyPart3 = "el06KW4H";
-            const FULL_KEY = keyPart1 + keyPart2 + keyPart3;
-
-            fetch(`https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`, {
-                method: "PUT",
-                headers: {
-                    "Authorization": `token ${FULL_KEY}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    message: "Update announcement globally",
-                    content: base64Content,
-                    sha: fileSha 
-                })
+            fetch(API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                // ✅ ส่งแค่ password และ newText — Server จะนำ Token ของตัวเองไปใช้
+                body: JSON.stringify({ password: sessionPassword, newText }),
             })
-            .then(res => {
-                if(res.ok) {
-                    document.getElementById("announcement-text").innerText = newText;
-                    statusText.innerText = "อัปเดตสำเร็จแล้ว! หน้าเว็บจริงทุกเครื่องเปลี่ยนตามทันทีครับ 🎉";
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById("announcement-text").innerText = data.text;
+                    statusText.innerText  = "อัปเดตสำเร็จแล้ว! หน้าเว็บจริงทุกเครื่องเปลี่ยนตามทันทีครับ 🎉";
                     statusText.className = "text-xs text-center font-medium text-green-600";
+                    sessionPassword = "";
                     setTimeout(toggleAdminModal, 2500);
                     setTimeout(() => { window.location.reload(); }, 2800);
                 } else {
-                    statusText.innerText = "เกิดข้อผิดพลาดในการเข้าถึงคลังระบบ";
+                    // รหัสผ่านผิด หรือ error อื่น
+                    statusText.innerText  = data.error || "เกิดข้อผิดพลาด";
                     statusText.className = "text-xs text-center font-medium text-red-600";
+                    if (data.error && data.error.includes("รหัสผ่าน")) {
+                        // ถ้ารหัสผ่านผิด ให้กลับไปหน้า Login
+                        setTimeout(() => {
+                            document.getElementById("admin-login-box").classList.remove("hidden");
+                            document.getElementById("admin-content-box").classList.add("hidden");
+                            document.getElementById("admin-password").value = "";
+                            statusText.innerText = "";
+                        }, 1500);
+                    }
                 }
             })
-            .catch(err => {
-                statusText.innerText = "เกิดข้อผิดพลาดในการเชื่อมต่อเครือข่าย";
+            .catch(() => {
+                statusText.innerText  = "เกิดข้อผิดพลาดในการเชื่อมต่อเครือข่าย";
                 statusText.className = "text-xs text-center font-medium text-red-600";
             });
         }
