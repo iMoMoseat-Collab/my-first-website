@@ -8,63 +8,63 @@
     <meta property="og:title" content="หมอขวัญแพทย์แผนจีน ศรีราชา">
     <meta property="og:description" content="คลินิกฝังเข็มและสมุนไพรจีนพรีเมียม รักษาจากต้นเหตุ ดูแลสุขภาพแบบองค์รวม">
     <meta property="og:type" content="website">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400;500;600;700&family=Noto+Serif+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
-
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary:      '#03301F',
-                        emeraldLight: '#05472E',
-                        accent:       '#C5A059',
-                        accentLight:  '#EADCB9',
-                        bgLight:      '#FAF9F6',
-                        darkText:     '#2D3748'
+                        primary: '#03301F', emeraldLight: '#05472E',
+                        accent: '#C5A059', accentLight: '#EADCB9',
+                        bgLight: '#FAF9F6', darkText: '#2D3748'
                     },
                     fontFamily: {
                         serif: ['"Noto Serif Thai"', 'serif'],
-                        sans:  ['"Anuphan"', 'sans-serif'],
+                        sans: ['"Anuphan"', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
-
     <style>
         body { background-color:#FAF9F6; font-family:'Anuphan',sans-serif; color:#2D3748; overflow-x:hidden; }
         .glass-nav { background:rgba(255,255,255,0.85); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); }
         .hero-gradient { background:linear-gradient(135deg,#03301F 0%,#05472E 100%); }
         .premium-shadow { box-shadow:0 10px 30px -10px rgba(3,48,31,0.08); }
         .premium-shadow-hover:hover { box-shadow:0 20px 40px -15px rgba(197,160,89,0.15); transform:translateY(-4px); }
-
-        /* Admin modal — ซ่อน hidden ไว้ก่อน */
-        #admin-modal.hidden { display:none; }
-        #admin-modal:not(.hidden) { display:flex; }
-
-        /* Toast notification */
+        #admin-modal.hidden { display:none; } #admin-modal:not(.hidden) { display:flex; }
+        #article-drawer { transform:translateX(100%); transition:transform .35s cubic-bezier(.4,0,.2,1); }
+        #article-drawer.open { transform:translateX(0); }
+        #drawer-backdrop { opacity:0; pointer-events:none; transition:opacity .3s; }
+        #drawer-backdrop.open { opacity:1; pointer-events:auto; }
+        .article-card { cursor:pointer; transition:all .3s; }
+        .article-card:hover { transform:translateY(-6px); box-shadow:0 24px 48px -12px rgba(197,160,89,0.2); }
+        .article-img { width:100%; height:200px; object-fit:cover; }
+        .article-img-placeholder { width:100%; height:200px; display:flex; align-items:center; justify-content:center; font-size:3rem; }
+        .prose-content { white-space:pre-line; line-height:2; }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+        .fade-up { animation:fadeUp .4s ease forwards; }
         #copy-toast:empty { display:none; }
-
-        /* Fade-in for quiz result */
-        @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
-        .animate-fade-in { animation:fadeIn .4s ease forwards; }
+        /* Admin tabs */
+        .admin-tab { cursor:pointer; padding:8px 16px; border-radius:8px; font-size:13px; font-weight:500; transition:all .2s; }
+        .admin-tab.active { background:#03301F; color:#fff; }
+        .admin-tab:not(.active) { color:#6b7280; }
+        .admin-tab:not(.active):hover { background:#f3f4f6; }
     </style>
 </head>
 <body class="antialiased">
 
-<!-- ───────────────────────────── ANNOUNCEMENT BANNER ─────────────────────────── -->
+<!-- BANNER -->
 <div id="vacation-banner" class="bg-accent text-white text-center py-2 px-4 text-xs md:text-sm font-medium tracking-wide sticky top-0 z-50 shadow-md flex justify-center items-center gap-2">
-    <span class="bg-white/20 text-white text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Notice</span>
+    <span class="bg-white/20 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Notice</span>
     <span id="announcement-text" class="font-light">กำลังโหลดประกาศล่าสุดจากคลินิก...</span>
 </div>
 
-<!-- ───────────────────────────── NAVBAR ──────────────────────────────────────── -->
+<!-- NAVBAR -->
 <nav class="w-full glass-nav border-b border-emerald-900/5 sticky top-[37px] z-40 transition-all duration-300">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         <button onclick="toggleAdminModal()" class="text-xl md:text-2xl font-serif font-bold text-primary tracking-wide hover:text-accent transition-colors duration-300 text-left">
@@ -72,10 +72,10 @@
         </button>
         <div class="hidden md:flex space-x-6 text-sm font-medium text-primary/90">
             <a href="#specialties" class="hover:text-accent transition-colors duration-200">อาการที่เชี่ยวชาญ</a>
-            <a href="#services"    class="hover:text-accent transition-colors duration-200">บริการหัตถการ</a>
-            <a href="#checker"     class="hover:text-accent font-semibold text-emerald-700 transition-colors duration-200">✨ เช็กสุขภาพออนไลน์</a>
-            <a href="#articles"    class="hover:text-accent transition-colors duration-200">บทความความรู้</a>
-            <a href="#contact"     class="hover:text-accent transition-colors duration-200">ติดต่อคลินิก</a>
+            <a href="#services" class="hover:text-accent transition-colors duration-200">บริการหัตถการ</a>
+            <a href="#checker" class="hover:text-accent font-semibold text-emerald-700 transition-colors duration-200">✨ เช็กสุขภาพออนไลน์</a>
+            <a href="#articles" class="hover:text-accent transition-colors duration-200">บทความความรู้</a>
+            <a href="#contact" class="hover:text-accent transition-colors duration-200">ติดต่อคลินิก</a>
         </div>
         <a href="tel:0646689544" class="bg-primary hover:bg-emeraldLight text-white px-5 py-2.5 text-xs font-semibold rounded tracking-wider shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5">
             <i class="fa-solid fa-calendar-check mr-2 text-accent"></i>นัดหมายการรักษา
@@ -83,7 +83,7 @@
     </div>
 </nav>
 
-<!-- ───────────────────────────── HERO ────────────────────────────────────────── -->
+<!-- HERO -->
 <section class="hero-gradient text-white py-20 md:py-28 px-6 relative overflow-hidden">
     <div class="absolute inset-0 opacity-5 mix-blend-overlay bg-repeat bg-center" style="background-image:url('https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=600&q=80');"></div>
     <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 items-center relative z-10">
@@ -92,23 +92,16 @@
                 <i class="fa-solid fa-location-dot mr-1.5 text-accent"></i> อ.ศรีราชา จ.ชลบุรี
             </span>
             <h1 class="text-4xl md:text-6xl font-serif font-bold leading-tight">
-                คืนความสมดุลสู่ร่างกาย <br>
-                <span class="text-accent font-light italic text-3xl md:text-5xl">ด้วยศาสตร์แพทย์จีนชั้นสูง</span>
+                คืนความสมดุลสู่ร่างกาย <br><span class="text-accent font-light italic text-3xl md:text-5xl">ด้วยศาสตร์แพทย์จีนชั้นสูง</span>
             </h1>
-            <p class="text-gray-300 text-sm md:text-base font-light max-w-xl leading-relaxed">
-                ดูแลสุขภาพคุณแบบองค์รวม (Holistic Medicine) รักษาจากต้นเหตุ ปรับระบบเลือด ลมปราณ และหยินหยาง เพื่อความสมบูรณ์ทางการแพทย์จากภายในสู่ภายนอก
-            </p>
+            <p class="text-gray-300 text-sm md:text-base font-light max-w-xl leading-relaxed">ดูแลสุขภาพคุณแบบองค์รวม (Holistic Medicine) รักษาจากต้นเหตุ ปรับระบบเลือด ลมปราณ และหยินหยาง</p>
             <div class="pt-4 flex flex-wrap gap-4">
-                <a href="#checker" class="bg-accent hover:bg-yellow-600 text-primary font-bold px-6 py-3 rounded text-sm shadow-lg transition-all duration-300">
-                    <i class="fa-solid fa-heart-pulse mr-2"></i>เริ่มทำแบบประเมินสุขภาพฟรี
-                </a>
-                <a href="tel:0646689544" class="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-medium px-6 py-3 rounded text-sm transition-all duration-300">
-                    <i class="fa-solid fa-phone mr-2 text-accent"></i>โทรปรึกษาหมอขวัญ
-                </a>
+                <a href="#checker" class="bg-accent hover:bg-yellow-600 text-primary font-bold px-6 py-3 rounded text-sm shadow-lg transition-all duration-300"><i class="fa-solid fa-heart-pulse mr-2"></i>เริ่มทำแบบประเมินสุขภาพฟรี</a>
+                <a href="tel:0646689544" class="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-medium px-6 py-3 rounded text-sm transition-all duration-300"><i class="fa-solid fa-phone mr-2 text-accent"></i>โทรปรึกษาหมอขวัญ</a>
             </div>
         </div>
-        <div class="md:col-span-5 flex justify-center relative">
-            <div class="w-full max-w-[360px] aspect-[4/5] rounded-2xl bg-white/5 border border-white/10 p-4 relative shadow-2xl">
+        <div class="md:col-span-5 flex justify-center">
+            <div class="w-full max-w-[360px] aspect-[4/5] rounded-2xl bg-white/5 border border-white/10 p-4 shadow-2xl">
                 <div class="w-full h-full rounded-xl bg-gradient-to-br from-emerald-950 to-primary flex flex-col items-center justify-center text-center p-6 border border-accent/20">
                     <div class="w-20 h-20 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center text-accent text-3xl mb-4">☯️</div>
                     <h3 class="font-serif font-medium text-lg text-accent">หมอขวัญแพทย์แผนจีน</h3>
@@ -119,7 +112,7 @@
     </div>
 </section>
 
-<!-- ───────────────────────────── SPECIALTIES ─────────────────────────────────── -->
+<!-- SPECIALTIES -->
 <section id="specialties" class="py-20 max-w-7xl mx-auto px-6">
     <div class="text-center max-w-2xl mx-auto mb-16">
         <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Expertise</span>
@@ -127,35 +120,15 @@
         <div class="w-12 h-[2px] bg-accent mx-auto mt-4"></div>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6">
-        <div class="bg-primary text-white p-6 rounded-xl shadow-md text-center border border-accent/20 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1">
-            <div class="w-12 h-12 bg-accent/10 border border-accent/30 rounded-full flex items-center justify-center text-accent text-xl mx-auto mb-4"><i class="fa-solid fa-laptop-medical"></i></div>
-            <h4 class="font-semibold text-sm tracking-wide">ออฟฟิศซินโดรม</h4>
-            <p class="text-[11px] text-gray-400 font-light mt-1">ปวดบ่า คอ ตึงสะบัก</p>
-        </div>
-        <div class="bg-primary text-white p-6 rounded-xl shadow-md text-center border border-accent/20 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1">
-            <div class="w-12 h-12 bg-accent/10 border border-accent/30 rounded-full flex items-center justify-center text-accent text-xl mx-auto mb-4"><i class="fa-solid fa-brain"></i></div>
-            <h4 class="font-semibold text-sm tracking-wide">ไมเกรน / ปวดหัว</h4>
-            <p class="text-[11px] text-gray-400 font-light mt-1">ปวดขมับ ตึงท้ายทอย</p>
-        </div>
-        <div class="bg-primary text-white p-6 rounded-xl shadow-md text-center border border-accent/20 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1">
-            <div class="w-12 h-12 bg-accent/10 border border-accent/30 rounded-full flex items-center justify-center text-accent text-xl mx-auto mb-4"><i class="fa-solid fa-bolt"></i></div>
-            <h4 class="font-semibold text-sm tracking-wide">ปวดหลังร้าวลงขา</h4>
-            <p class="text-[11px] text-gray-400 font-light mt-1">หมอนรองกระดูกทับเส้น</p>
-        </div>
-        <div class="bg-primary text-white p-6 rounded-xl shadow-md text-center border border-accent/20 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1">
-            <div class="w-12 h-12 bg-accent/10 border border-accent/30 rounded-full flex items-center justify-center text-accent text-xl mx-auto mb-4"><i class="fa-solid fa-moon"></i></div>
-            <h4 class="font-semibold text-sm tracking-wide">นอนไม่หลับ / เครียด</h4>
-            <p class="text-[11px] text-gray-400 font-light mt-1">หลับยาก ตื่นกลางดึกบ่อย</p>
-        </div>
-        <div class="bg-primary text-white p-6 rounded-xl shadow-md text-center border border-accent/20 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1">
-            <div class="w-12 h-12 bg-accent/10 border border-accent/30 rounded-full flex items-center justify-center text-accent text-xl mx-auto mb-4"><i class="fa-solid fa-baby"></i></div>
-            <h4 class="font-semibold text-sm tracking-wide">ปรับสมดุลมีบุตร</h4>
-            <p class="text-[11px] text-gray-400 font-light mt-1">บำรุงมดลูก เพิ่มโอกาสสำเร็จ</p>
-        </div>
+        <div class="bg-primary text-white p-6 rounded-xl shadow-md text-center border border-accent/20 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1"><div class="w-12 h-12 bg-accent/10 border border-accent/30 rounded-full flex items-center justify-center text-accent text-xl mx-auto mb-4"><i class="fa-solid fa-laptop-medical"></i></div><h4 class="font-semibold text-sm tracking-wide">ออฟฟิศซินโดรม</h4><p class="text-[11px] text-gray-400 font-light mt-1">ปวดบ่า คอ ตึงสะบัก</p></div>
+        <div class="bg-primary text-white p-6 rounded-xl shadow-md text-center border border-accent/20 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1"><div class="w-12 h-12 bg-accent/10 border border-accent/30 rounded-full flex items-center justify-center text-accent text-xl mx-auto mb-4"><i class="fa-solid fa-brain"></i></div><h4 class="font-semibold text-sm tracking-wide">ไมเกรน / ปวดหัว</h4><p class="text-[11px] text-gray-400 font-light mt-1">ปวดขมับ ตึงท้ายทอย</p></div>
+        <div class="bg-primary text-white p-6 rounded-xl shadow-md text-center border border-accent/20 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1"><div class="w-12 h-12 bg-accent/10 border border-accent/30 rounded-full flex items-center justify-center text-accent text-xl mx-auto mb-4"><i class="fa-solid fa-bolt"></i></div><h4 class="font-semibold text-sm tracking-wide">ปวดหลังร้าวลงขา</h4><p class="text-[11px] text-gray-400 font-light mt-1">หมอนรองกระดูกทับเส้น</p></div>
+        <div class="bg-primary text-white p-6 rounded-xl shadow-md text-center border border-accent/20 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1"><div class="w-12 h-12 bg-accent/10 border border-accent/30 rounded-full flex items-center justify-center text-accent text-xl mx-auto mb-4"><i class="fa-solid fa-moon"></i></div><h4 class="font-semibold text-sm tracking-wide">นอนไม่หลับ / เครียด</h4><p class="text-[11px] text-gray-400 font-light mt-1">หลับยาก ตื่นกลางดึกบ่อย</p></div>
+        <div class="bg-primary text-white p-6 rounded-xl shadow-md text-center border border-accent/20 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1"><div class="w-12 h-12 bg-accent/10 border border-accent/30 rounded-full flex items-center justify-center text-accent text-xl mx-auto mb-4"><i class="fa-solid fa-baby"></i></div><h4 class="font-semibold text-sm tracking-wide">ปรับสมดุลมีบุตร</h4><p class="text-[11px] text-gray-400 font-light mt-1">บำรุงมดลูก เพิ่มโอกาสสำเร็จ</p></div>
     </div>
 </section>
 
-<!-- ───────────────────────────── SERVICES ────────────────────────────────────── -->
+<!-- SERVICES -->
 <section id="services" class="py-20 bg-white border-y border-gray-100">
     <div class="max-w-7xl mx-auto px-6">
         <div class="text-center max-w-2xl mx-auto mb-16">
@@ -164,45 +137,21 @@
             <div class="w-12 h-[2px] bg-accent mx-auto mt-4"></div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="bg-bgLight p-8 rounded-2xl border-l-4 border-accent premium-shadow premium-shadow-hover transition-all duration-300">
-                <span class="text-accent text-xs font-bold uppercase tracking-wider block mb-2">01 / Acupuncture</span>
-                <h3 class="text-xl font-serif font-bold text-primary mb-3">ฝังเข็มบำบัด</h3>
-                <p class="text-sm text-gray-600 font-light leading-relaxed">กระตุ้นจุดลมปราณตามหลักวิชาการแพทย์แผนจีนดั้งเดิม เพื่อปรับการทำงานของระบบประสาท กระตุ้นการไหลเวียนโลหิต และระงับปวดเรื้อรังอย่างตรงจุด</p>
-            </div>
-            <div class="bg-bgLight p-8 rounded-2xl border-l-4 border-accent premium-shadow premium-shadow-hover transition-all duration-300">
-                <span class="text-accent text-xs font-bold uppercase tracking-wider block mb-2">02 / Cupping</span>
-                <h3 class="text-xl font-serif font-bold text-primary mb-3">ครอบแก้วบำบัด</h3>
-                <p class="text-sm text-gray-600 font-light leading-relaxed">ใช้ระบบสูญญากาศช่วยคลายการยึดเกาะของผังผืดและมัดกล้ามเนื้อ ขับความชื้นสะสมในร่างกาย ดึงเลือดเสียออกเพื่อเร่งการซ่อมแซมเนื้อเยื่อส่วนลึก</p>
-            </div>
-            <div class="bg-bgLight p-8 rounded-2xl border-l-4 border-accent premium-shadow premium-shadow-hover transition-all duration-300">
-                <span class="text-accent text-xs font-bold uppercase tracking-wider block mb-2">03 / Gua Sha</span>
-                <h3 class="text-xl font-serif font-bold text-primary mb-3">กัวซาบำบัด</h3>
-                <p class="text-sm text-gray-600 font-light leading-relaxed">ขูดกระตุ้นตามเส้นลมปราณเพื่อระบายความร้อนพิษ ขับสารสะสมใต้ผิวหนัง และช่วยลดความตึงเกร็งสะสมของกล้ามเนื้อหลังและคอบ่าไหล่</p>
-            </div>
-            <div class="bg-bgLight p-8 rounded-2xl border-l-4 border-accent premium-shadow premium-shadow-hover transition-all duration-300">
-                <span class="text-accent text-xs font-bold uppercase tracking-wider block mb-2">04 / Moxibustion</span>
-                <h3 class="text-xl font-serif font-bold text-primary mb-3">รมยาจีน</h3>
-                <p class="text-sm text-gray-600 font-light leading-relaxed">กระตุ้นจุดรักษาด้วยความร้อนนุ่มนวลจากสมุนไพรอ้ายเฉ่าบริสุทธิ์ ช่วยเพิ่มพลังงานหยาง อบอุ่นเส้นลมปราณ และกระจายความเย็นที่อุดกั้น</p>
-            </div>
-            <div class="bg-bgLight p-8 rounded-2xl border-l-4 border-accent premium-shadow premium-shadow-hover transition-all duration-300">
-                <span class="text-accent text-xs font-bold uppercase tracking-wider block mb-2">05 / Medicine</span>
-                <h3 class="text-xl font-serif font-bold text-primary mb-3">ยาสมุนไพรจีน</h3>
-                <p class="text-sm text-gray-600 font-light leading-relaxed">การตรวจวินิจฉัยเพื่อจัดตำรับยาสมุนไพรจีนเฉพาะบุคคล ปรับการทำงานของตับ ไต ม้าม หัวใจ ปอด รักษาโรคเรื้อรังจากโครงสร้างระบบภายในอย่างแท้จริง</p>
-            </div>
-            <div class="bg-gradient-to-br from-primary to-emerald-950 p-8 rounded-2xl shadow-xl border border-accent/30 text-white flex flex-col justify-between items-center text-center">
-                <div class="my-auto space-y-4">
-                    <h3 class="text-xl font-serif font-bold text-accent">ตรวจสุขภาพแผนจีน</h3>
-                    <p class="text-xs text-gray-300 font-light max-w-xs leading-relaxed">ตรวจประเมินร่างกายครบองค์รวมผ่านการ "แมะ" (ตรวจชีพจร) และ "วินิจฉัยลิ้น" เพื่อวิเคราะห์สภาวะร่างกายก่อนรับการรักษา</p>
-                    <a href="tel:0646689544" class="inline-block bg-accent hover:bg-yellow-600 text-primary font-bold px-6 py-2.5 rounded text-xs transition-all shadow-md">
-                        <i class="fa-solid fa-user-doctor mr-1.5"></i>นัดคิวตรวจกับหมอขวัญ
-                    </a>
-                </div>
+            <div class="bg-bgLight p-8 rounded-2xl border-l-4 border-accent premium-shadow premium-shadow-hover transition-all duration-300"><span class="text-accent text-xs font-bold uppercase tracking-wider block mb-2">01 / Acupuncture</span><h3 class="text-xl font-serif font-bold text-primary mb-3">ฝังเข็มบำบัด</h3><p class="text-sm text-gray-600 font-light leading-relaxed">กระตุ้นจุดลมปราณตามหลักวิชาการแพทย์แผนจีนดั้งเดิม เพื่อปรับการทำงานของระบบประสาท กระตุ้นการไหลเวียนโลหิต และระงับปวดเรื้อรังอย่างตรงจุด</p></div>
+            <div class="bg-bgLight p-8 rounded-2xl border-l-4 border-accent premium-shadow premium-shadow-hover transition-all duration-300"><span class="text-accent text-xs font-bold uppercase tracking-wider block mb-2">02 / Cupping</span><h3 class="text-xl font-serif font-bold text-primary mb-3">ครอบแก้วบำบัด</h3><p class="text-sm text-gray-600 font-light leading-relaxed">ใช้ระบบสูญญากาศช่วยคลายการยึดเกาะของผังผืดและมัดกล้ามเนื้อ ขับความชื้นสะสมในร่างกาย ดึงเลือดเสียออกเพื่อเร่งการซ่อมแซมเนื้อเยื่อส่วนลึก</p></div>
+            <div class="bg-bgLight p-8 rounded-2xl border-l-4 border-accent premium-shadow premium-shadow-hover transition-all duration-300"><span class="text-accent text-xs font-bold uppercase tracking-wider block mb-2">03 / Gua Sha</span><h3 class="text-xl font-serif font-bold text-primary mb-3">กัวซาบำบัด</h3><p class="text-sm text-gray-600 font-light leading-relaxed">ขูดกระตุ้นตามเส้นลมปราณเพื่อระบายความร้อนพิษ ขับสารสะสมใต้ผิวหนัง และช่วยลดความตึงเกร็งสะสมของกล้ามเนื้อหลังและคอบ่าไหล่</p></div>
+            <div class="bg-bgLight p-8 rounded-2xl border-l-4 border-accent premium-shadow premium-shadow-hover transition-all duration-300"><span class="text-accent text-xs font-bold uppercase tracking-wider block mb-2">04 / Moxibustion</span><h3 class="text-xl font-serif font-bold text-primary mb-3">รมยาจีน</h3><p class="text-sm text-gray-600 font-light leading-relaxed">กระตุ้นจุดรักษาด้วยความร้อนนุ่มนวลจากสมุนไพรอ้ายเฉ่าบริสุทธิ์ ช่วยเพิ่มพลังงานหยาง อบอุ่นเส้นลมปราณ และกระจายความเย็นที่อุดกั้น</p></div>
+            <div class="bg-bgLight p-8 rounded-2xl border-l-4 border-accent premium-shadow premium-shadow-hover transition-all duration-300"><span class="text-accent text-xs font-bold uppercase tracking-wider block mb-2">05 / Medicine</span><h3 class="text-xl font-serif font-bold text-primary mb-3">ยาสมุนไพรจีน</h3><p class="text-sm text-gray-600 font-light leading-relaxed">การตรวจวินิจฉัยเพื่อจัดตำรับยาสมุนไพรจีนเฉพาะบุคคล ปรับการทำงานของตับ ไต ม้าม หัวใจ ปอด รักษาโรคเรื้อรังจากโครงสร้างระบบภายใน</p></div>
+            <div class="bg-gradient-to-br from-primary to-emerald-950 p-8 rounded-2xl shadow-xl border border-accent/30 text-white flex flex-col justify-center items-center text-center space-y-4">
+                <h3 class="text-xl font-serif font-bold text-accent">ตรวจสุขภาพแผนจีน</h3>
+                <p class="text-xs text-gray-300 font-light max-w-xs leading-relaxed">ตรวจประเมินร่างกายครบองค์รวมผ่านการ "แมะ" (ตรวจชีพจร) และ "วินิจฉัยลิ้น"</p>
+                <a href="tel:0646689544" class="inline-block bg-accent hover:bg-yellow-600 text-primary font-bold px-6 py-2.5 rounded text-xs transition-all shadow-md"><i class="fa-solid fa-user-doctor mr-1.5"></i>นัดคิวตรวจกับหมอขวัญ</a>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ───────────────────────────── HEALTH QUIZ ─────────────────────────────────── -->
+<!-- HEALTH QUIZ -->
 <section id="checker" class="py-20 max-w-4xl mx-auto px-6">
     <div class="text-center mb-12">
         <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Interactive Quiz</span>
@@ -210,70 +159,21 @@
         <div class="w-12 h-[2px] bg-accent mx-auto mt-3"></div>
         <p class="text-gray-500 text-xs font-light mt-3">ลองเช็กอาการของคุณเบื้องต้น เพื่อดูสภาวะหยิน-หยางและลมปราณภายในร่างกาย</p>
     </div>
-
     <div class="bg-white rounded-2xl border border-gray-100 shadow-xl p-8 md:p-10 relative overflow-hidden">
         <div class="absolute top-0 left-0 w-full h-1.5 bg-accent"></div>
-
         <div id="quiz-container" class="space-y-8">
-            <div>
-                <h4 class="font-semibold text-primary text-sm mb-3">1. สภาวะพลังกายและความเหนื่อยล้าของคุณในปัจจุบันเป็นอย่างไร?</h4>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors">
-                        <input type="radio" name="q1" value="qi_deficient" class="accent-accent scale-110"> เหนื่อยง่าย อ่อนเพลีย พูดไม่ค่อยมีแรง ไม่อยากขยับตัว
-                    </label>
-                    <label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors">
-                        <input type="radio" name="q1" value="normal" class="accent-accent scale-110" checked> ปกติ กระปรี้กระเปร่าดี พลังงานสม่ำเสมอทั้งวัน
-                    </label>
-                </div>
-            </div>
-            <div>
-                <h4 class="font-semibold text-primary text-sm mb-3">2. ระบบการย่อยอาหารและสภาวะในร่างกายของคุณเป็นอย่างไร?</h4>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors">
-                        <input type="radio" name="q2" value="dampness" class="accent-accent scale-110"> ท้องอืดง่าย ตัวบวม ตื่นนอนแล้วรู้สึกหนักเนื้อหนักตัว ถ่ายเหลว
-                    </label>
-                    <label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors">
-                        <input type="radio" name="q2" value="normal" class="accent-accent scale-110" checked> ขับถ่ายปกติ ย่อยดี ไม่มีอาการตัวบวมหรือหนักตัว
-                    </label>
-                </div>
-            </div>
-            <div>
-                <h4 class="font-semibold text-primary text-sm mb-3">3. อาการปวดเมื่อยตามร่างกายและกล้ามเนื้อของคุณเป็นแบบไหน?</h4>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors">
-                        <input type="radio" name="q3" value="blood_stasis" class="accent-accent scale-110"> ปวดเสียวแปลบ ๆ เจาะจงจุดชัดเจน ปวดสะสมตึงเกร็งเรื้อรัง
-                    </label>
-                    <label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors">
-                        <input type="radio" name="q3" value="normal" class="accent-accent scale-110" checked> ไม่มีอาการปวดรุนแรง หรือปวดเมื่อยธรรมดาจากการล้าทั่วไป
-                    </label>
-                </div>
-            </div>
-            <div>
-                <h4 class="font-semibold text-primary text-sm mb-3">4. สภาวะอารมณ์ การนอนหลับ และความเครียดของคุณ?</h4>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors">
-                        <input type="radio" name="q4" value="liver_qi" class="accent-accent scale-110"> เครียดง่าย หงุดหงิด แน่นหน้าอก นอนหลับยาก ตื่นกลางดึกบ่อย
-                    </label>
-                    <label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors">
-                        <input type="radio" name="q4" value="normal" class="accent-accent scale-110" checked> อารมณ์คงที่ หลับสบายดี ไม่มีเรื่องกังวลรบกวนการนอน
-                    </label>
-                </div>
-            </div>
-            <div class="text-center pt-4">
-                <button onclick="calculateHealthResult()" class="bg-primary hover:bg-emeraldLight text-white font-semibold px-8 py-3 rounded-xl text-sm transition-all shadow-md">
-                    <i class="fa-solid fa-calculator mr-2 text-accent"></i>ดูผลวิเคราะห์ร่างกายของคุณ
-                </button>
-            </div>
+            <div><h4 class="font-semibold text-primary text-sm mb-3">1. สภาวะพลังกายและความเหนื่อยล้าของคุณในปัจจุบันเป็นอย่างไร?</h4><div class="grid grid-cols-1 sm:grid-cols-2 gap-3"><label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors"><input type="radio" name="q1" value="qi_deficient" class="accent-accent scale-110"> เหนื่อยง่าย อ่อนเพลีย พูดไม่ค่อยมีแรง ไม่อยากขยับตัว</label><label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors"><input type="radio" name="q1" value="normal" class="accent-accent scale-110" checked> ปกติ กระปรี้กระเปร่าดี พลังงานสม่ำเสมอทั้งวัน</label></div></div>
+            <div><h4 class="font-semibold text-primary text-sm mb-3">2. ระบบการย่อยอาหารและสภาวะในร่างกายของคุณเป็นอย่างไร?</h4><div class="grid grid-cols-1 sm:grid-cols-2 gap-3"><label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors"><input type="radio" name="q2" value="dampness" class="accent-accent scale-110"> ท้องอืดง่าย ตัวบวม ตื่นนอนแล้วรู้สึกหนักเนื้อหนักตัว ถ่ายเหลว</label><label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors"><input type="radio" name="q2" value="normal" class="accent-accent scale-110" checked> ขับถ่ายปกติ ย่อยดี ไม่มีอาการตัวบวมหรือหนักตัว</label></div></div>
+            <div><h4 class="font-semibold text-primary text-sm mb-3">3. อาการปวดเมื่อยตามร่างกายและกล้ามเนื้อของคุณเป็นแบบไหน?</h4><div class="grid grid-cols-1 sm:grid-cols-2 gap-3"><label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors"><input type="radio" name="q3" value="blood_stasis" class="accent-accent scale-110"> ปวดเสียวแปลบ ๆ เจาะจงจุดชัดเจน ปวดสะสมตึงเกร็งเรื้อรัง</label><label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors"><input type="radio" name="q3" value="normal" class="accent-accent scale-110" checked> ไม่มีอาการปวดรุนแรง หรือปวดเมื่อยธรรมดาจากการล้าทั่วไป</label></div></div>
+            <div><h4 class="font-semibold text-primary text-sm mb-3">4. สภาวะอารมณ์ การนอนหลับ และความเครียดของคุณ?</h4><div class="grid grid-cols-1 sm:grid-cols-2 gap-3"><label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors"><input type="radio" name="q4" value="liver_qi" class="accent-accent scale-110"> เครียดง่าย หงุดหงิด แน่นหน้าอก นอนหลับยาก ตื่นกลางดึกบ่อย</label><label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors"><input type="radio" name="q4" value="normal" class="accent-accent scale-110" checked> อารมณ์คงที่ หลับสบายดี ไม่มีเรื่องกังวลรบกวนการนอน</label></div></div>
+            <div class="text-center pt-4"><button onclick="calculateHealthResult()" class="bg-primary hover:bg-emeraldLight text-white font-semibold px-8 py-3 rounded-xl text-sm transition-all shadow-md"><i class="fa-solid fa-calculator mr-2 text-accent"></i>ดูผลวิเคราะห์ร่างกายของคุณ</button></div>
         </div>
-
-        <div id="quiz-result-box" class="hidden space-y-6 text-center animate-fade-in">
+        <div id="quiz-result-box" class="hidden space-y-6 text-center fade-up">
             <div class="w-16 h-16 bg-accent/10 border border-accent/30 rounded-full flex items-center justify-center text-accent text-3xl mx-auto">☯️</div>
             <h3 class="font-serif font-bold text-2xl text-primary" id="result-title">ผลประเมินของคุณ</h3>
-            <p class="text-xs text-gray-600 max-w-xl mx-auto leading-relaxed border border-dashed border-gray-200 p-4 rounded-xl bg-bgLight whitespace-pre-line" id="result-desc">กำลังประมวลผล...</p>
+            <p class="text-xs text-gray-600 max-w-xl mx-auto leading-relaxed border border-dashed border-gray-200 p-4 rounded-xl bg-bgLight whitespace-pre-line" id="result-desc"></p>
             <div class="pt-4 flex flex-wrap justify-center gap-4">
-                <button onclick="copyResultAndNotify()" class="bg-accent hover:bg-yellow-600 text-primary font-bold px-6 py-3 rounded-xl text-xs shadow-md transition-all">
-                    <i class="fa-solid fa-copy mr-1.5"></i> ก๊อปปี้ผลลัพธ์เพื่อส่งให้หมอขวัญทางแชท
-                </button>
+                <button onclick="copyResultAndNotify()" class="bg-accent hover:bg-yellow-600 text-primary font-bold px-6 py-3 rounded-xl text-xs shadow-md transition-all"><i class="fa-solid fa-copy mr-1.5"></i>ก๊อปปี้ผลลัพธ์เพื่อส่งให้หมอขวัญ</button>
                 <button onclick="resetHealthQuiz()" class="text-gray-400 hover:text-gray-600 text-xs underline">ทำแบบทดสอบอีกครั้ง</button>
             </div>
             <p id="copy-toast" class="text-[11px] text-green-600 font-medium min-h-[16px]"></p>
@@ -281,347 +181,458 @@
     </div>
 </section>
 
-<!-- ───────────────────────────── ARTICLES ────────────────────────────────────── -->
+<!-- ARTICLES -->
 <section id="articles" class="py-20 max-w-7xl mx-auto px-6">
     <div class="text-center max-w-2xl mx-auto mb-16">
         <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Journal</span>
         <h2 class="text-3xl md:text-4xl font-serif text-primary font-bold">บทความความรู้เพื่อสุขภาพ</h2>
         <div class="w-12 h-[2px] bg-accent mx-auto mt-4"></div>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="bg-white rounded-2xl overflow-hidden premium-shadow border border-gray-100 flex flex-col justify-between transition-all duration-300 hover:shadow-xl">
-            <div class="h-48 bg-primary/5 border-b border-gray-50 flex items-center justify-center text-primary text-5xl">☯️</div>
-            <div class="p-6 flex-1 flex flex-col justify-between">
-                <div>
-                    <span class="text-accent text-[11px] font-bold tracking-widest uppercase">Traditional Knowledge</span>
-                    <h3 class="font-serif font-bold text-primary text-lg mt-1 mb-2">ปรับสมดุล "หยิน-หยาง" รากฐานสุขภาพที่สมบูรณ์</h3>
-                    <p class="text-gray-500 text-xs font-light leading-relaxed line-clamp-3">ร่างกายมนุษย์จะแข็งแรงไร้โรคได้เมื่อพลังงานหยินและหยางสมดุลกัน หากสภาวะใดฝั่งหนึ่งแปรปรวน จะส่งผลให้แสดงอาการป่วยไข้...</p>
-                </div>
-                <div class="pt-4 border-t border-gray-50 mt-4 flex justify-between items-center text-xs">
-                    <span class="text-gray-400">By หมอขวัญ</span>
-                    <span class="text-accent font-medium">Coming Soon</span>
-                </div>
-            </div>
-        </div>
-        <div class="bg-white rounded-2xl overflow-hidden premium-shadow border border-gray-100 flex flex-col justify-between transition-all duration-300 hover:shadow-xl">
-            <div class="h-48 bg-primary/5 border-b border-gray-50 flex items-center justify-center text-primary text-5xl">🪡</div>
-            <div class="p-6 flex-1 flex flex-col justify-between">
-                <div>
-                    <span class="text-accent text-[11px] font-bold tracking-widest uppercase">Acupuncture Therapy</span>
-                    <h3 class="font-serif font-bold text-primary text-lg mt-1 mb-2">ฝังเข็มเจ็บไหม? กลไกการลดปวดเรื้อรังทางวิทยาศาสตร์</h3>
-                    <p class="text-gray-500 text-xs font-light leading-relaxed line-clamp-3">คลายข้อสงสัยเกี่ยวกับการฝังเข็ม แท้จริงแล้วเข็มจีนมีขนาดเล็กมากเท่าเส้นผม เมื่อปักลงจุดรักษาจะช่วยกระตุ้นการหลั่งสารเอนดอร์ฟิน...</p>
-                </div>
-                <div class="pt-4 border-t border-gray-50 mt-4 flex justify-between items-center text-xs">
-                    <span class="text-gray-400">By หมอขวัญ</span>
-                    <span class="text-accent font-medium">Coming Soon</span>
-                </div>
-            </div>
-        </div>
-        <div class="bg-white rounded-2xl overflow-hidden premium-shadow border border-gray-100 flex flex-col justify-between transition-all duration-300 hover:shadow-xl">
-            <div class="h-48 bg-primary/5 border-b border-gray-50 flex items-center justify-center text-primary text-5xl">🍵</div>
-            <div class="p-6 flex-1 flex flex-col justify-between">
-                <div>
-                    <span class="text-accent text-[11px] font-bold tracking-widest uppercase">Herbal Science</span>
-                    <h3 class="font-serif font-bold text-primary text-lg mt-1 mb-2">ทานยาสมุนไพรจีนอย่างไร ให้ปลอดภัยและฟื้นฟูตรงจุด</h3>
-                    <p class="text-gray-500 text-xs font-light leading-relaxed line-clamp-3">ยาสมุนไพรจีนเน้นบำบัดรักษาที่โครงสร้างหลักของอวัยวะภายใน การทานอย่างถูกวิธีภายใต้การควบคุมและจัดตำรับจากแพทย์จีน...</p>
-                </div>
-                <div class="pt-4 border-t border-gray-50 mt-4 flex justify-between items-center text-xs">
-                    <span class="text-gray-400">By หมอขวัญ</span>
-                    <span class="text-accent font-medium">Coming Soon</span>
-                </div>
-            </div>
-        </div>
+    <div id="articles-grid" class="columns-1 sm:columns-2 lg:columns-3 gap-8 space-y-8">
+        <div class="text-center text-gray-400 py-10 col-span-3">กำลังโหลดบทความ...</div>
     </div>
 </section>
 
-<!-- ───────────────────────────── CONTACT ─────────────────────────────────────── -->
+<!-- CONTACT -->
 <section id="contact" class="py-20 bg-primary text-white">
     <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-12 items-stretch">
-        <div class="md:col-span-5 space-y-6 flex flex-col justify-between">
-            <div>
-                <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Location & Time</span>
-                <h2 class="text-3xl font-serif font-bold text-accent">ข้อมูลการติดต่อคลินิก</h2>
-                <div class="w-12 h-[1px] bg-accent mt-4 mb-8"></div>
-                <div class="space-y-6 text-sm font-light text-gray-300">
-                    <p class="flex items-start gap-4">
-                        <span class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-accent text-sm shrink-0"><i class="fa-solid fa-location-dot"></i></span>
-                        <span class="leading-relaxed"><strong>ที่อยู่คลินิก:</strong> 148/6 ม.2 ต.สุรศักดิ์ อ.ศรีราชา จ.ชลบุรี 20110</span>
-                    </p>
-                    <div class="flex items-start gap-4">
-                        <span class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-accent text-sm shrink-0"><i class="fa-solid fa-clock"></i></span>
-                        <div>
-                            <strong class="text-white">เวลาทำการเปิดรักษา:</strong>
-                            <div class="mt-2 space-y-1 bg-white/5 border border-white/10 p-3 rounded-xl max-w-xs text-xs text-accentLight">
-                                <p><span class="font-bold text-white mr-2">วันจันทร์:</span> 10:00 - 17:00 น.</p>
-                                <p><span class="font-bold text-white mr-2">วันอังคาร - อาทิตย์:</span> 16:30 - 20:00 น.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="flex items-center gap-4">
-                        <span class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-accent text-sm shrink-0"><i class="fa-solid fa-phone"></i></span>
-                        <span><strong>เบอร์โทรศัพท์:</strong> <a href="tel:0646689544" class="underline text-white hover:text-accent font-medium tracking-wide">064-668-9544</a></span>
-                    </p>
-                    <p class="flex items-center gap-4">
-                        <span class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-accent text-sm shrink-0"><i class="fa-brands fa-facebook-f"></i></span>
-                        <span><strong>Facebook Page:</strong> <a href="https://facebook.com/sirikwantcm" target="_blank" rel="noopener noreferrer" class="underline text-white hover:text-accent font-medium">sirikwantcm</a></span>
-                    </p>
-                </div>
+        <div class="md:col-span-5 space-y-6">
+            <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Location & Time</span>
+            <h2 class="text-3xl font-serif font-bold text-accent">ข้อมูลการติดต่อคลินิก</h2>
+            <div class="w-12 h-[1px] bg-accent"></div>
+            <div class="space-y-6 text-sm font-light text-gray-300">
+                <p class="flex items-start gap-4"><span class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-accent text-sm shrink-0"><i class="fa-solid fa-location-dot"></i></span><span class="leading-relaxed"><strong>ที่อยู่คลินิก:</strong> 148/6 ม.2 ต.สุรศักดิ์ อ.ศรีราชา จ.ชลบุรี 20110</span></p>
+                <div class="flex items-start gap-4"><span class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-accent text-sm shrink-0"><i class="fa-solid fa-clock"></i></span><div><strong class="text-white">เวลาทำการ:</strong><div class="mt-2 space-y-1 bg-white/5 border border-white/10 p-3 rounded-xl text-xs text-accentLight"><p><span class="font-bold text-white mr-2">วันจันทร์:</span> 10:00 - 17:00 น.</p><p><span class="font-bold text-white mr-2">วันอังคาร - อาทิตย์:</span> 16:30 - 20:00 น.</p></div></div></div>
+                <p class="flex items-center gap-4"><span class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-accent text-sm shrink-0"><i class="fa-solid fa-phone"></i></span><span><strong>โทร:</strong> <a href="tel:0646689544" class="underline text-white hover:text-accent font-medium">064-668-9544</a></span></p>
+                <p class="flex items-center gap-4"><span class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-accent text-sm shrink-0"><i class="fa-brands fa-facebook-f"></i></span><span><strong>Facebook:</strong> <a href="https://facebook.com/sirikwantcm" target="_blank" rel="noopener noreferrer" class="underline text-white hover:text-accent font-medium">sirikwantcm</a></span></p>
             </div>
         </div>
         <div class="md:col-span-7">
-            <div class="w-full h-full min-h-[380px] rounded-2xl overflow-hidden border border-white/10 shadow-2xl relative bg-emerald-950">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3882.261972825442!2d100.9543!3d13.1462!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3102dd0000000000%3A0x0!2zMTQ4LzYgTS4yIFN1cmFzYWtoLCBTcmkgUmFjaGE!5e0!3m2!1sth!2sth!4v1710000000000!5m2!1sth!2sth"
-                    class="w-full h-full min-h-[380px] border-0"
-                    allowfullscreen=""
-                    loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"
-                    title="แผนที่คลินิกหมอขวัญ">
-                </iframe>
+            <div class="w-full h-full min-h-[380px] rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-emerald-950">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3882.261972825442!2d100.9543!3d13.1462!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3102dd0000000000%3A0x0!2zMTQ4LzYgTS4yIFN1cmFzYWtoLCBTcmkgUmFjaGE!5e0!3m2!1sth!2sth!4v1710000000000!5m2!1sth!2sth" class="w-full h-full min-h-[380px] border-0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="แผนที่คลินิกหมอขวัญ"></iframe>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ───────────────────────────── FOOTER ──────────────────────────────────────── -->
 <footer class="bg-[#022216] text-center py-8 text-xs text-gray-500 border-t border-white/5 tracking-wider">
     <p>© 2026 หมอขวัญแพทย์แผนจีน คลินิกฝังเข็มและสมุนไพรจีนศรีราชา. All Rights Reserved.</p>
 </footer>
 
-<!-- ───────────────────────────── FLOATING BUTTONS ───────────────────────────── -->
-<div class="fixed bottom-6 right-6 z-40 flex flex-col gap-3">
-    <a href="tel:0646689544"
-       class="w-12 h-12 bg-accent text-primary rounded-full shadow-2xl flex items-center justify-center text-lg hover:scale-110 transition-transform"
-       title="โทรนัดหมาย">
-        <i class="fa-solid fa-phone"></i>
-    </a>
+<div class="fixed bottom-6 right-6 z-40">
+    <a href="tel:0646689544" class="w-12 h-12 bg-accent text-primary rounded-full shadow-2xl flex items-center justify-center text-lg hover:scale-110 transition-transform" title="โทรนัดหมาย"><i class="fa-solid fa-phone"></i></a>
 </div>
 
-<!-- ───────────────────────────── ADMIN MODAL ────────────────────────────────── -->
-<!--
-    ✅ SECURE: ไม่มี password หรือ token ใดๆ ในไฟล์นี้
-    การยืนยันตัวตนทำผ่าน API endpoint (/api/announcement) บน server เท่านั้น
--->
-<div id="admin-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 border-t-4 border-accent text-gray-700 relative">
-        <div class="flex justify-between items-center mb-6">
-            <h3 class="text-xl font-bold text-primary font-serif"><i class="fa-solid fa-sliders mr-2 text-accent"></i>ระบบจัดการหลังบ้าน</h3>
-            <button onclick="toggleAdminModal()" class="text-gray-400 hover:text-gray-600 text-2xl leading-none">×</button>
-        </div>
-
-        <!-- Login Box -->
-        <div id="admin-login-box">
-            <p class="text-xs text-gray-500 mb-4">กรอกรหัสผ่านแอดมินเพื่อแก้ไขข้อมูลแถบประกาศหน้าเว็บ</p>
-            <input type="password" id="admin-password"
-                   class="w-full border p-3 rounded-xl mb-4 focus:outline-none focus:ring-2 focus:ring-accent text-sm"
-                   placeholder="รหัสผ่านแอดมิน"
-                   onkeydown="if(event.key==='Enter') checkAdminPassword()">
-            <button onclick="checkAdminPassword()"
-                    id="login-btn"
-                    class="w-full bg-primary text-white py-3 rounded-xl hover:bg-emeraldLight text-sm font-semibold transition-colors">
-                ยืนยันเข้าสู่ระบบ
-            </button>
-            <p id="login-error" class="text-xs text-red-500 text-center mt-2 min-h-[16px]"></p>
-        </div>
-
-        <!-- Content Box (แสดงหลัง login ผ่าน) -->
-        <div id="admin-content-box" class="hidden space-y-4">
-            <div>
-                <label class="block text-xs font-semibold text-gray-600 mb-1.5">ข้อความแจ้งเตือนประกาศแถบบนสุด</label>
-                <textarea id="input-announcement" rows="3"
-                          class="w-full border p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent text-xs leading-relaxed"></textarea>
+<!-- ══════════════════ ARTICLE DRAWER ══════════════════ -->
+<div id="drawer-backdrop" class="fixed inset-0 bg-black/50 z-40 backdrop-blur-sm" onclick="closeDrawer()"></div>
+<div id="article-drawer" class="fixed top-0 right-0 h-full w-full max-w-2xl bg-white z-50 shadow-2xl flex flex-col overflow-hidden">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-white sticky top-0">
+        <span id="drawer-category" class="text-accent text-xs font-bold tracking-widest uppercase"></span>
+        <button onclick="closeDrawer()" class="w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 transition-colors"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="flex-1 overflow-y-auto">
+        <div id="drawer-image-wrap"></div>
+        <div class="px-8 py-6 space-y-4">
+            <h2 id="drawer-title" class="font-serif font-bold text-2xl text-primary leading-snug"></h2>
+            <div class="flex items-center gap-3 text-xs text-gray-400">
+                <i class="fa-solid fa-user-doctor text-accent"></i>
+                <span id="drawer-author"></span>
+                <span>·</span>
+                <span id="drawer-date"></span>
             </div>
-            <button onclick="saveAnnouncement()"
-                    id="save-btn"
-                    class="w-full bg-accent text-primary py-3.5 rounded-xl hover:bg-yellow-500 font-bold text-sm shadow-md transition-colors">
-                บันทึกและซิงค์ข้อมูลทุกเครื่อง
-            </button>
-            <p id="save-status" class="text-xs text-center font-medium pt-1 min-h-[16px]"></p>
+            <div class="w-8 h-[2px] bg-accent"></div>
+            <p id="drawer-content" class="text-sm text-gray-700 prose-content leading-8"></p>
+        </div>
+        <div class="px-8 pb-8">
+            <a href="tel:0646689544" class="block w-full bg-primary hover:bg-emeraldLight text-white text-center font-semibold py-3.5 rounded-xl text-sm transition-all shadow-md">
+                <i class="fa-solid fa-phone mr-2 text-accent"></i>นัดหมายรับการรักษากับหมอขวัญ
+            </a>
         </div>
     </div>
 </div>
 
-<!-- ───────────────────────────── JAVASCRIPT ─────────────────────────────────── -->
+<!-- ══════════════════ ADMIN MODAL ══════════════════ -->
+<div id="admin-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg border-t-4 border-accent text-gray-700 relative max-h-[90vh] flex flex-col">
+        <div class="flex justify-between items-center px-8 pt-8 pb-4 shrink-0">
+            <h3 class="text-xl font-bold text-primary font-serif"><i class="fa-solid fa-sliders mr-2 text-accent"></i>ระบบจัดการหลังบ้าน</h3>
+            <button onclick="toggleAdminModal()" class="text-gray-400 hover:text-gray-600 text-2xl leading-none">×</button>
+        </div>
+
+        <!-- Login -->
+        <div id="admin-login-box" class="px-8 pb-8">
+            <p class="text-xs text-gray-500 mb-4">กรอกรหัสผ่านแอดมินเพื่อจัดการเว็บไซต์</p>
+            <input type="password" id="admin-password" class="w-full border p-3 rounded-xl mb-4 focus:outline-none focus:ring-2 focus:ring-accent text-sm" placeholder="รหัสผ่านแอดมิน" onkeydown="if(event.key==='Enter') checkAdminPassword()">
+            <button onclick="checkAdminPassword()" id="login-btn" class="w-full bg-primary text-white py-3 rounded-xl hover:bg-emeraldLight text-sm font-semibold transition-colors">ยืนยันเข้าสู่ระบบ</button>
+            <p id="login-error" class="text-xs text-red-500 text-center mt-2 min-h-[16px]"></p>
+        </div>
+
+        <!-- Content after login -->
+        <div id="admin-content-box" class="hidden flex flex-col overflow-hidden flex-1">
+            <!-- Tabs -->
+            <div class="flex gap-2 px-8 pb-4 shrink-0">
+                <button class="admin-tab active" onclick="switchTab('announcement')">📢 ประกาศ</button>
+                <button class="admin-tab" onclick="switchTab('articles')">📝 บทความ</button>
+            </div>
+
+            <div class="overflow-y-auto flex-1 px-8 pb-8">
+                <!-- Tab: Announcement -->
+                <div id="tab-announcement" class="space-y-4">
+                    <label class="block text-xs font-semibold text-gray-600 mb-1.5">ข้อความประกาศแถบบนสุด</label>
+                    <textarea id="input-announcement" rows="3" class="w-full border p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent text-xs leading-relaxed"></textarea>
+                    <button onclick="saveAnnouncement()" id="save-ann-btn" class="w-full bg-accent text-primary py-3 rounded-xl hover:bg-yellow-500 font-bold text-sm shadow-md transition-colors">บันทึกประกาศ</button>
+                    <p id="save-status" class="text-xs text-center font-medium min-h-[16px]"></p>
+                </div>
+
+                <!-- Tab: Articles -->
+                <div id="tab-articles" class="hidden space-y-4">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-semibold text-gray-600">บทความทั้งหมด (<span id="article-count">0</span>)</span>
+                        <button onclick="openNewArticleForm()" class="bg-primary text-white px-4 py-2 rounded-lg text-xs font-semibold hover:bg-emeraldLight transition-colors"><i class="fa-solid fa-plus mr-1"></i>เพิ่มบทความใหม่</button>
+                    </div>
+
+                    <!-- Article list -->
+                    <div id="admin-articles-list" class="space-y-3"></div>
+
+                    <!-- Article form -->
+                    <div id="article-form" class="hidden space-y-3 border border-accent/30 rounded-xl p-4 bg-bgLight">
+                        <h4 id="article-form-title" class="font-semibold text-sm text-primary">เพิ่มบทความใหม่</h4>
+                        <input type="hidden" id="form-article-id">
+                        <div><label class="text-xs text-gray-500 block mb-1">หมวดหมู่</label><input type="text" id="form-category" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent" placeholder="เช่น Traditional Knowledge"></div>
+                        <div><label class="text-xs text-gray-500 block mb-1">ชื่อบทความ *</label><input type="text" id="form-title" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent" placeholder="ชื่อบทความ"></div>
+                        <div><label class="text-xs text-gray-500 block mb-1">URL รูปภาพ (ถ้ามี)</label><input type="text" id="form-image" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent" placeholder="https://..."></div>
+                        <div><label class="text-xs text-gray-500 block mb-1">ข้อความย่อ (excerpt) *</label><textarea id="form-excerpt" rows="2" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent resize-none" placeholder="สรุปสั้นๆ ให้คนอยากอ่านต่อ"></textarea></div>
+                        <div><label class="text-xs text-gray-500 block mb-1">เนื้อหาบทความ *</label><textarea id="form-content" rows="6" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent resize-none" placeholder="เนื้อหาบทความ (Enter เพื่อขึ้นบรรทัดใหม่)"></textarea></div>
+                        <div class="flex gap-2 pt-1">
+                            <button onclick="saveArticleForm()" id="save-article-btn" class="flex-1 bg-accent text-primary py-2.5 rounded-lg text-xs font-bold hover:bg-yellow-500 transition-colors">บันทึกบทความ</button>
+                            <button onclick="cancelArticleForm()" class="px-4 py-2.5 rounded-lg text-xs text-gray-500 hover:bg-gray-100 border transition-colors">ยกเลิก</button>
+                        </div>
+                        <p id="article-save-status" class="text-xs text-center font-medium min-h-[16px]"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════ SCRIPTS ══════════════════ -->
 <script>
-// ════════════════════════════════════════════════════════════
-//  CONFIG — เปลี่ยน API_BASE ให้ตรงกับ Vercel URL ของคุณ
-//  ตัวอย่าง: "https://morkhwan.vercel.app"
-//  ระหว่าง dev local ใช้: ""  (relative path)
-// ════════════════════════════════════════════════════════════
 const API_BASE = "https://morkwantcm.vercel.app";
 
-// State ที่ใช้ระหว่าง session
-let fileSha            = "";
-let latestAnalysisText = "";
-let adminPassword      = "";   // เก็บ password ชั่วคราวใน RAM เท่านั้น
+let adminPassword  = "";
+let articlesCache  = [];
 
-// ─── โหลดประกาศเมื่อเปิดหน้า ──────────────────────────────
+// ── โหลดข้อมูลเมื่อเปิดหน้า ───────────────────────────────
 window.addEventListener("DOMContentLoaded", async () => {
+    loadAnnouncement();
+    loadArticles();
+});
+
+async function loadAnnouncement() {
     try {
         const res  = await fetch(`${API_BASE}/api/announcement`);
         const data = await res.json();
-        if (data.text) {
-            document.getElementById("announcement-text").innerText = data.text;
-            fileSha = data.sha || "";
-        }
+        if (data.text) document.getElementById("announcement-text").innerText = data.text;
     } catch {
-        document.getElementById("announcement-text").innerText =
-            "ยินดีต้อนรับสู่คลินิกหมอขวัญแพทย์แผนจีน คลินิกเปิดทำการปกติค่ะ";
+        document.getElementById("announcement-text").innerText = "ยินดีต้อนรับสู่คลินิกหมอขวัญแพทย์แผนจีน";
     }
-});
+}
 
-// ─── Toggle Admin Modal ────────────────────────────────────
+async function loadArticles() {
+    try {
+        const res  = await fetch(`${API_BASE}/api/announcement?type=articles`);
+        const data = await res.json();
+        articlesCache = data.articles || [];
+        renderArticles(articlesCache.filter(a => a.published));
+    } catch {
+        document.getElementById("articles-grid").innerHTML =
+            '<p class="text-center text-gray-400 text-sm py-10">ไม่สามารถโหลดบทความได้</p>';
+    }
+}
+
+function renderArticles(articles) {
+    const grid = document.getElementById("articles-grid");
+    if (!articles.length) {
+        grid.innerHTML = '<p class="text-center text-gray-400 text-sm py-10">ยังไม่มีบทความในขณะนี้</p>';
+        return;
+    }
+    grid.innerHTML = articles.map(a => `
+        <div class="article-card break-inside-avoid mb-8 bg-white rounded-2xl overflow-hidden premium-shadow border border-gray-100" onclick="openDrawer('${a.id}')">
+            ${a.image
+                ? `<img src="${a.image}" alt="${a.title}" class="article-img" onerror="this.parentElement.querySelector('.article-img-placeholder').style.display='flex'; this.style.display='none';">`
+                : ''}
+            <div class="article-img-placeholder bg-primary/5 ${a.image ? 'hidden' : ''}">${getCategoryEmoji(a.category)}</div>
+            <div class="p-6 space-y-3">
+                <span class="text-accent text-[11px] font-bold tracking-widest uppercase">${a.category || 'Knowledge'}</span>
+                <h3 class="font-serif font-bold text-primary text-lg leading-snug">${a.title}</h3>
+                <p class="text-gray-500 text-xs font-light leading-relaxed line-clamp-3">${a.excerpt}</p>
+                <div class="pt-2 flex justify-between items-center text-xs text-gray-400">
+                    <span>By ${a.author || 'หมอขวัญ'}</span>
+                    <span class="text-accent font-semibold">อ่านต่อ <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function getCategoryEmoji(cat) {
+    if (!cat) return '☯️';
+    const c = cat.toLowerCase();
+    if (c.includes('acupuncture')) return '🪡';
+    if (c.includes('herbal'))      return '🍵';
+    return '☯️';
+}
+
+// ── Article Drawer ─────────────────────────────────────────
+function openDrawer(id) {
+    const a = articlesCache.find(x => x.id === id);
+    if (!a) return;
+    document.getElementById("drawer-category").innerText = a.category || '';
+    document.getElementById("drawer-title").innerText    = a.title;
+    document.getElementById("drawer-author").innerText   = a.author || 'หมอขวัญ';
+    document.getElementById("drawer-date").innerText     = formatDate(a.date);
+    document.getElementById("drawer-content").innerText  = a.content;
+    const imgWrap = document.getElementById("drawer-image-wrap");
+    imgWrap.innerHTML = a.image
+        ? `<img src="${a.image}" alt="${a.title}" class="w-full h-64 object-cover">`
+        : '';
+    document.getElementById("article-drawer").classList.add("open");
+    document.getElementById("drawer-backdrop").classList.add("open");
+    document.body.style.overflow = "hidden";
+}
+
+function closeDrawer() {
+    document.getElementById("article-drawer").classList.remove("open");
+    document.getElementById("drawer-backdrop").classList.remove("open");
+    document.body.style.overflow = "";
+}
+
+function formatDate(d) {
+    if (!d) return '';
+    const dt = new Date(d);
+    return dt.toLocaleDateString('th-TH', { year:'numeric', month:'long', day:'numeric' });
+}
+
+// ── Admin Modal ────────────────────────────────────────────
 function toggleAdminModal() {
     const modal = document.getElementById("admin-modal");
     modal.classList.toggle("hidden");
-    // reset state ทุกครั้งที่เปิด
     document.getElementById("admin-login-box").classList.remove("hidden");
     document.getElementById("admin-content-box").classList.add("hidden");
-    document.getElementById("admin-password").value = "";
-    document.getElementById("login-error").innerText  = "";
-    document.getElementById("save-status").innerText  = "";
+    document.getElementById("admin-password").value  = "";
+    document.getElementById("login-error").innerText = "";
     adminPassword = "";
 }
 
-// ─── ตรวจสอบ Password (ผ่าน API — ไม่มี password ใน client) ─
 async function checkAdminPassword() {
     const pw  = document.getElementById("admin-password").value.trim();
     const btn = document.getElementById("login-btn");
     const err = document.getElementById("login-error");
-
     if (!pw) { err.innerText = "กรุณากรอกรหัสผ่านครับ"; return; }
-
-    btn.disabled    = true;
-    btn.innerText   = "กำลังตรวจสอบ...";
-    err.innerText   = "";
-
+    btn.disabled = true; btn.innerText = "กำลังตรวจสอบ..."; err.innerText = "";
     try {
-        // ลองส่ง POST ด้วยข้อความเดิม (ถ้า password ผิด server จะ return 401)
         const currentText = document.getElementById("announcement-text").innerText;
         const res = await fetch(`${API_BASE}/api/announcement`, {
-            method:  "POST",
-            headers: { "Content-Type": "application/json" },
-            body:    JSON.stringify({ password: pw, text: currentText, sha: fileSha }),
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ password: pw, text: currentText }),
         });
-
-        if (res.status === 401) {
-            err.innerText = "รหัสผ่านไม่ถูกต้องครับ!";
-        } else if (res.ok) {
-            // password ถูกต้อง — เข้าสู่ระบบ
+        if (res.status === 401) { err.innerText = "รหัสผ่านไม่ถูกต้องครับ!"; }
+        else if (res.ok) {
             adminPassword = pw;
             document.getElementById("admin-login-box").classList.add("hidden");
             document.getElementById("admin-content-box").classList.remove("hidden");
-            document.getElementById("input-announcement").value =
-                document.getElementById("announcement-text").innerText;
-        } else {
-            err.innerText = "เกิดข้อผิดพลาด กรุณาลองใหม่";
-        }
-    } catch {
-        err.innerText = "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้";
-    } finally {
-        btn.disabled  = false;
-        btn.innerText = "ยืนยันเข้าสู่ระบบ";
-    }
+            document.getElementById("input-announcement").value = document.getElementById("announcement-text").innerText;
+            renderAdminArticles();
+        } else { err.innerText = "เกิดข้อผิดพลาด กรุณาลองใหม่"; }
+    } catch { err.innerText = "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้"; }
+    finally { btn.disabled = false; btn.innerText = "ยืนยันเข้าสู่ระบบ"; }
 }
 
-// ─── บันทึกประกาศใหม่ ─────────────────────────────────────
+function switchTab(tab) {
+    document.getElementById("tab-announcement").classList.toggle("hidden", tab !== "announcement");
+    document.getElementById("tab-articles").classList.toggle("hidden", tab !== "articles");
+    document.querySelectorAll(".admin-tab").forEach((el, i) => {
+        el.classList.toggle("active", (i === 0) === (tab === "announcement"));
+    });
+    if (tab === "articles") renderAdminArticles();
+}
+
+// ── Save Announcement ──────────────────────────────────────
 async function saveAnnouncement() {
     const newText = document.getElementById("input-announcement").value.trim();
     const status  = document.getElementById("save-status");
-    const btn     = document.getElementById("save-btn");
-
-    if (!newText) { status.innerText = "กรุณากรอกข้อความก่อนบันทึกครับ"; return; }
-
-    btn.disabled  = true;
-    status.innerText  = "กำลังอัปเดตข้อมูลไปยังเซิร์ฟเวอร์หลัก...";
-    status.className  = "text-xs text-center font-medium text-blue-600";
-
+    const btn     = document.getElementById("save-ann-btn");
+    if (!newText) { status.innerText = "กรุณากรอกข้อความก่อนครับ"; return; }
+    btn.disabled = true; status.innerText = "กำลังบันทึก..."; status.className = "text-xs text-center font-medium text-blue-600";
     try {
-        const res = await fetch(`${API_BASE}/api/announcement`, {
-            method:  "POST",
-            headers: { "Content-Type": "application/json" },
-            body:    JSON.stringify({ password: adminPassword, text: newText, sha: fileSha }),
+        const res  = await fetch(`${API_BASE}/api/announcement`, {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ password: adminPassword, text: newText }),
         });
         const data = await res.json();
-
         if (res.ok && data.ok) {
             document.getElementById("announcement-text").innerText = newText;
-            status.innerText  = "อัปเดตสำเร็จแล้ว! หน้าเว็บจริงทุกเครื่องเปลี่ยนตามทันทีครับ 🎉";
-            status.className  = "text-xs text-center font-medium text-green-600";
-            setTimeout(toggleAdminModal, 2500);
-        } else {
-            status.innerText = data.error || "เกิดข้อผิดพลาดในการบันทึก";
-            status.className = "text-xs text-center font-medium text-red-600";
-        }
-    } catch {
-        status.innerText = "เกิดข้อผิดพลาดในการเชื่อมต่อเครือข่าย";
-        status.className = "text-xs text-center font-medium text-red-600";
-    } finally {
-        btn.disabled = false;
-    }
+            status.innerText  = "อัปเดตสำเร็จ! 🎉"; status.className = "text-xs text-center font-medium text-green-600";
+            setTimeout(toggleAdminModal, 2000);
+        } else { status.innerText = data.error || "เกิดข้อผิดพลาด"; status.className = "text-xs text-center font-medium text-red-600"; }
+    } catch { status.innerText = "ไม่สามารถเชื่อมต่อได้"; status.className = "text-xs text-center font-medium text-red-600"; }
+    finally { btn.disabled = false; }
 }
 
-// ─── Health Quiz ───────────────────────────────────────────
+// ── Admin Articles ─────────────────────────────────────────
+function renderAdminArticles() {
+    const list = document.getElementById("admin-articles-list");
+    document.getElementById("article-count").innerText = articlesCache.length;
+    if (!articlesCache.length) { list.innerHTML = '<p class="text-xs text-gray-400 text-center py-4">ยังไม่มีบทความ กด "เพิ่มบทความใหม่" ได้เลยครับ</p>'; return; }
+    list.innerHTML = articlesCache.map(a => `
+        <div class="flex items-start justify-between gap-3 border border-gray-100 rounded-xl p-3 bg-white hover:border-accent/30 transition-colors">
+            <div class="flex-1 min-w-0">
+                <p class="text-xs font-semibold text-primary truncate">${a.title}</p>
+                <p class="text-[11px] text-gray-400 mt-0.5">${a.category || ''} · ${a.published ? '<span class="text-green-600">เผยแพร่</span>' : '<span class="text-gray-400">ซ่อน</span>'}</p>
+            </div>
+            <div class="flex gap-1 shrink-0">
+                <button onclick="togglePublish('${a.id}')" class="w-7 h-7 rounded-lg bg-gray-50 hover:bg-gray-100 flex items-center justify-center text-gray-500 text-xs transition-colors" title="${a.published ? 'ซ่อน' : 'เผยแพร่'}">
+                    <i class="fa-solid ${a.published ? 'fa-eye-slash' : 'fa-eye'}"></i>
+                </button>
+                <button onclick="editArticle('${a.id}')" class="w-7 h-7 rounded-lg bg-gray-50 hover:bg-gray-100 flex items-center justify-center text-gray-500 text-xs transition-colors"><i class="fa-solid fa-pen"></i></button>
+                <button onclick="deleteArticle('${a.id}')" class="w-7 h-7 rounded-lg bg-red-50 hover:bg-red-100 flex items-center justify-center text-red-400 text-xs transition-colors"><i class="fa-solid fa-trash"></i></button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function openNewArticleForm() {
+    document.getElementById("article-form-title").innerText = "เพิ่มบทความใหม่";
+    document.getElementById("form-article-id").value = "";
+    document.getElementById("form-category").value  = "";
+    document.getElementById("form-title").value     = "";
+    document.getElementById("form-image").value     = "";
+    document.getElementById("form-excerpt").value   = "";
+    document.getElementById("form-content").value   = "";
+    document.getElementById("article-save-status").innerText = "";
+    document.getElementById("article-form").classList.remove("hidden");
+}
+
+function editArticle(id) {
+    const a = articlesCache.find(x => x.id === id);
+    if (!a) return;
+    document.getElementById("article-form-title").innerText = "แก้ไขบทความ";
+    document.getElementById("form-article-id").value = a.id;
+    document.getElementById("form-category").value  = a.category || '';
+    document.getElementById("form-title").value     = a.title;
+    document.getElementById("form-image").value     = a.image || '';
+    document.getElementById("form-excerpt").value   = a.excerpt;
+    document.getElementById("form-content").value   = a.content;
+    document.getElementById("article-save-status").innerText = "";
+    document.getElementById("article-form").classList.remove("hidden");
+    document.getElementById("article-form").scrollIntoView({ behavior: "smooth" });
+}
+
+function cancelArticleForm() {
+    document.getElementById("article-form").classList.add("hidden");
+}
+
+async function saveArticleForm() {
+    const title   = document.getElementById("form-title").value.trim();
+    const excerpt = document.getElementById("form-excerpt").value.trim();
+    const content = document.getElementById("form-content").value.trim();
+    const status  = document.getElementById("article-save-status");
+    const btn     = document.getElementById("save-article-btn");
+    if (!title || !excerpt || !content) { status.innerText = "กรุณากรอกข้อมูลที่จำเป็นให้ครบครับ"; status.className = "text-xs text-center font-medium text-red-500"; return; }
+
+    const id      = document.getElementById("form-article-id").value;
+    const now     = new Date().toISOString().split("T")[0];
+    const article = {
+        id:        id || String(Date.now()),
+        category:  document.getElementById("form-category").value.trim(),
+        title, excerpt, content,
+        image:     document.getElementById("form-image").value.trim(),
+        author:    "หมอขวัญ",
+        date:      now,
+        published: true,
+    };
+
+    let newList;
+    if (id) { newList = articlesCache.map(a => a.id === id ? article : a); }
+    else    { newList = [...articlesCache, article]; }
+
+    btn.disabled = true; status.innerText = "กำลังบันทึก..."; status.className = "text-xs text-center font-medium text-blue-600";
+    try {
+        const res  = await fetch(`${API_BASE}/api/announcement?type=articles`, {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ password: adminPassword, articles: newList }),
+        });
+        const data = await res.json();
+        if (res.ok && data.ok) {
+            articlesCache = newList;
+            renderAdminArticles();
+            renderArticles(articlesCache.filter(a => a.published));
+            cancelArticleForm();
+            status.innerText = "บันทึกสำเร็จ! 🎉"; status.className = "text-xs text-center font-medium text-green-600";
+        } else { status.innerText = data.error || "เกิดข้อผิดพลาด"; status.className = "text-xs text-center font-medium text-red-500"; }
+    } catch { status.innerText = "ไม่สามารถเชื่อมต่อได้"; status.className = "text-xs text-center font-medium text-red-500"; }
+    finally { btn.disabled = false; }
+}
+
+async function togglePublish(id) {
+    const newList = articlesCache.map(a => a.id === id ? { ...a, published: !a.published } : a);
+    await pushArticles(newList);
+}
+
+async function deleteArticle(id) {
+    if (!confirm("ยืนยันลบบทความนี้?")) return;
+    const newList = articlesCache.filter(a => a.id !== id);
+    await pushArticles(newList);
+}
+
+async function pushArticles(newList) {
+    try {
+        const res  = await fetch(`${API_BASE}/api/announcement?type=articles`, {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ password: adminPassword, articles: newList }),
+        });
+        const data = await res.json();
+        if (res.ok && data.ok) {
+            articlesCache = newList;
+            renderAdminArticles();
+            renderArticles(articlesCache.filter(a => a.published));
+        } else { alert(data.error || "เกิดข้อผิดพลาด"); }
+    } catch { alert("ไม่สามารถเชื่อมต่อได้"); }
+}
+
+// ── Health Quiz ────────────────────────────────────────────
+let latestAnalysisText = "";
 function calculateHealthResult() {
     const q1 = document.querySelector('input[name="q1"]:checked')?.value || 'normal';
     const q2 = document.querySelector('input[name="q2"]:checked')?.value || 'normal';
     const q3 = document.querySelector('input[name="q3"]:checked')?.value || 'normal';
     const q4 = document.querySelector('input[name="q4"]:checked')?.value || 'normal';
-
-    const titles  = [];
-    const details = [];
-
-    if (q1 === "qi_deficient") {
-        titles.push("ลมปราณพร่อง (Qi Deficiency)");
-        details.push("- มีภาวะพลังงานร่างกายอ่อนแอ เหนื่อยง่าย อวัยวะภายในทำงานได้ลดลง");
-    }
-    if (q2 === "dampness") {
-        titles.push("ความชื้นสะสม (Dampness Retention)");
-        details.push("- มีน้ำและของเหลวค้างอยู่ในระบบม้ามและทางเดินอาหาร ทำให้ตัวบวม ท้องอืด และหนักตัว");
-    }
-    if (q3 === "blood_stasis") {
-        titles.push("เลือดคั่งอุดกั้น (Blood Stasis)");
-        details.push("- ระบบไหลเวียนโลหิตไหลเวียนไม่สะดวก เกิดการติดขัดตามมัดกล้ามเนื้อและจุดลมปราณ ทำให้ปวดเจ็บเฉพาะจุดเรื้อรัง");
-    }
-    if (q4 === "liver_qi") {
-        titles.push("ลมปราณตับติดขัด (Liver Qi Stagnation)");
-        details.push("- ความเครียดสะสมส่งผลกระทบต่อลมปราณของตับ ทำให้พลังงานไหลเวียนไม่ราบรื่น ส่งผลต่ออารมณ์และการนอนหลับ");
-    }
-
+    const titles = [], details = [];
+    if (q1==="qi_deficient") { titles.push("ลมปราณพร่อง (Qi Deficiency)"); details.push("- มีภาวะพลังงานร่างกายอ่อนแอ เหนื่อยง่าย อวัยวะภายในทำงานได้ลดลง"); }
+    if (q2==="dampness")     { titles.push("ความชื้นสะสม (Dampness Retention)"); details.push("- มีน้ำและของเหลวค้างอยู่ในระบบม้ามและทางเดินอาหาร ทำให้ตัวบวม ท้องอืด และหนักตัว"); }
+    if (q3==="blood_stasis") { titles.push("เลือดคั่งอุดกั้น (Blood Stasis)"); details.push("- ระบบไหลเวียนโลหิตไหลเวียนไม่สะดวก ทำให้ปวดเจ็บเฉพาะจุดเรื้อรัง"); }
+    if (q4==="liver_qi")     { titles.push("ลมปราณตับติดขัด (Liver Qi Stagnation)"); details.push("- ความเครียดสะสมส่งผลต่อลมปราณของตับ ทำให้อารมณ์และการนอนหลับแปรปรวน"); }
     let finalTitle, finalDesc;
-    if (titles.length === 0) {
-        finalTitle = "สภาวะร่างกายสมดุลดี (Healthy Balance)";
-        finalDesc  = "ยินดีด้วยครับ! ร่างกายของคุณอยู่ในเกณฑ์สมดุลหยิน-หยางที่ดี พลังงานลมปราณไหลเวียนสม่ำเสมอ แนะนำให้รักษาพฤติกรรมสุขภาพที่ดีนี้ไว้ พักผ่อนให้เพียงพอ ทานอาหารที่มีประโยชน์เพื่อคงความสมดุลนี้ในระยะยาวครับ";
-    } else {
-        finalTitle = "ตรวจพบสภาวะแปรปรวน: " + titles.join(" และ ");
-        finalDesc  = "จากข้อมูลพบว่าร่างกายของคุณเริ่มส่งสัญญาณเตือนดังนี้:\n" +
-                     details.join("\n") +
-                     "\n\n💡 คำแนะนำแผนจีน: สภาวะเหล่านี้สามารถฟื้นฟูและปรับสมดุลให้ดีขึ้นได้ด้วย 'การฝังเข็มบำบัด' เพื่อทะลวงจุดอุดกั้น ร่วมกับการทาน 'ยาสมุนไพรจีนตำรับเฉพาะบุคคล' เพื่อบำรุงธาตุที่พร่องให้กลับมาสมบูรณ์ครับ";
-    }
-
-    latestAnalysisText = `[ผลประเมินสุขภาพแผนจีนเบื้องต้น]\n📌 สภาวะ: ${finalTitle}\n\n${finalDesc}\n\n*ติดต่อรับการรักษาที่ คลินิกหมอขวัญแพทย์แผนจีน ศรีราชา ชลบุรี`;
-
+    if (!titles.length) { finalTitle = "สภาวะร่างกายสมดุลดี (Healthy Balance)"; finalDesc = "ยินดีด้วยครับ! ร่างกายของคุณอยู่ในเกณฑ์สมดุลดี พลังงานลมปราณไหลเวียนสม่ำเสมอ แนะนำให้รักษาพฤติกรรมสุขภาพที่ดีนี้ไว้ครับ"; }
+    else { finalTitle = "ตรวจพบสภาวะแปรปรวน: " + titles.join(" และ "); finalDesc = "จากข้อมูลพบว่าร่างกายของคุณเริ่มส่งสัญญาณเตือนดังนี้:\n" + details.join("\n") + "\n\n💡 คำแนะนำแผนจีน: สภาวะเหล่านี้สามารถฟื้นฟูได้ด้วยการฝังเข็มบำบัดและยาสมุนไพรจีนตำรับเฉพาะบุคคลครับ"; }
+    latestAnalysisText = `[ผลประเมินสุขภาพแผนจีน]\n📌 ${finalTitle}\n\n${finalDesc}\n\n*คลินิกหมอขวัญแพทย์แผนจีน ศรีราชา ชลบุรี`;
     document.getElementById("quiz-container").classList.add("hidden");
-    const resultBox = document.getElementById("quiz-result-box");
-    resultBox.classList.remove("hidden");
+    document.getElementById("quiz-result-box").classList.remove("hidden");
     document.getElementById("result-title").innerText = finalTitle;
     document.getElementById("result-desc").innerText  = finalDesc;
 }
 
 function copyResultAndNotify() {
     navigator.clipboard.writeText(latestAnalysisText).then(() => {
-        const toast = document.getElementById("copy-toast");
-        toast.innerText = "✓ คัดลอกผลวิเคราะห์แล้ว! เปิดแอป Line/Facebook แล้วกด 'วาง (Paste)' ส่งข้อความหาหมอขวัญได้ทันทีเลยครับ ✨";
-        setTimeout(() => { toast.innerText = ""; }, 6000);
-    }).catch(() => {
-        alert("ไม่สามารถคัดลอกอัตโนมัติได้ กรุณาแคปหน้าจอนี้ส่งให้คุณหมอได้เลยครับ!");
-    });
+        const t = document.getElementById("copy-toast");
+        t.innerText = "✓ คัดลอกแล้ว! เปิด Line/Facebook แล้วกด 'วาง' ส่งหาหมอขวัญได้เลยครับ ✨";
+        setTimeout(() => { t.innerText = ""; }, 6000);
+    }).catch(() => alert("กรุณาแคปหน้าจอส่งให้คุณหมอได้เลยครับ!"));
 }
 
 function resetHealthQuiz() {
     document.getElementById("quiz-container").classList.remove("hidden");
     document.getElementById("quiz-result-box").classList.add("hidden");
-    document.getElementById("copy-toast").innerText = "";
     latestAnalysisText = "";
 }
 </script>
