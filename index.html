@@ -254,7 +254,7 @@
         </div>
         <div class="md:col-span-7">
             <div class="w-full h-full min-h-[380px] rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-emerald-950">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3882.261972825442!2d100.9543!3d13.1462!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3102dd0000000000%3A0x0!2zMTQ4LzYgTS4yIFN1cmFzYWtoLCBTcmkgUmFjaGE!5e0!3m2!1sth!2sth!4v1710000000000!5m2!1sth!2sth" class="w-full h-full min-h-[380px] border-0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="แผนที่คลินิกหมอขวัญ"></iframe>
+                <iframe src="<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3885.175290553281!2d100.94205507585896!3d13.151340610910538!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3102b7badd2e7c15%3A0xc48072f0142c9ff8!2sMorKwan%20TCM!5e0!3m2!1sen!2sth!4v1779799724940!5m2!1sen!2sth" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>" class="w-full h-full min-h-[380px] border-0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="แผนที่คลินิกหมอขวัญ"></iframe>
             </div>
         </div>
     </div>
@@ -295,11 +295,7 @@
             <div class="w-8 h-[2px] bg-accent"></div>
             <p id="drawer-content" class="text-sm text-gray-700 prose-content leading-8"></p>
         </div>
-        <div class="px-8 pb-8">
-            <a href="tel:0646689544" class="block w-full bg-primary hover:bg-emeraldLight text-white text-center font-semibold py-3.5 rounded-xl text-sm transition-all shadow-md">
-                <i class="fa-solid fa-phone mr-2 text-accent"></i>นัดหมายรับการรักษากับหมอขวัญ
-            </a>
-        </div>
+
     </div>
 </div>
 
@@ -497,9 +493,13 @@ function openDrawer(id) {
     document.getElementById("drawer-date").innerText     = formatDate(a.date);
     document.getElementById("drawer-content").innerText  = a.content;
     const imgWrap = document.getElementById("drawer-image-wrap");
-    imgWrap.innerHTML = a.image
-        ? `<img src="${a.image}" alt="${a.title}" class="w-full h-64 object-cover">`
-        : '';
+    if (a.image) {
+        imgWrap.innerHTML = `<img src="${a.image}" alt="${a.title}" class="w-full h-72 object-cover"
+            onerror="this.outerHTML='<div class=\'w-full h-72 bg-primary/5 flex items-center justify-center text-6xl\'>${getCategoryEmoji(a.category)}</div>'"
+        >`;
+    } else {
+        imgWrap.innerHTML = `<div class="w-full h-56 bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center text-7xl">${getCategoryEmoji(a.category)}</div>`;
+    }
     document.getElementById("article-drawer").classList.add("open");
     document.getElementById("drawer-backdrop").classList.add("open");
     document.body.style.overflow = "hidden";
