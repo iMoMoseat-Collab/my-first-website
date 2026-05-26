@@ -10,17 +10,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400;500;600&family=Noto+Serif+Thai:wght@400;600&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#04432C', /* เขียวมรกตหรูหรา Emerald Green */
+                        primary: '#04432C', /* เขียวมรกตเข้ม */
                         emeraldLight: '#065F46',
                         accent: '#D4AF37',  /* ทองคำ Luxury Gold */
-                        light: '#F4F7F5',   /* ขาวนวลสไตล์ธรรมชาติ */
+                        light: '#F4F7F5',   /* ขาวนวล */
                         graytext: '#4A5568'
                     },
                     fontFamily: {
@@ -32,57 +31,48 @@
         }
     </script>
     <style>
-        body { background-color: #F4F7F5; font-family: 'Anuphan', sans-serif; }
+        body { background-color: #F4F7F5; font-family: 'Anuphan', sans-serif; overflow-x: hidden; }
         .hero-bg {
-            background-image: linear-gradient(rgba(4, 67, 44, 0.8), rgba(4, 67, 44, 0.85)), url('https://images.unsplash.com/photo-1519823551278-64ac92734fb1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            background-image: linear-gradient(rgba(4, 67, 44, 0.82), rgba(4, 67, 44, 0.88)), url('https://images.unsplash.com/photo-1519823551278-64ac92734fb1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover; background-position: center; background-attachment: fixed;
         }
-        .premium-card {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            border-top: 3px solid transparent;
-        }
-        .premium-card:hover {
-            transform: translateY(-8px);
-            border-top: 3px solid #D4AF37;
-            box-shadow: 0 20px 40px -15px rgba(4,67,44,0.12);
-        }
+        .text-shadow { text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body class="text-graytext antialiased">
 
     <div id="vacation-banner" class="bg-accent text-primary text-center py-2.5 px-4 text-sm font-semibold tracking-wide sticky top-0 z-50 shadow-sm flex justify-center items-center gap-2">
         <span class="bg-primary text-white text-xs px-2 py-0.5 rounded font-bold uppercase tracking-wider">Notice</span>
-        <span id="announcement-text">ยินดีต้อนรับสู่คลินิกหมอขวัญแพทย์แผนจีน</span>
+        <span id="announcement-text">ยินดีต้อนรับสู่คลินิกหมอขวัญแพทย์แผนจีน คลินิกเปิดทำการปกติ ยินดีต้อนรับทุกท่านค่ะ</span>
     </div>
 
-    <nav class="w-full bg-white/90 backdrop-blur-md border-b border-emerald-900/5 sticky top-[38px] z-40">
+    <nav class="w-full bg-white/95 backdrop-blur-sm border-b border-emerald-900/5 sticky top-[38px] z-40 transition-all">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-xl font-serif font-semibold text-primary tracking-wide">
-                หมอขวัญแพทย์แผนจีน <span class="text-accent text-xs tracking-widest uppercase block font-sans mt-0.5 font-medium">Premium TCM Clinic</span>
-            </div>
-            <div class="hidden md:flex space-x-8 text-sm font-medium text-primary">
+            <button onclick="toggleAdminModal()" class="text-xl md:text-2xl font-serif font-semibold text-primary tracking-wide text-shadow hover:text-emeraldLight transition-colors cursor-default">
+                หมอขวัญ<span class="text-accent">แพทย์แผนจีน</span>
+            </button>
+            
+            <div class="hidden md:flex space-x-10 text-sm font-medium text-primary">
                 <a href="#services" class="hover:text-accent transition-colors">บริการของเรา</a>
+                <a href="#philosophy" class="hover:text-accent transition-colors">ปรัชญาการรักษา</a>
                 <a href="#pricing" class="hover:text-accent transition-colors">อัตราค่าบริการ</a>
                 <a href="#contact" class="hover:text-accent transition-colors">ติดต่อคลินิก</a>
             </div>
-            <div>
-                <a href="#contact" class="bg-primary hover:bg-emeraldLight text-white px-5 py-2.5 text-sm font-medium rounded-sm transition-all shadow-md">
-                    จองคิวนัดหมาย
-                </a>
-            </div>
+            
+            <a href="tel:0955183360" class="bg-primary hover:bg-emeraldLight text-white px-6 py-2.5 text-sm font-medium rounded-sm transition-all shadow-md">
+                โทรนัดหมาย
+            </a>
         </div>
     </nav>
 
     <section class="hero-bg h-[70vh] flex items-center justify-center text-center px-4">
         <div class="max-w-3xl mx-auto">
-            <h4 class="text-accent tracking-[0.25em] uppercase text-xs md:text-sm mb-6 font-semibold">Holistic Luxury Healing</h4>
-            <h1 class="text-4xl md:text-6xl font-serif text-white mb-8 leading-tight">
+            <h4 class="text-accent tracking-[0.3em] uppercase text-xs md:text-sm mb-6 font-semibold">Premium TCM Clinic</h4>
+            <h1 class="text-4xl md:text-6xl font-serif text-white mb-8 leading-tight text-shadow">
                 คืนความสมดุลสู่ร่างกาย <br> <span class="italic font-light text-accent">ด้วยศาสตร์แพทย์แผนจีนชั้นสูง</span>
             </h1>
-            <p class="text-gray-300 text-base md:text-lg font-light mb-10 max-w-2xl mx-auto leading-relaxed">
-                ดูแลและวินิจฉัยเชิงลึกจากต้นเหตุด้วยความใส่ใจ มอบการรักษาที่สอดคล้องกับสภาพร่างกายของคุณเพื่อสุขภาพที่สมบูรณ์และยั่งยืน
+            <p class="text-gray-300 text-sm md:text-base font-light mb-10 max-w-2xl mx-auto leading-relaxed">
+                วินิจฉัยและรักษาเชิงลึกจากต้นเหตุด้วยความใส่ใจ ดูแลคุณแบบองค์รวมเพื่อสุขภาพที่สมบูรณ์และยั่งยิน
             </p>
             <a href="#services" class="border border-accent text-accent px-8 py-3.5 text-sm tracking-widest hover:bg-accent hover:text-primary transition-all duration-300 rounded-sm font-medium">
                 บริการของเรา
@@ -90,77 +80,149 @@
         </div>
     </section>
 
-    <section id="services" class="py-24 bg-light px-6">
-        <div class="max-w-7xl mx-auto text-center mb-16">
-            <h4 class="text-accent tracking-widest uppercase text-xs mb-3 font-semibold">Our Treatments</h4>
-            <h2 class="text-3xl font-serif text-primary">บริการหัตถการหลัก</h2>
+    <section id="services" class="py-28 bg-light px-6">
+        <div class="max-w-7xl mx-auto text-center mb-20">
+            <h2 class="text-3xl md:text-4xl font-serif text-primary">บริการหัตถการหลัก</h2>
+            <div class="w-16 h-0.5 bg-accent mx-auto mt-5"></div>
         </div>
         
-        <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
-            <div class="premium-card bg-white p-8 border border-gray-100 rounded-sm shadow-sm">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-10">
+            <div class="bg-white p-8 border border-gray-100 shadow-sm rounded-sm text-center">
+                <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span class="text-primary text-2xl">针</span> </div>
                 <h3 class="text-lg font-serif text-primary mb-3 font-semibold">ฝังเข็มรักษาโรค (Acupuncture)</h3>
-                <p class="text-sm leading-relaxed text-gray-500">กระตุ้นจุดสะท้อนบนเส้นลมปราณเพื่อรักษาอาการออฟฟิศซินโดรม ไมเกรน ปวดข้อต่อ และปรับระบบประสาทอย่างมีประสิทธิภาพ</p>
-            </div>
-            <div class="premium-card bg-primary text-white p-8 rounded-sm shadow-xl md:-translate-y-2">
-                <h3 class="text-lg font-serif text-accent mb-3 font-semibold">ยาสมุนไพรจีน (Herbal Medicine)</h3>
-                <p class="text-sm leading-relaxed text-gray-300">แมะและจัดตำรับยาสมุนไพรจีนสูตรเฉพาะบุคคล คัดสรรวัตถุดิบเกรดพรีเมียม เพื่อปรับสมดุลธาตุและบำรุงอวัยวะภายใน</p>
-            </div>
-            <div class="premium-card bg-white p-8 border border-gray-100 rounded-sm shadow-sm">
-                <h3 class="text-lg font-serif text-primary mb-3 font-semibold">ครอบแก้วบำบัด (Cupping Therapy)</h3>
-                <p class="text-sm leading-relaxed text-gray-500">ใช้ความดันสุญญากาศกระตุ้นการไหลเวียนเลือด คลายกล้ามเนื้อตึงพังผืดระดับลึก และช่วยขับสารพิษออกจากร่างกาย</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="pricing" class="py-24 bg-white px-6">
-        <div class="max-w-4xl mx-auto">
-            <div class="text-center mb-16">
-                <h4 class="text-accent tracking-widest uppercase text-xs mb-3 font-semibold">Pricing Rates</h4>
-                <h2 class="text-3xl font-serif text-primary">อัตราค่าบริการและคอร์สรักษา</h2>
+                <p class="text-sm leading-relaxed text-gray-500">กระตุ้นจุดสะท้อนบนเส้นลมปราณ รักษาออฟฟิศซินโดรม ไมเกรน ปวดข้อ และปรับระบบประสาท</p>
             </div>
             
-            <div class="bg-light rounded-sm shadow-sm p-8 md:p-12 space-y-6">
-                <div class="flex justify-between items-center border-b border-gray-200 pb-4">
+            <div class="bg-primary text-white p-10 shadow-2xl rounded-sm text-center md:-translate-y-3">
+                <div class="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span class="text-accent text-2xl">草</span> </div>
+                <h3 class="text-lg font-serif text-accent mb-3 font-semibold">ยาสมุนไพรจีน (Herbal Medicine)</h3>
+                <p class="text-sm leading-relaxed text-gray-200">จัดตำรับยาสมุนไพรเกรดพรีเมียมสูตรเฉพาะบุคคล บำรุงอวัยวะภายในและปรับสมดุลธาตุ</p>
+            </div>
+            
+            <div class="bg-white p-8 border border-gray-100 shadow-sm rounded-sm text-center">
+                <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span class="text-primary text-2xl">罐</span> </div>
+                <h3 class="text-lg font-serif text-primary mb-3 font-semibold">ครอบแก้วบำบัด (Cupping Therapy)</h3>
+                <p class="text-sm leading-relaxed text-gray-500">ใช้ความดันสุญญากาศกระตุ้นการไหลเวียนเลือด คลายกล้ามเนื้อตึงพังผืดระดับลึก และขับสารพิษ</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="py-28 bg-white px-6">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-serif text-primary">อัตราค่าบริการและคอร์สรักษา</h2>
+                <div class="w-16 h-0.5 bg-accent mx-auto mt-5"></div>
+            </div>
+            
+            <div class="bg-light rounded-sm shadow-sm p-8 md:p-14 space-y-6">
+                <div class="flex justify-between items-center border-b border-gray-200 pb-5">
                     <div>
                         <h4 class="text-base font-medium text-primary">ตรวจวินิจฉัยแผนจีน + ฝังเข็มปรับสมดุล</h4>
-                        <p class="text-xs text-gray-400 mt-1">รวมค่าหัตถการและอุปกรณ์ฝังเข็มปลอดเชื้อ (ต่อครั้ง)</p>
+                        <p class="text-xs text-gray-400 mt-1.5">รวมค่าอุปกรณ์ฝังเข็มปลอดเชื้อ (ต่อครั้ง)</p>
                     </div>
-                    <span class="text-xl font-serif font-bold text-emeraldLight">฿1,200</span>
+                    <span class="text-2xl font-serif font-bold text-emeraldLight">฿1,200</span>
                 </div>
-                <div class="flex justify-between items-center border-b border-gray-200 pb-4">
+                <div class="flex justify-between items-center border-b border-gray-200 pb-5 pt-1">
                     <div>
                         <h4 class="text-base font-medium text-primary">ครอบแก้วบำบัด หรือ กัวซาสลายพังผืด</h4>
-                        <p class="text-xs text-gray-400 mt-1">ช่วยกระตุ้นการไหลเวียนโลหิตและผ่อนคลายกล้ามเนื้อ (ต่อครั้ง)</p>
+                        <p class="text-xs text-gray-400 mt-1.5">ช่วยกระตุ้นการไหลเวียนโลหิต (ต่อครั้ง)</p>
                     </div>
-                    <span class="text-xl font-serif font-bold text-emeraldLight">฿800</span>
+                    <span class="text-2xl font-serif font-bold text-emeraldLight">฿800</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer id="contact" class="bg-primary text-white pt-16 pb-10 px-6 border-t-4 border-accent">
+    <footer id="contact" class="bg-primary text-white pt-20 pb-10 px-6 border-t-4 border-accent">
         <div class="max-w-6xl mx-auto text-center">
-            <div class="text-xl font-serif font-semibold text-white tracking-wide mb-4">หมอขวัญแพทย์แผนจีน</div>
-            <p class="text-sm text-gray-400 max-w-md mx-auto mb-6">Line OA: @dr.kwan.tcm | โทร: 0XX-XXX-XXXX</p>
-            <p class="text-xs text-emerald-800 border-t border-emerald-900/30 pt-6">&copy; 2026 คลินิกหมอขวัญแพทย์แผนจีน. All rights reserved.</p>
+            <div class="text-2xl font-serif font-semibold text-white tracking-wide mb-6">หมอขวัญ<span class="text-accent">แพทย์แผนจีน</span></div>
+            <p class="text-sm text-gray-400 max-w-md mx-auto mb-8">Line OA: @morkwan.tcm | โทร: 095-518-3360</p>
+            <p class="text-xs text-emerald-800 border-t border-emerald-900/30 pt-8">&copy; 2026 คลินิกหมอขวัญแพทย์แผนจีน. All rights reserved.</p>
         </div>
     </footer>
 
-    <script>
-        fetch('/_data/announcement.json')
-            .then(res => res.json())
-            .then(data => {
-                if(data && data.text) {
-                    document.getElementById('announcement-text').innerText = data.text;
-                }
-            }).catch(err => console.log("กำลังใช้ข้อความเริ่มต้น"));
+    <div id="admin-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-2xl max-w-md w-full p-8 border-t-4 border-accent">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold text-primary font-serif">ระบบจัดการเว็บไซต์</h3>
+                <button onclick="toggleAdminModal()" class="text-gray-400 hover:text-gray-600 text-2xl leading-none">&times;</button>
+            </div>
+            
+            <div id="admin-login-box">
+                <p class="text-sm text-gray-500 mb-5">กรอกรหัสผ่านแอดมินเพื่อแก้ไขข้อมูลหน้าเว็บ</p>
+                <input type="password" id="admin-password" class="w-full border p-3 rounded mb-5 focus:outline-accent" placeholder="กรอกรหัสผ่าน">
+                <button onclick="checkAdminPassword()" class="w-full bg-primary text-white py-3 rounded hover:bg-emeraldLight font-medium">เข้าสู่ระบบจัดการข้อมูล</button>
+            </div>
 
-        if (window.netlifyIdentity) {
-            window.netlifyIdentity.on("init", user => {
-                if (!user) {
-                    window.netlifyIdentity.on("login", () => { document.location.reload(); });
-                }
-            });
+            <div id="admin-content-box" class="hidden space-y-5">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">แก้ไขข้อความประกาศแถบสีทองบนสุด</label>
+                    <textarea id="input-announcement" rows="3" class="w-full border p-3 rounded focus:outline-accent text-sm"></textarea>
+                </div>
+                <button onclick="saveWebData()" class="w-full bg-accent text-primary py-3.5 rounded hover:bg-yellow-500 font-bold text-base shadow-md">บันทึกข้อมูลและอัปเดตหน้าเว็บ</button>
+                <p id="save-status" class="text-xs text-center font-medium pt-1"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 🔑 ตั้งรหัสผ่านแอดมินที่พี่ขอ (0955183360) เรียบร้อยแล้วครับพี่!
+        const ADMIN_PASSWORD = "0955183360"; 
+
+        // โหลดข้อมูลประกาศล่าสุดมาโชว์ตอนเปิดหน้าเว็บ
+        window.onload = function() {
+            const savedText = localStorage.getItem("morkwan_announcement");
+            if (savedText) {
+                document.getElementById("announcement-text").innerText = savedText;
+            }
+        };
+
+        // เปิด-ปิด หน้าต่างแอดมินลับ
+        function toggleAdminModal() {
+            const modal = document.getElementById("admin-modal");
+            modal.classList.toggle("hidden");
+            // รีเซ็ตฟอร์มกลับไปหน้าล็อกอินทุกครั้งที่เปิดใหม่
+            document.getElementById("admin-login-box").classList.remove("hidden");
+            document.getElementById("admin-content-box").classList.add("hidden");
+            document.getElementById("admin-password").value = "";
+            document.getElementById("save-status").innerText = "";
+        }
+
+        // ตรวจสอบรหัสผ่าน
+        function checkAdminPassword() {
+            const inputPass = document.getElementById("admin-password").value;
+            if (inputPass === ADMIN_PASSWORD) {
+                document.getElementById("admin-login-box").classList.add("hidden");
+                document.getElementById("admin-content-box").classList.remove("hidden");
+                // ดึงข้อความปัจจุบันไปใส่ในช่องพิมพ์แก้
+                document.getElementById("input-announcement").value = document.getElementById("announcement-text").innerText;
+            } else {
+                alert("รหัสผ่านไม่ถูกต้องครับพี่! ลองใหม่อีกครั้งนะครับ");
+            }
+        }
+
+        // กดบันทึกข้อมูล
+        function saveWebData() {
+            const newText = document.getElementById("input-announcement").value;
+            const statusText = document.getElementById("save-status");
+            
+            statusText.innerText = "กำลังทำการบันทึกข้อมูล...";
+            statusText.className = "text-xs text-center font-medium text-blue-600";
+
+            setTimeout(() => {
+                // บันทึกลงความจำเบราว์เซอร์ (แสดงผลทันทีบนหน้าจอพี่)
+                localStorage.setItem("morkwan_announcement", newText);
+                document.getElementById("announcement-text").innerText = newText;
+                
+                statusText.innerText = "บันทึกข้อมูลสำเร็จแล้วครับพี่! 🎉 หน้าเว็บได้อัปเดตเรียบร้อย";
+                statusText.className = "text-xs text-center font-medium text-green-600";
+                
+                // ปิดหน้าต่างหลังบ้านอัตโนมัติใน 1.8 วินาที
+                setTimeout(toggleAdminModal, 1800);
+            }, 800);
         }
     </script>
 </body>
