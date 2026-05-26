@@ -1,15 +1,24 @@
 // =============================================================
-// api/announcement.js — handles both announcement + articles
-// Environment Variables needed on Vercel:
-//   GITHUB_TOKEN, ADMIN_PASSWORD, GITHUB_REPO, GITHUB_FILE
-//   GITHUB_ARTICLES_FILE  (e.g. _data/articles.json)
+// api/announcement.js — Vercel Serverless Function
+// Handles: announcement, articles, reviews, faq
+// Environment Variables:
+//   GITHUB_TOKEN, ADMIN_PASSWORD, GITHUB_REPO
+//   GITHUB_FILE              (_data/announcement.json)
+//   GITHUB_ARTICLES_FILE     (_data/articles.json)
+//   GITHUB_REVIEWS_FILE      (_data/reviews.json)
+//   GITHUB_FAQ_FILE          (_data/faq.json)
 // =============================================================
 
-const REPO           = process.env.GITHUB_REPO;
-const FILE_PATH      = process.env.GITHUB_FILE;
-const ARTICLES_PATH  = process.env.GITHUB_ARTICLES_FILE || "_data/articles.json";
-const TOKEN          = process.env.GITHUB_TOKEN;
-const PASSWORD       = process.env.ADMIN_PASSWORD;
+const REPO     = process.env.GITHUB_REPO;
+const TOKEN    = process.env.GITHUB_TOKEN;
+const PASSWORD = process.env.ADMIN_PASSWORD;
+
+const FILES = {
+    announcement: process.env.GITHUB_FILE              || "_data/announcement.json",
+    articles:     process.env.GITHUB_ARTICLES_FILE     || "_data/articles.json",
+    reviews:      process.env.GITHUB_REVIEWS_FILE      || "_data/reviews.json",
+    faq:          process.env.GITHUB_FAQ_FILE          || "_data/faq.json",
+};
 
 async function ghGet(path) {
     const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
@@ -29,12 +38,8 @@ async function ghPut(path, content, sha, message) {
     return res.json();
 }
 
-function toB64(obj) {
-    return Buffer.from(JSON.stringify(obj), "utf-8").toString("base64");
-}
-function fromB64(str) {
-    return JSON.parse(Buffer.from(str, "base64").toString("utf-8"));
-}
+function toB64(obj)  { return Buffer.from(JSON.stringify(obj), "utf-8").toString("base64"); }
+function fromB64(s)  { return JSON.parse(Buffer.from(s, "base64").toString("utf-8")); }
 
 export default async function handler(req, res) {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -44,19 +49,24 @@ export default async function handler(req, res) {
 
     const url  = new URL(req.url, `https://${req.headers.host}`);
     const type = url.searchParams.get("type") || "announcement";
+    const file = FILES[type];
+    if (!file) return res.status(400).json({ error: "ประเภทข้อมูลไม่ถูกต้อง" });
 
     // ── GET ──────────────────────────────────────────────────
     if (req.method === "GET") {
         try {
-            if (type === "articles") {
-                const data = await ghGet(ARTICLES_PATH);
-                return res.status(200).json({ articles: fromB64(data.content), sha: data.sha });
-            } else {
-                const data = await ghGet(FILE_PATH);
-                const parsed = fromB64(data.content);
+            const data = await ghGet(file);
+            const parsed = fromB64(data.content);
+            if (type === "announcement") {
                 return res.status(200).json({ text: parsed.text, sha: data.sha });
             }
+            return res.status(200).json({ [type]: parsed, sha: data.sha });
         } catch (err) {
+            // ถ้าไฟล์ยังไม่มี return ค่าว่าง
+            if (err.message.includes("404") || err.message.includes("GET failed")) {
+                if (type === "announcement") return res.status(200).json({ text: "ยินดีต้อนรับสู่คลินิกหมอขวัญ", sha: "" });
+                return res.status(200).json({ [type]: [], sha: "" });
+            }
             return res.status(500).json({ error: "ดึงข้อมูลไม่สำเร็จ", detail: err.message });
         }
     }
@@ -67,20 +77,28 @@ export default async function handler(req, res) {
         if (!body.password || body.password !== PASSWORD) {
             return res.status(401).json({ error: "รหัสผ่านไม่ถูกต้อง" });
         }
-
         try {
-            if (type === "articles") {
-                // body.articles = full articles array
-                if (!Array.isArray(body.articles)) return res.status(400).json({ error: "ข้อมูล articles ไม่ถูกต้อง" });
-                const latest = await ghGet(ARTICLES_PATH);
-                await ghPut(ARTICLES_PATH, toB64(body.articles), latest.sha, "Update articles via admin panel");
-                return res.status(200).json({ ok: true });
-            } else {
+            let newContent;
+            if (type === "announcement") {
                 if (!body.text) return res.status(400).json({ error: "ข้อมูลไม่ครบถ้วน" });
-                const latest = await ghGet(FILE_PATH);
-                await ghPut(FILE_PATH, toB64({ text: body.text.trim() }), latest.sha, "Update announcement via admin panel");
-                return res.status(200).json({ ok: true });
+                newContent = { text: body.text.trim() };
+            } else {
+                const key = type; // articles / reviews / faq
+                if (!Array.isArray(body[key])) return res.status(400).json({ error: "ข้อมูลไม่ถูกต้อง" });
+                newContent = body[key];
             }
+
+            // ดึง sha ล่าสุดก่อน PUT เสมอ ป้องกัน 409
+            let sha = "";
+            try {
+                const latest = await ghGet(file);
+                sha = latest.sha;
+            } catch {
+                // ไฟล์ยังไม่มี — สร้างใหม่ได้เลย (sha ว่าง = create)
+            }
+
+            await ghPut(file, toB64(newContent), sha, `Update ${type} via admin panel`);
+            return res.status(200).json({ ok: true });
         } catch (err) {
             return res.status(500).json({ error: "อัปเดตไม่สำเร็จ", detail: err.message });
         }
