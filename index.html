@@ -170,7 +170,6 @@
             <a href="#faq" class="hover:text-accent transition-colors duration-200">FAQ</a>
             <a href="#booking" class="hover:text-accent font-semibold text-emerald-700 transition-colors duration-200">📅 นัดหมาย</a>
             <a href="#contact" class="hover:text-accent transition-colors duration-200">ติดต่อ</a>
-            <a href="#contact" class="hover:text-accent transition-colors duration-200">ติดต่อคลินิก</a>
         </div>
         <a href="tel:0646689544" class="bg-primary hover:bg-emeraldLight text-white px-5 py-2.5 text-xs font-semibold rounded tracking-wider shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5">
             <i class="fa-solid fa-calendar-check mr-2 text-accent"></i>นัดหมายการรักษา
@@ -2074,17 +2073,7 @@ window.addEventListener("DOMContentLoaded", () => {
     dateInput.max = maxDate.toISOString().split("T")[0];
 }, { once: false });
 
-function isHolidayDate(dateStr) {
-    // เช็กจากประกาศ หยุดทำการ
-    return announcementsCache.some(a =>
-        a.type === "holiday" && a.published && a.title.includes(formatThaiDateShort(dateStr))
-    );
-}
 
-function formatThaiDateShort(dateStr) {
-    const d = new Date(dateStr);
-    return d.toLocaleDateString("th-TH", { day: "numeric", month: "long", year: "numeric" });
-}
 
 function generateTimeSlots(open, close) {
     const slots = [];
@@ -2104,18 +2093,16 @@ function updateTimeSlots() {
     const errEl = document.getElementById("book-date-error");
 
     if (!dateStr) return;
+    if (errEl) errEl.classList.add("hidden");
 
     const date = new Date(dateStr);
     const dow = date.getDay();
     const hours = CLINIC_HOURS[dow];
 
-    // เช็กวันหยุด
-    if (!hours || isHolidayDate(dateStr)) {
-        timeSelect.innerHTML = '<option value="">-- วันนี้คลินิกหยุดทำการ --</option>';
-        errEl.classList.remove("hidden");
+    if (!hours) {
+        timeSelect.innerHTML = '<option value="">-- ไม่มีเวลาว่าง --</option>';
         return;
     }
-    errEl.classList.add("hidden");
 
     const slots = generateTimeSlots(hours.open, hours.close);
     timeSelect.innerHTML = '<option value="">-- เลือกเวลา --</option>' +
