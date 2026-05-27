@@ -823,10 +823,10 @@ async function checkAdminPassword() {
     if (!pw) { err.innerText = "กรุณากรอกรหัสผ่านครับ"; return; }
     btn.disabled = true; btn.innerText = "กำลังตรวจสอบ..."; err.innerText = "";
     try {
-        const currentText = document.getElementById("announcement-text").innerText;
+        // verify password โดยส่ง text ไปด้วย (ใช้ dummy เพื่อ verify เท่านั้น)
         const res = await fetch(`${API_BASE}/api/announcement`, {
             method: "POST", headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ password: pw, text: currentText }),
+            body: JSON.stringify({ password: pw, text: "verify" }),
         });
         if (res.status === 401) { err.innerText = "รหัสผ่านไม่ถูกต้องครับ!"; }
         else if (res.ok) {
