@@ -901,13 +901,17 @@ async function checkAdminPassword() {
             document.getElementById("admin-content-box").classList.remove("hidden");
             document.getElementById("input-announcement").value = document.getElementById("announcement-text").innerText;
             // โหลดและ render ทันทีหลัง login — await เพื่อรอให้ได้ข้อมูลจริงๆ
-            await loadAnnouncements();
+            // โหลดและ render ทันทีหลัง login — parallel load ทุก tab
+            const [,,,] = await Promise.all([
+                loadAnnouncements(),
+                loadArticles(),
+                loadReviews(),
+                loadFaq(),
+                loadPricing(),
+                loadDoctorProfile(),
+            ]);
             renderAdminAnnouncements();
-            await loadArticles();
             renderAdminArticles();
-            loadReviews();
-            loadFaq();
-            loadPricing();
         } else { err.innerText = "เกิดข้อผิดพลาด กรุณาลองใหม่"; }
     } catch { err.innerText = "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้"; }
     finally { btn.disabled = false; btn.innerText = "ยืนยันเข้าสู่ระบบ"; }
@@ -921,13 +925,14 @@ function switchTab(tab) {
         const t = el.getAttribute("onclick").match(/switchTab\('(\w+)'\)/)?.[1];
         el.classList.toggle("active", t === tab);
     });
-    if (tab === "announcements") {
-        loadAnnouncements().then(() => renderAdminAnnouncements());
-    }
-    if (tab === "articles") renderAdminArticles();
-    if (tab === "reviews")  renderAdminReviews();
-    if (tab === "faq")      renderAdminFaq();
-    if (tab === "pricing")  renderAdminPricing();
+    const loaders = {
+        announcements: () => loadAnnouncements().then(renderAdminAnnouncements),
+        articles:      () => loadArticles().then(renderAdminArticles),
+        reviews:       () => loadReviews().then(renderAdminReviews),
+        faq:           () => loadFaq().then(renderAdminFaq),
+        pricing:       () => loadPricing().then(renderAdminPricing),
+    };
+    if (loaders[tab]) loaders[tab]();
     if (tab === "doctor") {
         const d = doctorCache;
         if (d && d.name_th) {
@@ -1214,6 +1219,7 @@ function toggleFaq(i) {
 // ── Admin Reviews ─────────────────────────────────────────
 function renderAdminReviews() {
     const list = document.getElementById("admin-reviews-list");
+    if (!list) return;
     document.getElementById("review-count").innerText = reviewsCache.length;
     if (!reviewsCache.length) { list.innerHTML = '<p class="text-xs text-gray-400 text-center py-4">ยังไม่มีรีวิว</p>'; return; }
     list.innerHTML = reviewsCache.map(r => `
@@ -1307,6 +1313,7 @@ async function deleteReview(id) {
 // ── Admin FAQ ─────────────────────────────────────────────
 function renderAdminFaq() {
     const list = document.getElementById("admin-faq-list");
+    if (!list) return;
     document.getElementById("faq-count").innerText = faqCache.length;
     if (!faqCache.length) { list.innerHTML = '<p class="text-xs text-gray-400 text-center py-4">ยังไม่มี FAQ</p>'; return; }
     list.innerHTML = faqCache.map(f => `
@@ -1464,6 +1471,7 @@ function renderPricing(items) {
 
 function renderAdminPricing() {
     const list = document.getElementById("admin-pricing-list");
+    if (!list) return;
     document.getElementById("pricing-count").innerText = pricingCache.length;
     if (!pricingCache.length) { list.innerHTML = '<p class="text-xs text-gray-400 text-center py-4">ยังไม่มีรายการ</p>'; return; }
     list.innerHTML = pricingCache.map(p => `
