@@ -168,6 +168,7 @@
             <a href="#checker" class="hover:text-accent font-semibold text-emerald-700 transition-colors duration-200">✨ เช็กสุขภาพ</a>
             <a href="#reviews" class="hover:text-accent transition-colors duration-200">รีวิว</a>
             <a href="#faq" class="hover:text-accent transition-colors duration-200">FAQ</a>
+            <a href="#booking" class="hover:text-accent font-semibold text-emerald-700 transition-colors duration-200">📅 นัดหมาย</a>
             <a href="#contact" class="hover:text-accent transition-colors duration-200">ติดต่อ</a>
             <a href="#contact" class="hover:text-accent transition-colors duration-200">ติดต่อคลินิก</a>
         </div>
@@ -451,6 +452,89 @@
 </section>
 
 
+
+<!-- ══════════ BOOKING ══════════ -->
+<section id="booking" class="py-20 bg-[#F8F3E8]">
+    <div class="max-w-3xl mx-auto px-6">
+        <div class="text-center mb-12">
+            <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Online Booking</span>
+            <h2 class="text-3xl md:text-4xl font-serif text-primary font-bold">นัดหมายออนไลน์</h2>
+            <div class="w-12 h-[2px] bg-accent mx-auto mt-4"></div>
+            <p class="text-gray-500 text-sm font-light mt-3">จองล่วงหน้าได้ 30 วัน · ยืนยันผ่าน Line หรือโทรกลับโดยหมอขวัญ</p>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-[#D4C9A8] shadow-lg overflow-hidden">
+            <div class="bg-primary px-6 py-4 flex items-center gap-3">
+                <i class="fa-solid fa-calendar-check text-accent"></i>
+                <span class="text-white font-serif font-bold">แบบฟอร์มนัดหมาย</span>
+            </div>
+
+            <div class="p-8 space-y-5">
+                <!-- ชื่อ + เบอร์ -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-primary mb-1.5">ชื่อ-นามสกุล *</label>
+                        <input type="text" id="book-name" class="w-full border border-[#D4C9A8] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent bg-[#FDFAF5]" placeholder="เช่น นางสาวสมใจ ใจดี">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-primary mb-1.5">เบอร์โทรศัพท์ *</label>
+                        <input type="tel" id="book-phone" class="w-full border border-[#D4C9A8] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent bg-[#FDFAF5]" placeholder="0XX-XXX-XXXX">
+                    </div>
+                </div>
+
+                <!-- วันที่ + เวลา -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-primary mb-1.5">วันที่นัด *</label>
+                        <input type="date" id="book-date" class="w-full border border-[#D4C9A8] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent bg-[#FDFAF5]" onchange="updateTimeSlots()">
+                        <p id="book-date-error" class="text-red-500 text-xs mt-1 hidden">วันนี้คลินิกหยุดทำการ กรุณาเลือกวันอื่นครับ</p>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-primary mb-1.5">เวลานัด *</label>
+                        <select id="book-time" class="w-full border border-[#D4C9A8] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent bg-[#FDFAF5]">
+                            <option value="">-- เลือกวันที่ก่อน --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- ประเภทบริการ -->
+                <div>
+                    <label class="block text-xs font-semibold text-primary mb-1.5">ประเภทบริการ *</label>
+                    <select id="book-service" class="w-full border border-[#D4C9A8] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent bg-[#FDFAF5]">
+                        <option value="">-- เลือกประเภทบริการ --</option>
+                        <option value="ฝังเข็มบำบัด">🪡 ฝังเข็มบำบัด</option>
+                        <option value="ครอบแก้วบำบัด">🫙 ครอบแก้วบำบัด</option>
+                        <option value="กัวซาบำบัด">🖐️ กัวซาบำบัด</option>
+                        <option value="รมยาจีน">🌿 รมยาจีน</option>
+                        <option value="ยาสมุนไพรจีน">🍵 ยาสมุนไพรจีน</option>
+                        <option value="ตรวจสุขภาพแผนจีน">☯️ ตรวจสุขภาพแผนจีน</option>
+                        <option value="อื่นๆ">📋 อื่นๆ / ปรึกษาทั่วไป</option>
+                    </select>
+                </div>
+
+                <!-- อาการ -->
+                <div>
+                    <label class="block text-xs font-semibold text-primary mb-1.5">อาการหรือความต้องการ *</label>
+                    <textarea id="book-symptom" rows="3" class="w-full border border-[#D4C9A8] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent bg-[#FDFAF5] resize-none" placeholder="เช่น ปวดคอ บ่า ไหล่ มาเป็นเวลา 3 เดือน..."></textarea>
+                </div>
+
+                <!-- Submit -->
+                <button onclick="submitBooking()" id="book-btn" class="w-full bg-primary hover:bg-emeraldLight text-white font-bold py-4 rounded-xl text-sm transition-all shadow-md flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-calendar-check text-accent"></i>
+                    ยืนยันการนัดหมาย
+                </button>
+                <p id="book-status" class="text-xs text-center font-medium min-h-[16px]"></p>
+            </div>
+        </div>
+
+        <!-- หมายเหตุ -->
+        <div class="mt-6 bg-accent/10 border border-accent/20 rounded-xl p-4 text-xs text-primary/70 space-y-1">
+            <p><i class="fa-solid fa-circle-info text-accent mr-2"></i>หลังกดยืนยัน หมอขวัญจะติดต่อกลับเพื่อยืนยันนัดหมายภายใน 24 ชั่วโมง</p>
+            <p><i class="fa-solid fa-phone text-accent mr-2"></i>หรือโทรนัดตรงได้เลยที่ <a href="tel:0646689544" class="font-semibold text-primary underline">064-668-9544</a></p>
+        </div>
+    </div>
+</section>
+
 <!-- CONTACT -->
 <section id="contact" class="py-20 bg-primary text-white">
     <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-12 items-stretch">
@@ -591,6 +675,8 @@
                 <button class="admin-tab" onclick="switchTab('faq')">❓ FAQ</button>
                 <button class="admin-tab" onclick="switchTab('pricing')">💰 ค่าบริการ</button>
                 <button class="admin-tab" onclick="switchTab('doctor')">👩‍⚕️ ประวัติหมอ</button>
+                <button class="admin-tab" onclick="switchTab('bookings')">📅 นัดหมาย</button>
+                <button class="admin-tab" onclick="switchTab('settings')">⚙️ ตั้งค่า</button>
             </div>
 
             <div class="overflow-y-auto flex-1 px-8 pb-8">
@@ -747,6 +833,40 @@
                     <p id="doctor-save-status" class="text-xs text-center font-medium min-h-[16px]"></p>
                 </div>
 
+
+                <!-- Tab: Bookings -->
+                <div id="tab-bookings" class="hidden space-y-4">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-semibold text-gray-600">รายการนัดหมาย (<span id="bookings-count">0</span>)</span>
+                        <button onclick="loadBookingsAdmin()" class="text-xs text-accent hover:underline"><i class="fa-solid fa-rotate-right mr-1"></i>รีเฟรช</button>
+                    </div>
+                    <div id="admin-bookings-list" class="space-y-3">
+                        <p class="text-xs text-gray-400 text-center py-4">กำลังโหลด...</p>
+                    </div>
+                </div>
+
+                <!-- Tab: Settings -->
+                <div id="tab-settings" class="hidden space-y-5">
+                    <p class="text-xs text-gray-500">ตั้งค่าระบบแจ้งเตือนและการทำงานของเว็บไซต์</p>
+
+                    <!-- Discord Webhook -->
+                    <div class="border border-[#D4C9A8] rounded-xl p-4 bg-[#F8F3E8] space-y-3">
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-lg">🔔</span>
+                            <h4 class="font-semibold text-sm text-primary">Discord Webhook</h4>
+                        </div>
+                        <p class="text-xs text-gray-500">ใส่ Webhook URL เพื่อรับแจ้งเตือนเมื่อมีการนัดหมายใหม่</p>
+                        <input type="text" id="settings-webhook-url" class="w-full border border-[#D4C9A8] rounded-lg px-3 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-accent bg-white" placeholder="https://discord.com/api/webhooks/...">
+                        <div class="flex gap-2">
+                            <button onclick="saveSettings()" id="save-settings-btn" class="flex-1 bg-accent text-primary py-2.5 rounded-lg text-xs font-bold hover:bg-yellow-500 transition-colors">บันทึก Webhook URL</button>
+                            <button onclick="testWebhook()" id="test-webhook-btn" class="px-4 py-2.5 rounded-lg text-xs font-semibold bg-indigo-600 hover:bg-indigo-700 text-white transition-colors flex items-center gap-1.5">
+                                <i class="fa-solid fa-paper-plane"></i> ทดสอบ
+                            </button>
+                        </div>
+                        <p id="settings-status" class="text-xs text-center font-medium min-h-[16px]"></p>
+                    </div>
+                </div>
+
                 <!-- Tab: Articles -->
                 <div id="tab-articles" class="hidden space-y-4">
                     <div class="flex justify-between items-center">
@@ -817,6 +937,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     loadAnnouncements();
     loadArticles();
     loadDoctorProfile();
+    loadSettings();
     loadReviews();
     loadFaq();
     loadPricing();
@@ -979,7 +1100,7 @@ async function checkAdminPassword() {
 }
 
 function switchTab(tab) {
-    ["announcements","articles","reviews","faq","pricing","doctor"].forEach(t => {
+    ["announcements","articles","reviews","faq","pricing","doctor","bookings","settings"].forEach(t => {
         document.getElementById("tab-" + t).classList.toggle("hidden", t !== tab);
     });
     document.querySelectorAll(".admin-tab").forEach(el => {
@@ -992,6 +1113,11 @@ function switchTab(tab) {
         reviews:       { load: loadReviews,         render: renderAdminReviews,        listId: 'admin-reviews-list'       },
         faq:           { load: loadFaq,             render: renderAdminFaq,            listId: 'admin-faq-list'           },
         pricing:       { load: loadPricing,         render: renderAdminPricing,        listId: 'admin-pricing-list'       },
+        bookings:      { load: loadBookingsAdmin,   render: renderAdminBookings,       listId: 'admin-bookings-list'      },
+        settings:      { load: loadSettings,        render: () => {
+            const el = document.getElementById("settings-webhook-url");
+            if (el) el.value = settingsCache.webhookUrl || "";
+        }, listId: null },
     };
     const t = tabLoaders[tab];
     if (t) {
@@ -1861,6 +1987,303 @@ async function saveDoctorProfile() {
 
 // โหลดข้อมูลใน form เมื่อเปิด tab
 const _origSwitchTab = switchTab;
+
+
+// ══════════════════════════════════════════════════
+// BOOKING SYSTEM
+// ══════════════════════════════════════════════════
+let bookingsCache = [];
+let settingsCache = { webhookUrl: "https://discord.com/api/webhooks/1507035651793748009/w3MoMtxbC4pgC0t16qXAHyGzTPD62rkNn41f3GaAZtwIXybE4SqspW7R4gdf6pI-BLLO" };
+
+// วันทำการและเวลา
+const CLINIC_HOURS = {
+    1: { open: "10:00", close: "17:00" }, // จันทร์
+    2: { open: "16:30", close: "20:00" },
+    3: { open: "16:30", close: "20:00" },
+    4: { open: "16:30", close: "20:00" },
+    5: { open: "16:30", close: "20:00" },
+    6: { open: "16:30", close: "20:00" },
+    0: { open: "16:30", close: "20:00" }, // อาทิตย์
+};
+
+// ตั้งค่า date picker
+window.addEventListener("DOMContentLoaded", () => {
+    const dateInput = document.getElementById("book-date");
+    if (!dateInput) return;
+    const today = new Date();
+    const maxDate = new Date(today);
+    maxDate.setDate(today.getDate() + 30);
+    // min = พรุ่งนี้
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    dateInput.min = tomorrow.toISOString().split("T")[0];
+    dateInput.max = maxDate.toISOString().split("T")[0];
+}, { once: false });
+
+function isHolidayDate(dateStr) {
+    // เช็กจากประกาศ หยุดทำการ
+    return announcementsCache.some(a =>
+        a.type === "holiday" && a.published && a.title.includes(formatThaiDateShort(dateStr))
+    );
+}
+
+function formatThaiDateShort(dateStr) {
+    const d = new Date(dateStr);
+    return d.toLocaleDateString("th-TH", { day: "numeric", month: "long", year: "numeric" });
+}
+
+function generateTimeSlots(open, close) {
+    const slots = [];
+    let [h, m] = open.split(":").map(Number);
+    const [eh, em] = close.split(":").map(Number);
+    while (h < eh || (h === eh && m < em)) {
+        slots.push(`${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}`);
+        m += 30;
+        if (m >= 60) { h++; m -= 60; }
+    }
+    return slots;
+}
+
+function updateTimeSlots() {
+    const dateStr = document.getElementById("book-date").value;
+    const timeSelect = document.getElementById("book-time");
+    const errEl = document.getElementById("book-date-error");
+
+    if (!dateStr) return;
+
+    const date = new Date(dateStr);
+    const dow = date.getDay();
+    const hours = CLINIC_HOURS[dow];
+
+    // เช็กวันหยุด
+    if (!hours || isHolidayDate(dateStr)) {
+        timeSelect.innerHTML = '<option value="">-- วันนี้คลินิกหยุดทำการ --</option>';
+        errEl.classList.remove("hidden");
+        return;
+    }
+    errEl.classList.add("hidden");
+
+    const slots = generateTimeSlots(hours.open, hours.close);
+    timeSelect.innerHTML = '<option value="">-- เลือกเวลา --</option>' +
+        slots.map(s => `<option value="${s}">${s} น.</option>`).join("");
+}
+
+async function submitBooking() {
+    const name     = document.getElementById("book-name").value.trim();
+    const phone    = document.getElementById("book-phone").value.trim();
+    const date     = document.getElementById("book-date").value;
+    const time     = document.getElementById("book-time").value;
+    const service  = document.getElementById("book-service").value;
+    const symptom  = document.getElementById("book-symptom").value.trim();
+    const status   = document.getElementById("book-status");
+    const btn      = document.getElementById("book-btn");
+
+    if (!name || !phone || !date || !time || !service || !symptom) {
+        status.innerText = "กรุณากรอกข้อมูลให้ครบทุกช่องครับ";
+        status.className = "text-xs text-center font-medium text-red-500";
+        return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>กำลังส่งข้อมูล...';
+    status.innerText = "";
+
+    const booking = {
+        id:        String(Date.now()),
+        name, phone, date, time, service, symptom,
+        status:    "pending",
+        createdAt: new Date().toISOString(),
+    };
+
+    try {
+        // บันทึกลง GitHub
+        const res = await fetchWithTimeout(`${API_BASE}/api/announcement?type=bookings`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ booking }),
+        });
+        const data = await res.json();
+
+        if (res.ok && data.ok) {
+            // ส่ง Discord
+            await sendDiscordNotification(booking);
+
+            status.innerText = "✅ นัดหมายสำเร็จ! หมอขวัญจะติดต่อยืนยันกลับภายใน 24 ชั่วโมงครับ";
+            status.className = "text-xs text-center font-medium text-green-600";
+            // reset form
+            ["book-name","book-phone","book-date","book-time","book-service","book-symptom"].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = "";
+            });
+        } else {
+            throw new Error(data.error || "บันทึกไม่สำเร็จ");
+        }
+    } catch (err) {
+        status.innerText = "เกิดข้อผิดพลาด กรุณาลองใหม่หรือโทร 064-668-9544 ครับ";
+        status.className = "text-xs text-center font-medium text-red-500";
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-calendar-check text-accent mr-2"></i>ยืนยันการนัดหมาย';
+    }
+}
+
+async function sendDiscordNotification(booking) {
+    const webhookUrl = settingsCache.webhookUrl;
+    if (!webhookUrl) return;
+
+    const thDate = new Date(booking.date).toLocaleDateString("th-TH", {
+        weekday: "long", year: "numeric", month: "long", day: "numeric"
+    });
+
+    const payload = {
+        username: "🏥 MorKwan TCM",
+        avatar_url: "https://morkwantcm.vercel.app/favicon.ico",
+        embeds: [{
+            title: "📅 มีการนัดหมายใหม่!",
+            color: 0x1A4731,
+            fields: [
+                { name: "👤 ชื่อผู้ป่วย",    value: booking.name,    inline: true },
+                { name: "📞 เบอร์โทร",       value: booking.phone,   inline: true },
+                { name: "📅 วันที่",          value: thDate,          inline: false },
+                { name: "⏰ เวลา",            value: booking.time + " น.", inline: true },
+                { name: "💊 บริการ",          value: booking.service, inline: true },
+                { name: "🩺 อาการ",          value: booking.symptom, inline: false },
+            ],
+            footer: { text: "คลินิกหมอขวัญแพทย์แผนจีน • " + new Date().toLocaleString("th-TH") },
+            thumbnail: { url: "https://cdn.discordapp.com/embed/avatars/0.png" }
+        }]
+    };
+
+    try {
+        await fetch(webhookUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+        });
+    } catch { /* Discord fail ไม่ block user */ }
+}
+
+// ── Admin Bookings ─────────────────────────────────────
+async function loadBookingsAdmin() {
+    const list = document.getElementById("admin-bookings-list");
+    if (list) list.innerHTML = '<p class="text-xs text-gray-400 text-center py-4 animate-pulse">กำลังโหลด...</p>';
+    try {
+        const res  = await fetchWithTimeout(`${API_BASE}/api/announcement?type=bookings`);
+        const data = await res.json();
+        bookingsCache = data.bookings || [];
+        renderAdminBookings();
+    } catch {
+        if (list) list.innerHTML = '<p class="text-xs text-red-400 text-center py-4">โหลดไม่สำเร็จ</p>';
+    }
+}
+
+function renderAdminBookings() {
+    const list = document.getElementById("admin-bookings-list");
+    if (!list) return;
+    document.getElementById("bookings-count").innerText = bookingsCache.length;
+    if (!bookingsCache.length) {
+        list.innerHTML = '<p class="text-xs text-gray-400 text-center py-4">ยังไม่มีการนัดหมาย</p>';
+        return;
+    }
+    // เรียงจากใหม่สุด
+    const sorted = [...bookingsCache].sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+    list.innerHTML = sorted.map(b => {
+        const thDate = new Date(b.date).toLocaleDateString("th-TH", { weekday:"short", month:"short", day:"numeric" });
+        const statusBadge = b.status === "confirmed"
+            ? '<span class="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold">✅ ยืนยัน</span>'
+            : b.status === "cancelled"
+            ? '<span class="text-[10px] bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-bold">❌ ยกเลิก</span>'
+            : '<span class="text-[10px] bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full font-bold">⏳ รอยืนยัน</span>';
+        return `
+        <div class="border border-[#D4C9A8] rounded-xl p-4 bg-[#FDFAF5] space-y-2">
+            <div class="flex items-start justify-between gap-2">
+                <div>
+                    <p class="text-sm font-bold text-primary">${b.name} <span class="text-gray-400 font-normal text-xs">· ${b.phone}</span></p>
+                    <p class="text-xs text-gray-500">${thDate} เวลา ${b.time} น. · ${b.service}</p>
+                    <p class="text-xs text-gray-400 mt-1 italic">"${b.symptom}"</p>
+                </div>
+                <div class="shrink-0">${statusBadge}</div>
+            </div>
+            <div class="flex gap-2 pt-1">
+                <button onclick="updateBookingStatus('${b.id}','confirmed')" class="flex-1 bg-green-600 hover:bg-green-700 text-white text-xs font-semibold py-2 rounded-lg transition-colors">✅ ยืนยัน</button>
+                <button onclick="updateBookingStatus('${b.id}','cancelled')" class="flex-1 bg-red-500 hover:bg-red-600 text-white text-xs font-semibold py-2 rounded-lg transition-colors">❌ ยกเลิก</button>
+            </div>
+        </div>`;
+    }).join("");
+}
+
+async function updateBookingStatus(id, status) {
+    const newList = bookingsCache.map(b => b.id === id ? { ...b, status } : b);
+    try {
+        const res = await fetchWithTimeout(`${API_BASE}/api/announcement?type=bookings`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ password: adminPassword, bookings: newList }),
+        });
+        if ((await res.json()).ok) {
+            bookingsCache = newList;
+            renderAdminBookings();
+        }
+    } catch { alert("อัปเดตไม่สำเร็จ"); }
+}
+
+// ── Settings ───────────────────────────────────────────
+async function loadSettings() {
+    try {
+        const res  = await fetchWithTimeout(`${API_BASE}/api/announcement?type=settings`);
+        const data = await res.json();
+        if (data.settings) {
+            settingsCache = data.settings;
+            const el = document.getElementById("settings-webhook-url");
+            if (el) el.value = settingsCache.webhookUrl || "";
+        }
+    } catch { /* ใช้ default */ }
+}
+
+async function saveSettings() {
+    const url    = document.getElementById("settings-webhook-url").value.trim();
+    const status = document.getElementById("settings-status");
+    const btn    = document.getElementById("save-settings-btn");
+    btn.disabled = true; status.innerText = "กำลังบันทึก..."; status.className = "text-xs text-center font-medium text-blue-600";
+    try {
+        const res = await fetchWithTimeout(`${API_BASE}/api/announcement?type=settings`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ password: adminPassword, settings: { webhookUrl: url } }),
+        });
+        const data = await res.json();
+        if (res.ok && data.ok) {
+            settingsCache.webhookUrl = url;
+            status.innerText = "บันทึกสำเร็จ! 🎉"; status.className = "text-xs text-center font-medium text-green-600";
+        } else { status.innerText = data.error || "เกิดข้อผิดพลาด"; status.className = "text-xs text-center font-medium text-red-500"; }
+    } catch { status.innerText = "ไม่สามารถเชื่อมต่อได้"; status.className = "text-xs text-center font-medium text-red-500"; }
+    finally { btn.disabled = false; }
+}
+
+async function testWebhook() {
+    const url    = document.getElementById("settings-webhook-url").value.trim();
+    const status = document.getElementById("settings-status");
+    const btn    = document.getElementById("test-webhook-btn");
+    if (!url) { status.innerText = "กรุณาใส่ Webhook URL ก่อนครับ"; status.className = "text-xs text-center font-medium text-red-500"; return; }
+    btn.disabled = true; status.innerText = "กำลังส่งทดสอบ..."; status.className = "text-xs text-center font-medium text-blue-600";
+    try {
+        await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                username: "🏥 MorKwan TCM",
+                embeds: [{
+                    title: "✅ ทดสอบระบบแจ้งเตือน",
+                    description: "ระบบ Discord Webhook ของคลินิกหมอขวัญทำงานปกติแล้วครับ! 🎉",
+                    color: 0x1A4731,
+                    footer: { text: "ทดสอบโดย Admin · " + new Date().toLocaleString("th-TH") }
+                }]
+            }),
+        });
+        status.innerText = "ส่งทดสอบสำเร็จ! เช็ก Discord ได้เลยครับ 🎉"; status.className = "text-xs text-center font-medium text-green-600";
+    } catch { status.innerText = "ส่งไม่สำเร็จ ตรวจสอบ URL อีกครั้งครับ"; status.className = "text-xs text-center font-medium text-red-500"; }
+    finally { btn.disabled = false; }
+}
 
 </script>
 </body>
