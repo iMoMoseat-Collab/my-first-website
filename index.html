@@ -208,20 +208,21 @@
 
 
 <!-- ══════════ ANNOUNCEMENTS SECTION ══════════ -->
-<div id="announcements-wrapper" class="hidden">
-    <div class="bg-primary/95 backdrop-blur-sm border-b border-accent/20">
-        <div class="max-w-5xl mx-auto px-6 py-3 flex items-center gap-4">
-            <div class="flex items-center gap-2 shrink-0">
-                <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
-                <span class="text-accent text-[11px] font-bold uppercase tracking-widest whitespace-nowrap">ประกาศวันหยุดคลินิก</span>
+<section id="announcements" class="py-10 bg-[#EEE8D8] border-b border-[#D4C9A8]">
+    <div class="max-w-4xl mx-auto px-6">
+        <div class="flex items-center gap-3 mb-6">
+            <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0">
+                <i class="fa-solid fa-bullhorn text-accent text-xs"></i>
             </div>
-            <div class="w-px h-4 bg-white/20 shrink-0"></div>
-            <div id="announcements-grid" class="flex items-center gap-3 flex-wrap flex-1">
-                <span class="text-white/40 text-xs">กำลังโหลด...</span>
-            </div>
+            <h2 class="font-serif font-bold text-primary text-lg">ประกาศจากคลินิก</h2>
+            <div class="flex-1 h-px bg-[#D4C9A8]"></div>
+            <span id="ann-date" class="text-primary/40 text-xs font-light"></span>
+        </div>
+        <div id="announcements-grid" class="space-y-3">
+            <p class="text-primary/40 text-sm text-center py-4">กำลังโหลด...</p>
         </div>
     </div>
-</div>
+</section>
 
 <!-- ══════════ DOCTOR PROFILE ══════════ -->
 <section id="doctor" class="py-20 bg-[#F7F4EF] border-y border-[#E8E0D0]">
@@ -1849,29 +1850,43 @@ async function loadAnnouncements() {
 function renderAnnouncements(items) {
     const grid = document.getElementById("announcements-grid");
     const wrapper = document.getElementById("announcements-wrapper");
-    if (!grid) return;
+    const section = document.getElementById("announcements");
+    const dateEl = document.getElementById("ann-date");
+
+    if (dateEl) dateEl.innerText = new Date().toLocaleDateString('th-TH', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+    if (wrapper) wrapper.classList.add("hidden");
 
     if (!items.length) {
-        if (wrapper) wrapper.classList.add("hidden");
+        if (section) section.classList.add("hidden");
         return;
     }
+    if (section) section.classList.remove("hidden");
 
-    if (wrapper) wrapper.classList.remove("hidden");
-
-    const TYPE_ICONS = {
-        info:    '📋',
-        warning: '⚠️',
-        holiday: '🗓',
-        promo:   '🎁',
+    const TYPE_CONFIG = {
+        info:    { icon: 'fa-circle-info',          accentBar: 'bg-primary',  badgeBg: 'bg-primary/10',  badgeText: 'text-primary',  iconColor: 'text-primary/60' },
+        warning: { icon: 'fa-triangle-exclamation', accentBar: 'bg-accent',   badgeBg: 'bg-accent/15',   badgeText: 'text-primary',  iconColor: 'text-accent'     },
+        holiday: { icon: 'fa-calendar-xmark',       accentBar: 'bg-accent',   badgeBg: 'bg-accent/15',   badgeText: 'text-primary',  iconColor: 'text-accent'     },
+        promo:   { icon: 'fa-tag',                  accentBar: 'bg-primary',  badgeBg: 'bg-primary/10',  badgeText: 'text-primary',  iconColor: 'text-primary/60' },
     };
+    const LABELS = { info: 'ข้อมูล', warning: 'แจ้งเตือน', holiday: 'หยุดทำการ', promo: 'โปรโมชัน' };
 
-    grid.innerHTML = items.map(a => `
-        <div class="flex items-center gap-2 bg-white/8 hover:bg-white/15 border border-white/10 rounded-full px-3 py-1.5 transition-colors cursor-default">
-            <span class="text-sm leading-none">${TYPE_ICONS[a.type] || '📋'}</span>
-            <span class="text-white text-xs font-medium whitespace-nowrap">${a.title}</span>
-            ${a.body ? `<span class="text-white/50 text-xs hidden md:inline">· ${a.body}</span>` : ''}
-        </div>`
-    ).join('');
+    grid.innerHTML = items.map(a => {
+        const cfg = TYPE_CONFIG[a.type] || TYPE_CONFIG.info;
+        return `
+        <div class="flex overflow-hidden rounded-xl border border-[#D4C9A8] bg-white/70 shadow-sm">
+            <div class="w-1 shrink-0 ${cfg.accentBar}"></div>
+            <div class="flex items-center gap-4 px-5 py-4 flex-1">
+                <i class="fa-solid ${cfg.icon} text-lg shrink-0 ${cfg.iconColor}"></i>
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full ${cfg.badgeBg} ${cfg.badgeText}">${LABELS[a.type] || 'ประกาศ'}</span>
+                    </div>
+                    <p class="font-semibold text-primary text-base leading-snug">${a.title}</p>
+                    ${a.body ? `<p class="text-primary/55 text-sm mt-1 leading-relaxed">${a.body}</p>` : ''}
+                </div>
+            </div>
+        </div>`;
+    }).join('');
 }
 
 function renderAdminAnnouncements() {
