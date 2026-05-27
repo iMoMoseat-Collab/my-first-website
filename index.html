@@ -212,7 +212,7 @@
             </div>
             <h2 class="font-serif font-bold text-lg text-white">ประกาศจากคลินิก</h2>
         </div>
-        <div id="announcements-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div id="announcements-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
             <div class="text-gray-400 text-sm py-4">กำลังโหลดประกาศ...</div>
         </div>
     </div>
@@ -888,7 +888,10 @@ function switchTab(tab) {
         const t = el.getAttribute("onclick").match(/switchTab\('(\w+)'\)/)?.[1];
         el.classList.toggle("active", t === tab);
     });
-    if (tab === "announcements") renderAdminAnnouncements();
+    if (tab === "announcements") {
+        // โหลดใหม่ทุกครั้งที่เปิด tab เพื่อให้ข้อมูลล่าสุดเสมอ
+        loadAnnouncements().then(() => renderAdminAnnouncements());
+    }
     if (tab === "articles") renderAdminArticles();
     if (tab === "reviews")  renderAdminReviews();
     if (tab === "faq")      renderAdminFaq();
