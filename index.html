@@ -196,10 +196,16 @@
         </div>
         <div class="md:col-span-5 flex justify-center">
             <div class="w-full max-w-[360px] aspect-[4/5] rounded-2xl bg-white/5 border border-white/10 p-4 shadow-2xl">
-                <div class="w-full h-full rounded-xl bg-gradient-to-br from-emerald-950 to-primary flex flex-col items-center justify-center text-center p-6 border border-accent/20">
-                    <div class="w-20 h-20 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center text-accent text-3xl mb-4">☯️</div>
-                    <h3 class="font-serif font-medium text-lg text-accent">หมอขวัญแพทย์แผนจีน</h3>
-                    <p class="text-xs text-gray-400 font-light mt-2 max-w-[200px]">ยินดีต้อนรับสู่พื้นที่ดูแลและฟื้นฟูสุขภาพระดับพรีเมียม</p>
+                <div class="w-full h-full rounded-xl overflow-hidden border border-accent/20 relative">
+                    <img src="https://drive.google.com/thumbnail?id=1fwN-N4oNmNpd82lIOuDgUDwFoZRa7zsX&sz=w800" alt="หมอขวัญ แพทย์แผนจีน"
+                        class="w-full h-full object-cover object-top"
+                        onerror="this.parentElement.innerHTML='<div class=\'w-full h-full bg-gradient-to-br from-emerald-950 to-primary flex flex-col items-center justify-center text-center p-6\'><div class=\'text-5xl mb-3\'>👩‍⚕️</div><p class=\'font-serif text-accent font-medium\'>หมอขวัญแพทย์แผนจีน</p></div>'"
+                    >
+                    <!-- Overlay gradient bottom -->
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-primary/80 to-transparent p-4">
+                        <p class="text-accent font-serif font-bold text-sm">แพทย์จีน ศิริขวัญ ก้าวสัมพันธ์</p>
+                        <p class="text-white/70 text-xs font-light">TCM.Dr.Sirikwan Kaosamphan</p>
+                    </div>
                 </div>
             </div>
         </div>
