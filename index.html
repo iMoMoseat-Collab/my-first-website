@@ -797,15 +797,16 @@ function getCategoryEmoji(cat) {
 
 function normalizeImageUrl(url) {
     if (!url) return '';
-    // แปลง Google Drive share link → direct image URL
-    const driveMatch = url.match(/drive\.google\.com\/file\/d\/([^/]+)/);
+    // แปลง Google Drive share/view link → thumbnail URL (ไม่ติด CORS)
+    const driveMatch = url.match(/drive\.google\.com\/file\/d\/([^/?]+)/);
     if (driveMatch) {
-        return `https://drive.google.com/uc?export=view&id=${driveMatch[1]}`;
+        const id = driveMatch[1];
+        // ใช้ thumbnail API ซึ่งรองรับ public files ได้ดีกว่า
+        return `https://drive.google.com/thumbnail?id=${id}&sz=w800`;
     }
-    // แปลง Google Drive open link
-    const openMatch = url.match(/drive\.google\.com\/open\?id=([^&]+)/);
-    if (openMatch) {
-        return `https://drive.google.com/uc?export=view&id=${openMatch[1]}`;
+    const openMatch = url.match(/[?&]id=([^&]+)/);
+    if (openMatch && url.includes('drive.google.com')) {
+        return `https://drive.google.com/thumbnail?id=${openMatch[1]}&sz=w800`;
     }
     return url;
 }
