@@ -636,30 +636,38 @@
                     <h3 class="font-serif font-bold text-xl text-primary">ยินดีต้อนรับ Admin</h3>
                     <p class="text-gray-400 text-xs font-light mt-1">ระบบจัดการหลังบ้าน คลินิกหมอขวัญแพทย์แผนจีน</p>
                 </div>
-                <div class="grid grid-cols-3 gap-3 w-full pt-2">
-                    <button onclick="enterTab('announcements')" class="flex flex-col items-center gap-2 bg-bgLight hover:bg-accent/10 border border-gray-100 hover:border-accent/30 rounded-xl p-4 transition-all group">
+                <div class="grid grid-cols-4 gap-3 w-full pt-2">
+                    <button onclick="enterTab('announcements')" class="flex flex-col items-center gap-2 bg-bgLight hover:bg-accent/10 border border-gray-100 hover:border-accent/30 rounded-xl p-3 transition-all group">
                         <span class="text-2xl">📢</span>
-                        <span class="text-xs font-semibold text-primary group-hover:text-accent">ประกาศ</span>
+                        <span class="text-[11px] font-semibold text-primary group-hover:text-accent">ประกาศ</span>
                     </button>
-                    <button onclick="enterTab('articles')" class="flex flex-col items-center gap-2 bg-bgLight hover:bg-accent/10 border border-gray-100 hover:border-accent/30 rounded-xl p-4 transition-all group">
+                    <button onclick="enterTab('articles')" class="flex flex-col items-center gap-2 bg-bgLight hover:bg-accent/10 border border-gray-100 hover:border-accent/30 rounded-xl p-3 transition-all group">
                         <span class="text-2xl">📝</span>
-                        <span class="text-xs font-semibold text-primary group-hover:text-accent">บทความ</span>
+                        <span class="text-[11px] font-semibold text-primary group-hover:text-accent">บทความ</span>
                     </button>
-                    <button onclick="enterTab('reviews')" class="flex flex-col items-center gap-2 bg-bgLight hover:bg-accent/10 border border-gray-100 hover:border-accent/30 rounded-xl p-4 transition-all group">
+                    <button onclick="enterTab('reviews')" class="flex flex-col items-center gap-2 bg-bgLight hover:bg-accent/10 border border-gray-100 hover:border-accent/30 rounded-xl p-3 transition-all group">
                         <span class="text-2xl">⭐</span>
-                        <span class="text-xs font-semibold text-primary group-hover:text-accent">รีวิว</span>
+                        <span class="text-[11px] font-semibold text-primary group-hover:text-accent">รีวิว</span>
                     </button>
-                    <button onclick="enterTab('faq')" class="flex flex-col items-center gap-2 bg-bgLight hover:bg-accent/10 border border-gray-100 hover:border-accent/30 rounded-xl p-4 transition-all group">
+                    <button onclick="enterTab('faq')" class="flex flex-col items-center gap-2 bg-bgLight hover:bg-accent/10 border border-gray-100 hover:border-accent/30 rounded-xl p-3 transition-all group">
                         <span class="text-2xl">❓</span>
-                        <span class="text-xs font-semibold text-primary group-hover:text-accent">FAQ</span>
+                        <span class="text-[11px] font-semibold text-primary group-hover:text-accent">FAQ</span>
                     </button>
-                    <button onclick="enterTab('pricing')" class="flex flex-col items-center gap-2 bg-bgLight hover:bg-accent/10 border border-gray-100 hover:border-accent/30 rounded-xl p-4 transition-all group">
+                    <button onclick="enterTab('pricing')" class="flex flex-col items-center gap-2 bg-bgLight hover:bg-accent/10 border border-gray-100 hover:border-accent/30 rounded-xl p-3 transition-all group">
                         <span class="text-2xl">💰</span>
-                        <span class="text-xs font-semibold text-primary group-hover:text-accent">ค่าบริการ</span>
+                        <span class="text-[11px] font-semibold text-primary group-hover:text-accent">ค่าบริการ</span>
                     </button>
-                    <button onclick="enterTab('doctor')" class="flex flex-col items-center gap-2 bg-bgLight hover:bg-accent/10 border border-gray-100 hover:border-accent/30 rounded-xl p-4 transition-all group">
+                    <button onclick="enterTab('doctor')" class="flex flex-col items-center gap-2 bg-bgLight hover:bg-accent/10 border border-gray-100 hover:border-accent/30 rounded-xl p-3 transition-all group">
                         <span class="text-2xl">👩‍⚕️</span>
-                        <span class="text-xs font-semibold text-primary group-hover:text-accent">ประวัติหมอ</span>
+                        <span class="text-[11px] font-semibold text-primary group-hover:text-accent">ประวัติหมอ</span>
+                    </button>
+                    <button onclick="enterTab('bookings')" class="flex flex-col items-center gap-2 bg-bgLight hover:bg-accent/10 border border-gray-100 hover:border-accent/30 rounded-xl p-3 transition-all group">
+                        <span class="text-2xl">📅</span>
+                        <span class="text-[11px] font-semibold text-primary group-hover:text-accent">นัดหมาย</span>
+                    </button>
+                    <button onclick="enterTab('settings')" class="flex flex-col items-center gap-2 bg-bgLight hover:bg-accent/10 border border-gray-100 hover:border-accent/30 rounded-xl p-3 transition-all group">
+                        <span class="text-2xl">⚙️</span>
+                        <span class="text-[11px] font-semibold text-primary group-hover:text-accent">ตั้งค่า</span>
                     </button>
                 </div>
             </div>
@@ -1901,11 +1909,20 @@ async function toggleAnnouncementPublish(id) {
 async function deleteAnnouncement(id) {
     if (!confirm("ยืนยันลบประกาศนี้?")) return;
     const newList = announcementsCache.filter(a => a.id !== id);
-    const res = await fetch(`${API_BASE}/api/announcement?type=announcements`, {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password: adminPassword, announcements: newList }),
-    });
-    if ((await res.json()).ok) { announcementsCache = newList; renderAdminAnnouncements(); renderAnnouncements(announcementsCache.filter(a => a.published)); }
+    try {
+        const res = await fetchWithTimeout(`${API_BASE}/api/announcement?type=announcements`, {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ password: adminPassword, announcements: newList }),
+        });
+        const data = await res.json();
+        if (data.ok) {
+            announcementsCache = newList;
+            renderAdminAnnouncements();
+            renderAnnouncements(announcementsCache.filter(a => a.published));
+        } else {
+            alert(data.error || "ลบไม่สำเร็จ กรุณาลองใหม่");
+        }
+    } catch { alert("ไม่สามารถเชื่อมต่อได้"); }
 }
 
 
@@ -2096,28 +2113,24 @@ async function submitBooking() {
     };
 
     try {
+        // ส่ง Discord ก่อน (สำคัญที่สุด)
+        const discordOk = await sendDiscordNotification(booking);
+
         // บันทึกลง GitHub
-        const res = await fetchWithTimeout(`${API_BASE}/api/announcement?type=bookings`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ booking }),
+        try {
+            await fetchWithTimeout(`${API_BASE}/api/announcement?type=bookings`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ booking }),
+            }, 8000);
+        } catch { /* บันทึกไม่ได้ก็ไม่เป็นไร Discord ส่งไปแล้ว */ }
+
+        status.innerText = "✅ นัดหมายสำเร็จ! หมอขวัญจะติดต่อยืนยันกลับภายใน 24 ชั่วโมงครับ";
+        status.className = "text-xs text-center font-medium text-green-600";
+        ["book-name","book-phone","book-date","book-time","book-service","book-symptom"].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.value = "";
         });
-        const data = await res.json();
-
-        if (res.ok && data.ok) {
-            // ส่ง Discord
-            await sendDiscordNotification(booking);
-
-            status.innerText = "✅ นัดหมายสำเร็จ! หมอขวัญจะติดต่อยืนยันกลับภายใน 24 ชั่วโมงครับ";
-            status.className = "text-xs text-center font-medium text-green-600";
-            // reset form
-            ["book-name","book-phone","book-date","book-time","book-service","book-symptom"].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.value = "";
-            });
-        } else {
-            throw new Error(data.error || "บันทึกไม่สำเร็จ");
-        }
     } catch (err) {
         status.innerText = "เกิดข้อผิดพลาด กรุณาลองใหม่หรือโทร 064-668-9544 ครับ";
         status.className = "text-xs text-center font-medium text-red-500";
@@ -2128,8 +2141,9 @@ async function submitBooking() {
 }
 
 async function sendDiscordNotification(booking) {
-    const webhookUrl = settingsCache.webhookUrl;
-    if (!webhookUrl) return;
+    const webhookUrl = settingsCache.webhookUrl ||
+        "https://discord.com/api/webhooks/1507035651793748009/w3MoMtxbC4pgC0t16qXAHyGzTPD62rkNn41f3GaAZtwIXybE4SqspW7R4gdf6pI-BLLO";
+    if (!webhookUrl) return false;
 
     const thDate = new Date(booking.date).toLocaleDateString("th-TH", {
         weekday: "long", year: "numeric", month: "long", day: "numeric"
@@ -2155,12 +2169,13 @@ async function sendDiscordNotification(booking) {
     };
 
     try {
-        await fetch(webhookUrl, {
+        const res = await fetch(webhookUrl, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
         });
-    } catch { /* Discord fail ไม่ block user */ }
+        return res.ok;
+    } catch { return false; }
 }
 
 // ── Admin Bookings ─────────────────────────────────────
