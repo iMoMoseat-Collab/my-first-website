@@ -1503,20 +1503,6 @@ async function loadAnnouncements() {
 
 function renderAnnouncements(items) {
     const grid = document.getElementById("announcements-grid");
-    const alertBar  = document.getElementById("holiday-alert-bar");
-    const alertText = document.getElementById("holiday-alert-text");
-
-    // เช็กว่ามีประกาศหยุดทำการไหม
-    const holidays = items.filter(a => a.type === "holiday");
-    if (holidays.length > 0) {
-        alertBar.classList.remove("hidden");
-        alertText.innerText = "⚠️ " + holidays.map(h => h.title).join(" / ") + " ⚠️";
-        // ปรับ navbar top
-        document.querySelector("nav").style.top = alertBar.offsetHeight + "px";
-    } else {
-        alertBar.classList.add("hidden");
-        document.querySelector("nav").style.top = "0px";
-    }
 
     if (!items.length) {
         grid.innerHTML = '<p class="text-gray-300 text-sm opacity-60">ไม่มีประกาศในขณะนี้</p>';
