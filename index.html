@@ -237,58 +237,65 @@
 
 <!-- ══════════ DOCTOR PROFILE ══════════ -->
 <section id="doctor" class="py-20 bg-[#F7F4EF] border-y border-[#E8E0D0]">
-    <div class="max-w-7xl mx-auto px-6">
-        <div class="text-center max-w-2xl mx-auto mb-16">
+    <div class="max-w-5xl mx-auto px-6">
+        <div class="text-center max-w-2xl mx-auto mb-12">
             <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">About Doctor</span>
-            <h2 class="text-3xl md:text-4xl font-serif text-primary font-bold">ข้อมูลแพทย์ผู้รักษา</h2>
+            <h2 class="text-3xl md:text-4xl font-serif text-primary font-bold">แพทย์ผู้รักษา</h2>
             <div class="w-12 h-[2px] bg-accent mx-auto mt-4"></div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-10 items-start">
-            <!-- Card หมอ -->
-            <div class="md:col-span-4">
-                <div class="bg-primary rounded-2xl p-8 text-center border border-accent/20 shadow-xl">
-                    <!-- รูปภาพหมอ -->
-                    <div class="w-24 h-24 rounded-full bg-accent/10 border-2 border-accent/40 flex items-center justify-center text-accent text-5xl mx-auto mb-5 overflow-hidden">
-                        <img id="doctor-photo" src="" alt="หมอขวัญ" class="hidden w-full h-full object-cover">
-                        <span id="doctor-photo-placeholder">👩‍⚕️</span>
-                    </div>
-                    <h3 id="doctor-name-th" class="font-serif font-bold text-xl text-accent leading-snug">แพทย์จีน ศิริขวัญ ก้าวสัมพันธ์</h3>
-                    <p id="doctor-name-cn" class="text-gray-300 text-xs mt-1 font-light">许谭丽 中医师</p>
-                    <p id="doctor-name-en" class="text-gray-400 text-[11px] mt-0.5 font-light">TCM.Dr.Sirikwan Kaosamphan (XU TAN LI)</p>
-                    <div class="mt-4 bg-accent/10 border border-accent/20 rounded-xl px-4 py-2.5">
-                        <p class="text-accent text-xs font-semibold">ใบประกอบโรคศิลปะ</p>
-                        <p id="doctor-license" class="text-white text-sm font-bold tracking-wider mt-0.5">พจ.675</p>
-                    </div>
-                    <div class="mt-4 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-left space-y-1.5">
-                        <p class="text-accent text-[11px] font-bold uppercase tracking-wider">การศึกษา</p>
-                        <p id="doctor-edu-th" class="text-gray-300 text-xs font-light leading-relaxed">ปริญญาโท สาขาอายุรกรรมโรคทางเดินอาหาร มหาวิทยาลัยการแพทย์แผนจีนเฉิงตู สาธารณรัฐประชาชนจีน</p>
-                        <p id="doctor-edu-en" class="text-gray-500 text-[10px] font-light mt-1">Master's Degree of Internal TCM of Gastroenterology, Chengdu University of TCM</p>
-                    </div>
-                </div>
-            </div>
-            <!-- ประสบการณ์ -->
-            <div class="md:col-span-8 space-y-6">
-                <div class="bg-bgLight rounded-2xl p-7 border border-gray-100 premium-shadow">
-                    <h4 class="font-serif font-bold text-lg text-primary mb-4 flex items-center gap-2">
-                        <span class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-accent text-sm shrink-0"><i class="fa-solid fa-stethoscope"></i></span>
-                        ประสบการณ์ในการรักษา
-                    </h4>
-                    <div class="space-y-3 text-sm text-gray-700 font-light leading-relaxed">
-                        <p id="doctor-exp-th">รักษาโรคอายุรกรรมทั่วไป โรคระบบทางเดินอาหาร โรคกระเพาะอาหารและลำไส้อักเสบแปรปรวนเรื้อรัง แผลในกระเพาะและลำไส้ กรดไหลย้อน อาหารไม่ย่อย ท้องผูก ท้องเสียเรื้อรัง โรคเกี่ยวกับตับ ตับแข็ง ไวรัสตับอักเสบ โรคผู้สูงอายุ นอนไม่หลับ อ่อนเพลียเรื้อรัง</p>
-                        <div class="border-t border-gray-100 pt-3">
-                            <p id="doctor-exp-cn" class="text-gray-400 text-xs leading-relaxed">普通内科、消化系统疾病、慢性胃肠炎、功能性胃肠病、胃肠溃疡、胃食管反流、消化不良、慢性便秘腹泻、肝胆胰脾疾病、肝硬化、乙肝、老年病、失眠、虚劳等。</p>
+
+        <!-- Hero Card -->
+        <div class="bg-primary rounded-3xl overflow-hidden shadow-2xl border border-accent/20">
+            <!-- Top Banner -->
+            <div class="h-2 bg-gradient-to-r from-accent via-yellow-300 to-accent"></div>
+
+            <div class="p-8 md:p-10">
+                <div class="flex flex-col md:flex-row gap-8 items-center md:items-start">
+                    <!-- รูปภาพ + ชื่อ -->
+                    <div class="flex flex-col items-center text-center shrink-0 md:w-52">
+                        <div class="w-32 h-32 rounded-full bg-accent/10 border-4 border-accent/40 flex items-center justify-center text-6xl overflow-hidden shadow-xl mb-4">
+                            <img id="doctor-photo" src="" alt="หมอขวัญ" class="hidden w-full h-full object-cover">
+                            <span id="doctor-photo-placeholder">👩‍⚕️</span>
                         </div>
-                        <div class="border-t border-gray-100 pt-3">
-                            <p id="doctor-exp-en" class="text-gray-400 text-xs leading-relaxed">Diseases of general internal medicine, Gastrointestinal diseases, Chronic gastroenteritis, FGID, GERD, Dyspepsia, Chronic constipation and diarrhea, Liver/Gallbladder/Pancreas and spleen disease, Cirrhosis, Hepatitis B, Disease in the elderly, Insomnia, Chronic Fatigue syndrome etc.</p>
+                        <h3 id="doctor-name-th" class="font-serif font-bold text-lg text-accent leading-snug">แพทย์จีน ศิริขวัญ ก้าวสัมพันธ์</h3>
+                        <p id="doctor-name-cn" class="text-gray-400 text-sm mt-1 font-light tracking-wide">许谭丽 中医师</p>
+                        <p id="doctor-name-en" class="text-gray-500 text-[11px] mt-0.5 font-light leading-relaxed">TCM.Dr.Sirikwan Kaosamphan<br>(XU TAN LI)</p>
+                        <!-- ใบอนุญาต -->
+                        <div class="mt-4 bg-accent/15 border border-accent/30 rounded-xl px-4 py-2.5 w-full">
+                            <p class="text-accent text-[10px] font-bold uppercase tracking-widest">ใบประกอบโรคศิลปะ</p>
+                            <p id="doctor-license" class="text-white text-base font-bold tracking-widest mt-0.5">พจ.675</p>
                         </div>
                     </div>
-                </div>
-                <div class="bg-bgLight rounded-2xl p-7 border border-gray-100 premium-shadow">
-                    <h4 class="font-serif font-bold text-lg text-primary mb-4 flex items-center gap-2">
-                        <span class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-accent text-sm shrink-0"><i class="fa-solid fa-graduation-cap"></i></span>
-                        畢業於成都中醫藥大學
-                    </h4>
-                    <p class="text-sm text-gray-600 font-light leading-relaxed">中醫內科（脾胃科）碩士學位 · Master's Degree of Internal TCM of Gastroenterology · Chengdu University of Traditional Chinese Medicine, P.R. China</p>
+
+                    <!-- ข้อมูล -->
+                    <div class="flex-1 space-y-5">
+                        <!-- การศึกษา -->
+                        <div class="flex gap-3 items-start">
+                            <div class="w-9 h-9 rounded-full bg-accent/15 flex items-center justify-center shrink-0 mt-0.5">
+                                <i class="fa-solid fa-graduation-cap text-accent text-sm"></i>
+                            </div>
+                            <div>
+                                <p class="text-accent text-xs font-bold uppercase tracking-wider mb-1">การศึกษา</p>
+                                <p id="doctor-edu-th" class="text-white text-sm font-light leading-relaxed">ปริญญาโท สาขาอายุรกรรมโรคทางเดินอาหาร<br>มหาวิทยาลัยการแพทย์แผนจีนเฉิงตู สาธารณรัฐประชาชนจีน</p>
+                                <p id="doctor-edu-en" class="text-gray-400 text-xs font-light mt-1 leading-relaxed">Master's Degree · Internal TCM of Gastroenterology<br>Chengdu University of TCM, P.R. China</p>
+                            </div>
+                        </div>
+
+                        <div class="border-t border-white/10"></div>
+
+                        <!-- ความเชี่ยวชาญ -->
+                        <div class="flex gap-3 items-start">
+                            <div class="w-9 h-9 rounded-full bg-accent/15 flex items-center justify-center shrink-0 mt-0.5">
+                                <i class="fa-solid fa-stethoscope text-accent text-sm"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-accent text-xs font-bold uppercase tracking-wider mb-2">ความเชี่ยวชาญ</p>
+                                <p id="doctor-exp-th" class="text-white/90 text-sm font-light leading-relaxed">รักษาโรคอายุรกรรมทั่วไป โรคระบบทางเดินอาหาร โรคกระเพาะอาหารและลำไส้อักเสบแปรปรวนเรื้อรัง แผลในกระเพาะและลำไส้ กรดไหลย้อน อาหารไม่ย่อย ท้องผูก ท้องเสียเรื้อรัง โรคเกี่ยวกับตับ ตับแข็ง ไวรัสตับอักเสบ โรคผู้สูงอายุ นอนไม่หลับ อ่อนเพลียเรื้อรัง</p>
+                                <p id="doctor-exp-cn" class="text-gray-400 text-xs font-light mt-2 leading-relaxed border-t border-white/5 pt-2">普通内科、消化系统疾病、慢性胃肠炎、功能性胃肠病、胃肠溃疡、胃食管反流、消化不良、慢性便秘腹泻、肝胆胰脾疾病、肝硬化、乙肝、老年病、失眠、虚劳等。</p>
+                                <p id="doctor-exp-en" class="text-gray-500 text-xs font-light mt-1 leading-relaxed">Diseases of general internal medicine, Gastrointestinal diseases, Chronic gastroenteritis, FGID, GERD, Dyspepsia, Chronic constipation and diarrhea, Liver/Gallbladder/Pancreas and spleen disease, Cirrhosis, Hepatitis B, Disease in the elderly, Insomnia, Chronic Fatigue syndrome etc.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -454,83 +461,111 @@
 
 
 <!-- ══════════ BOOKING ══════════ -->
-<section id="booking" class="py-20 bg-[#F8F3E8]">
-    <div class="max-w-3xl mx-auto px-6">
-        <div class="text-center mb-12">
+<section id="booking" class="py-20 bg-primary relative overflow-hidden">
+    <!-- decorative -->
+    <div class="absolute inset-0 opacity-5" style="background-image:radial-gradient(circle at 20% 50%, #C9962A 0%, transparent 50%), radial-gradient(circle at 80% 50%, #C9962A 0%, transparent 50%);"></div>
+
+    <div class="max-w-4xl mx-auto px-6 relative z-10">
+        <!-- Header -->
+        <div class="text-center mb-10">
             <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Online Booking</span>
-            <h2 class="text-3xl md:text-4xl font-serif text-primary font-bold">นัดหมายออนไลน์</h2>
+            <h2 class="text-3xl md:text-4xl font-serif font-bold text-white">นัดหมายออนไลน์</h2>
             <div class="w-12 h-[2px] bg-accent mx-auto mt-4"></div>
-            <p class="text-gray-500 text-sm font-light mt-3">จองล่วงหน้าได้ 30 วัน · ยืนยันผ่าน Line หรือโทรกลับโดยหมอขวัญ</p>
+            <p class="text-gray-400 text-sm font-light mt-3">จองล่วงหน้าได้ 30 วัน · หมอขวัญจะยืนยันนัดหมายภายใน 24 ชั่วโมง</p>
         </div>
 
-        <div class="bg-white rounded-2xl border border-[#D4C9A8] shadow-lg overflow-hidden">
-            <div class="bg-primary px-6 py-4 flex items-center gap-3">
-                <i class="fa-solid fa-calendar-check text-accent"></i>
-                <span class="text-white font-serif font-bold">แบบฟอร์มนัดหมาย</span>
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
+            <!-- Info Panel -->
+            <div class="md:col-span-2 space-y-4">
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-4">
+                    <h4 class="text-accent font-semibold text-sm">📋 ข้อมูลคลินิก</h4>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex gap-3 items-start">
+                            <i class="fa-solid fa-clock text-accent mt-0.5 shrink-0"></i>
+                            <div>
+                                <p class="text-white font-medium text-xs">เวลาทำการ</p>
+                                <p class="text-gray-400 text-xs mt-0.5">จันทร์ 10:00–17:00 น.</p>
+                                <p class="text-gray-400 text-xs">อังคาร–อาทิตย์ 16:30–20:00 น.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-3 items-start">
+                            <i class="fa-solid fa-location-dot text-accent mt-0.5 shrink-0"></i>
+                            <div>
+                                <p class="text-white font-medium text-xs">ที่อยู่</p>
+                                <p class="text-gray-400 text-xs mt-0.5">148/6 ม.2 ต.สุรศักดิ์<br>อ.ศรีราชา จ.ชลบุรี</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-3 items-center">
+                            <i class="fa-solid fa-phone text-accent shrink-0"></i>
+                            <div>
+                                <p class="text-white font-medium text-xs">โทร</p>
+                                <a href="tel:0646689544" class="text-accent text-xs font-bold">064-668-9544</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-accent/10 border border-accent/20 rounded-2xl p-4">
+                    <p class="text-accent text-xs font-bold mb-2">💡 หมายเหตุ</p>
+                    <p class="text-gray-300 text-xs leading-relaxed">กรุณากรอกข้อมูลให้ครบถ้วน หมอขวัญจะโทรยืนยันนัดหมายกลับภายใน 24 ชั่วโมงครับ</p>
+                </div>
             </div>
 
-            <div class="p-8 space-y-5">
-                <!-- ชื่อ + เบอร์ -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-primary mb-1.5">ชื่อ-นามสกุล *</label>
-                        <input type="text" id="book-name" class="w-full border border-[#D4C9A8] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent bg-[#FDFAF5]" placeholder="เช่น นางสาวสมใจ ใจดี">
+            <!-- Form -->
+            <div class="md:col-span-3">
+                <div class="bg-[#F8F3E8] rounded-2xl overflow-hidden shadow-2xl">
+                    <div class="bg-accent px-6 py-3.5 flex items-center gap-2">
+                        <i class="fa-solid fa-calendar-check text-primary text-sm"></i>
+                        <span class="text-primary font-bold text-sm">แบบฟอร์มนัดหมาย</span>
                     </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-primary mb-1.5">เบอร์โทรศัพท์ *</label>
-                        <input type="tel" id="book-phone" class="w-full border border-[#D4C9A8] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent bg-[#FDFAF5]" placeholder="0XX-XXX-XXXX">
+                    <div class="p-6 space-y-4">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-primary mb-1">ชื่อ-นามสกุล *</label>
+                                <input type="text" id="book-name" class="w-full border border-[#D4C9A8] rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent bg-white" placeholder="ชื่อ นามสกุล">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-primary mb-1">เบอร์โทรศัพท์ *</label>
+                                <input type="tel" id="book-phone" class="w-full border border-[#D4C9A8] rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent bg-white" placeholder="0XX-XXX-XXXX">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-primary mb-1">วันที่นัด *</label>
+                                <input type="date" id="book-date" class="w-full border border-[#D4C9A8] rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent bg-white" onchange="updateTimeSlots()">
+                                <p id="book-date-error" class="text-red-500 text-xs mt-1 hidden">วันนี้คลินิกหยุดทำการ กรุณาเลือกวันอื่น</p>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-primary mb-1">เวลานัด *</label>
+                                <select id="book-time" class="w-full border border-[#D4C9A8] rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent bg-white">
+                                    <option value="">-- เลือกวันที่ก่อน --</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-primary mb-1">ประเภทบริการ *</label>
+                            <select id="book-service" class="w-full border border-[#D4C9A8] rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent bg-white">
+                                <option value="">-- เลือกประเภทบริการ --</option>
+                                <option value="ฝังเข็มบำบัด">🪡 ฝังเข็มบำบัด</option>
+                                <option value="ครอบแก้วบำบัด">🫙 ครอบแก้วบำบัด</option>
+                                <option value="กัวซาบำบัด">🖐️ กัวซาบำบัด</option>
+                                <option value="รมยาจีน">🌿 รมยาจีน</option>
+                                <option value="ยาสมุนไพรจีน">🍵 ยาสมุนไพรจีน</option>
+                                <option value="ตรวจสุขภาพแผนจีน">☯️ ตรวจสุขภาพแผนจีน</option>
+                                <option value="อื่นๆ / ปรึกษาทั่วไป">📋 อื่นๆ / ปรึกษาทั่วไป</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-primary mb-1">อาการหรือความต้องการ *</label>
+                            <textarea id="book-symptom" rows="3" class="w-full border border-[#D4C9A8] rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent bg-white resize-none" placeholder="เช่น ปวดคอ บ่า ไหล่ มาเป็นเวลา 3 เดือน..."></textarea>
+                        </div>
+                        <button onclick="submitBooking()" id="book-btn" class="w-full bg-primary hover:bg-emeraldLight text-white font-bold py-3.5 rounded-xl text-sm transition-all shadow-md flex items-center justify-center gap-2 mt-2">
+                            <i class="fa-solid fa-calendar-check text-accent"></i>
+                            ยืนยันการนัดหมาย
+                        </button>
+                        <p id="book-status" class="text-xs text-center font-medium min-h-[16px]"></p>
                     </div>
                 </div>
-
-                <!-- วันที่ + เวลา -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-primary mb-1.5">วันที่นัด *</label>
-                        <input type="date" id="book-date" class="w-full border border-[#D4C9A8] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent bg-[#FDFAF5]" onchange="updateTimeSlots()">
-                        <p id="book-date-error" class="text-red-500 text-xs mt-1 hidden">วันนี้คลินิกหยุดทำการ กรุณาเลือกวันอื่นครับ</p>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-primary mb-1.5">เวลานัด *</label>
-                        <select id="book-time" class="w-full border border-[#D4C9A8] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent bg-[#FDFAF5]">
-                            <option value="">-- เลือกวันที่ก่อน --</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- ประเภทบริการ -->
-                <div>
-                    <label class="block text-xs font-semibold text-primary mb-1.5">ประเภทบริการ *</label>
-                    <select id="book-service" class="w-full border border-[#D4C9A8] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent bg-[#FDFAF5]">
-                        <option value="">-- เลือกประเภทบริการ --</option>
-                        <option value="ฝังเข็มบำบัด">🪡 ฝังเข็มบำบัด</option>
-                        <option value="ครอบแก้วบำบัด">🫙 ครอบแก้วบำบัด</option>
-                        <option value="กัวซาบำบัด">🖐️ กัวซาบำบัด</option>
-                        <option value="รมยาจีน">🌿 รมยาจีน</option>
-                        <option value="ยาสมุนไพรจีน">🍵 ยาสมุนไพรจีน</option>
-                        <option value="ตรวจสุขภาพแผนจีน">☯️ ตรวจสุขภาพแผนจีน</option>
-                        <option value="อื่นๆ">📋 อื่นๆ / ปรึกษาทั่วไป</option>
-                    </select>
-                </div>
-
-                <!-- อาการ -->
-                <div>
-                    <label class="block text-xs font-semibold text-primary mb-1.5">อาการหรือความต้องการ *</label>
-                    <textarea id="book-symptom" rows="3" class="w-full border border-[#D4C9A8] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent bg-[#FDFAF5] resize-none" placeholder="เช่น ปวดคอ บ่า ไหล่ มาเป็นเวลา 3 เดือน..."></textarea>
-                </div>
-
-                <!-- Submit -->
-                <button onclick="submitBooking()" id="book-btn" class="w-full bg-primary hover:bg-emeraldLight text-white font-bold py-4 rounded-xl text-sm transition-all shadow-md flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-calendar-check text-accent"></i>
-                    ยืนยันการนัดหมาย
-                </button>
-                <p id="book-status" class="text-xs text-center font-medium min-h-[16px]"></p>
             </div>
-        </div>
-
-        <!-- หมายเหตุ -->
-        <div class="mt-6 bg-accent/10 border border-accent/20 rounded-xl p-4 text-xs text-primary/70 space-y-1">
-            <p><i class="fa-solid fa-circle-info text-accent mr-2"></i>หลังกดยืนยัน หมอขวัญจะติดต่อกลับเพื่อยืนยันนัดหมายภายใน 24 ชั่วโมง</p>
-            <p><i class="fa-solid fa-phone text-accent mr-2"></i>หรือโทรนัดตรงได้เลยที่ <a href="tel:0646689544" class="font-semibold text-primary underline">064-668-9544</a></p>
         </div>
     </div>
 </section>
@@ -1908,7 +1943,9 @@ async function toggleAnnouncementPublish(id) {
 
 async function deleteAnnouncement(id) {
     if (!confirm("ยืนยันลบประกาศนี้?")) return;
-    const newList = announcementsCache.filter(a => a.id !== id);
+    // กรองเฉพาะ id นั้นออก
+    const newList = announcementsCache.filter(a => String(a.id) !== String(id));
+    console.log("Delete id:", id, "Before:", announcementsCache.length, "After:", newList.length);
     try {
         const res = await fetchWithTimeout(`${API_BASE}/api/announcement?type=announcements`, {
             method: "POST", headers: { "Content-Type": "application/json" },
@@ -1916,13 +1953,13 @@ async function deleteAnnouncement(id) {
         });
         const data = await res.json();
         if (data.ok) {
-            announcementsCache = newList;
+            announcementsCache = [...newList];
             renderAdminAnnouncements();
             renderAnnouncements(announcementsCache.filter(a => a.published));
         } else {
             alert(data.error || "ลบไม่สำเร็จ กรุณาลองใหม่");
         }
-    } catch { alert("ไม่สามารถเชื่อมต่อได้"); }
+    } catch (e) { alert("ไม่สามารถเชื่อมต่อได้: " + e.message); }
 }
 
 
