@@ -1863,17 +1863,17 @@ function renderAnnouncements(items) {
     if (section) section.classList.remove("hidden");
 
     const TYPE_CONFIG = {
-        info:    { icon: 'fa-circle-info',          accentBar: 'bg-primary',  badgeBg: 'bg-primary/10',  badgeText: 'text-primary',  iconColor: 'text-primary/60' },
-        warning: { icon: 'fa-triangle-exclamation', accentBar: 'bg-accent',   badgeBg: 'bg-accent/15',   badgeText: 'text-primary',  iconColor: 'text-accent'     },
-        holiday: { icon: 'fa-calendar-xmark',       accentBar: 'bg-accent',   badgeBg: 'bg-accent/15',   badgeText: 'text-primary',  iconColor: 'text-accent'     },
-        promo:   { icon: 'fa-tag',                  accentBar: 'bg-primary',  badgeBg: 'bg-primary/10',  badgeText: 'text-primary',  iconColor: 'text-primary/60' },
+        info:    { icon: 'fa-circle-info',          accentBar: 'bg-primary',   badgeBg: 'bg-primary/10',   badgeText: 'text-primary',   iconColor: 'text-primary/60', cardBg: 'bg-white/70',    border: 'border-[#D4C9A8]' },
+        warning: { icon: 'fa-triangle-exclamation', accentBar: 'bg-accent',    badgeBg: 'bg-accent/15',    badgeText: 'text-primary',   iconColor: 'text-accent',     cardBg: 'bg-white/70',    border: 'border-[#D4C9A8]' },
+        holiday: { icon: 'fa-calendar-xmark',       accentBar: 'bg-red-500',   badgeBg: 'bg-red-100',      badgeText: 'text-red-700',   iconColor: 'text-red-500',    cardBg: 'bg-red-50/60',   border: 'border-red-200'   },
+        promo:   { icon: 'fa-tag',                  accentBar: 'bg-primary',   badgeBg: 'bg-primary/10',   badgeText: 'text-primary',   iconColor: 'text-primary/60', cardBg: 'bg-white/70',    border: 'border-[#D4C9A8]' },
     };
     const LABELS = { info: 'ข้อมูล', warning: 'แจ้งเตือน', holiday: 'หยุดทำการ', promo: 'โปรโมชัน' };
 
     grid.innerHTML = items.map(a => {
         const cfg = TYPE_CONFIG[a.type] || TYPE_CONFIG.info;
         return `
-        <div class="flex overflow-hidden rounded-xl border border-[#D4C9A8] bg-white/70 shadow-sm">
+        <div class="flex overflow-hidden rounded-xl border ${cfg.border} ${cfg.cardBg} shadow-sm">
             <div class="w-1 shrink-0 ${cfg.accentBar}"></div>
             <div class="flex items-center gap-4 px-5 py-4 flex-1">
                 <i class="fa-solid ${cfg.icon} text-lg shrink-0 ${cfg.iconColor}"></i>
@@ -1881,8 +1881,8 @@ function renderAnnouncements(items) {
                     <div class="flex items-center gap-2 mb-1">
                         <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full ${cfg.badgeBg} ${cfg.badgeText}">${LABELS[a.type] || 'ประกาศ'}</span>
                     </div>
-                    <p class="font-semibold text-primary text-base leading-snug">${a.title}</p>
-                    ${a.body ? `<p class="text-primary/55 text-sm mt-1 leading-relaxed">${a.body}</p>` : ''}
+                    <p class="font-semibold text-base leading-snug ${a.type === 'holiday' ? 'text-red-700' : 'text-primary'}">${a.title}</p>
+                    ${a.body ? `<p class="text-sm mt-1 leading-relaxed ${a.type === 'holiday' ? 'text-red-500' : 'text-primary/55'}">${a.body}</p>` : ''}
                 </div>
             </div>
         </div>`;
