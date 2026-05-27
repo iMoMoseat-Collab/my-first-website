@@ -125,23 +125,23 @@
 </head>
 <body class="antialiased">
 
-<!-- BANNER -->
-<div id="vacation-banner" class="bg-accent text-white text-center py-2 px-4 text-xs md:text-sm font-medium tracking-wide sticky top-0 z-50 shadow-md flex justify-center items-center gap-2">
-    <span class="bg-white/20 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Notice</span>
-    <span id="announcement-text" class="font-light">กำลังโหลดประกาศล่าสุดจากคลินิก...</span>
-</div>
+<!-- BANNER (ซ่อนไว้ใช้สำหรับ JS backward compat) -->
+<div id="announcement-text" class="hidden"></div>
 
 <!-- NAVBAR -->
-<nav class="w-full glass-nav border-b border-emerald-900/5 sticky top-[37px] z-40 transition-all duration-300">
+<nav class="w-full glass-nav border-b border-emerald-900/5 sticky top-0 z-40 transition-all duration-300">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        <button onclick="toggleAdminModal()" class="text-xl md:text-2xl font-serif font-bold text-primary tracking-wide hover:text-accent transition-colors duration-300 text-left">
-            หมอขวัญ<span class="text-accent font-normal text-lg md:text-xl ml-1 border-l border-accent/30 pl-2">แพทย์แผนจีน</span>
+        <button onclick="toggleAdminModal()" class="flex flex-col text-left hover:opacity-80 transition-opacity duration-300">
+            <span class="text-base md:text-lg font-serif font-bold text-primary tracking-wide leading-tight">คลินิกหมอขวัญแพทย์แผนจีน</span>
+            <span class="text-[10px] md:text-xs text-accent font-medium tracking-widest uppercase leading-tight">MorKwan TCM · ศรีราชา ชลบุรี</span>
         </button>
         <div class="hidden md:flex space-x-6 text-sm font-medium text-primary/90">
             <a href="#specialties" class="hover:text-accent transition-colors duration-200">อาการที่เชี่ยวชาญ</a>
             <a href="#services" class="hover:text-accent transition-colors duration-200">บริการหัตถการ</a>
             <a href="#checker" class="hover:text-accent font-semibold text-emerald-700 transition-colors duration-200">✨ เช็กสุขภาพออนไลน์</a>
             <a href="#articles" class="hover:text-accent transition-colors duration-200">บทความความรู้</a>
+            <a href="#doctor" class="hover:text-accent transition-colors duration-200">เกี่ยวกับหมอ</a>
+            <a href="#pricing" class="hover:text-accent transition-colors duration-200">ค่าบริการ</a>
             <a href="#faq" class="hover:text-accent transition-colors duration-200">FAQ</a>
             <a href="#contact" class="hover:text-accent transition-colors duration-200">ติดต่อคลินิก</a>
         </div>
@@ -176,6 +176,22 @@
                     <p class="text-xs text-gray-400 font-light mt-2 max-w-[200px]">ยินดีต้อนรับสู่พื้นที่ดูแลและฟื้นฟูสุขภาพระดับพรีเมียม</p>
                 </div>
             </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ══════════ ANNOUNCEMENTS SECTION ══════════ -->
+<section id="announcements" class="py-12 bg-gradient-to-r from-primary to-emeraldLight">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="flex items-center gap-3 mb-6">
+            <div class="w-9 h-9 rounded-full bg-accent/20 border border-accent/40 flex items-center justify-center text-accent shrink-0">
+                <i class="fa-solid fa-bullhorn text-sm"></i>
+            </div>
+            <h2 class="font-serif font-bold text-xl text-white">ประกาศจากคลินิก</h2>
+        </div>
+        <div id="announcements-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="text-gray-400 text-sm py-4">กำลังโหลดประกาศ...</div>
         </div>
     </div>
 </section>
@@ -305,6 +321,96 @@
     </div>
 </section>
 
+
+<!-- ══════════ DOCTOR PROFILE ══════════ -->
+<section id="doctor" class="py-20 bg-white border-y border-gray-100">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center max-w-2xl mx-auto mb-16">
+            <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">About Doctor</span>
+            <h2 class="text-3xl md:text-4xl font-serif text-primary font-bold">ข้อมูลแพทย์ผู้รักษา</h2>
+            <div class="w-12 h-[2px] bg-accent mx-auto mt-4"></div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-10 items-start">
+            <!-- Card หมอ -->
+            <div class="md:col-span-4">
+                <div class="bg-primary rounded-2xl p-8 text-center border border-accent/20 shadow-xl">
+                    <!-- รูปภาพหมอ -->
+                    <div class="w-24 h-24 rounded-full bg-accent/10 border-2 border-accent/40 flex items-center justify-center text-accent text-5xl mx-auto mb-5 overflow-hidden">
+                        <img id="doctor-photo" src="" alt="หมอขวัญ" class="hidden w-full h-full object-cover">
+                        <span id="doctor-photo-placeholder">👩‍⚕️</span>
+                    </div>
+                    <h3 id="doctor-name-th" class="font-serif font-bold text-xl text-accent leading-snug">แพทย์จีน ศิริขวัญ ก้าวสัมพันธ์</h3>
+                    <p id="doctor-name-cn" class="text-gray-300 text-xs mt-1 font-light">许谭丽 中医师</p>
+                    <p id="doctor-name-en" class="text-gray-400 text-[11px] mt-0.5 font-light">TCM.Dr.Sirikwan Kaosamphan (XU TAN LI)</p>
+                    <div class="mt-4 bg-accent/10 border border-accent/20 rounded-xl px-4 py-2.5">
+                        <p class="text-accent text-xs font-semibold">ใบประกอบโรคศิลปะ</p>
+                        <p id="doctor-license" class="text-white text-sm font-bold tracking-wider mt-0.5">พจ.675</p>
+                    </div>
+                    <div class="mt-4 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-left space-y-1.5">
+                        <p class="text-accent text-[11px] font-bold uppercase tracking-wider">การศึกษา</p>
+                        <p id="doctor-edu-th" class="text-gray-300 text-xs font-light leading-relaxed">ปริญญาโท สาขาอายุรกรรมโรคทางเดินอาหาร มหาวิทยาลัยการแพทย์แผนจีนเฉิงตู สาธารณรัฐประชาชนจีน</p>
+                        <p id="doctor-edu-en" class="text-gray-500 text-[10px] font-light mt-1">Master's Degree of Internal TCM of Gastroenterology, Chengdu University of TCM</p>
+                    </div>
+                </div>
+            </div>
+            <!-- ประสบการณ์ -->
+            <div class="md:col-span-8 space-y-6">
+                <div class="bg-bgLight rounded-2xl p-7 border border-gray-100 premium-shadow">
+                    <h4 class="font-serif font-bold text-lg text-primary mb-4 flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-accent text-sm shrink-0"><i class="fa-solid fa-stethoscope"></i></span>
+                        ประสบการณ์ในการรักษา
+                    </h4>
+                    <div class="space-y-3 text-sm text-gray-700 font-light leading-relaxed">
+                        <p id="doctor-exp-th">รักษาโรคอายุรกรรมทั่วไป โรคระบบทางเดินอาหาร โรคกระเพาะอาหารและลำไส้อักเสบแปรปรวนเรื้อรัง แผลในกระเพาะและลำไส้ กรดไหลย้อน อาหารไม่ย่อย ท้องผูก ท้องเสียเรื้อรัง โรคเกี่ยวกับตับ ตับแข็ง ไวรัสตับอักเสบ โรคผู้สูงอายุ นอนไม่หลับ อ่อนเพลียเรื้อรัง</p>
+                        <div class="border-t border-gray-100 pt-3">
+                            <p id="doctor-exp-cn" class="text-gray-400 text-xs leading-relaxed">普通内科、消化系统疾病、慢性胃肠炎、功能性胃肠病、胃肠溃疡、胃食管反流、消化不良、慢性便秘腹泻、肝胆胰脾疾病、肝硬化、乙肝、老年病、失眠、虚劳等。</p>
+                        </div>
+                        <div class="border-t border-gray-100 pt-3">
+                            <p id="doctor-exp-en" class="text-gray-400 text-xs leading-relaxed">Diseases of general internal medicine, Gastrointestinal diseases, Chronic gastroenteritis, FGID, GERD, Dyspepsia, Chronic constipation and diarrhea, Liver/Gallbladder/Pancreas and spleen disease, Cirrhosis, Hepatitis B, Disease in the elderly, Insomnia, Chronic Fatigue syndrome etc.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-bgLight rounded-2xl p-7 border border-gray-100 premium-shadow">
+                    <h4 class="font-serif font-bold text-lg text-primary mb-4 flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-accent text-sm shrink-0"><i class="fa-solid fa-graduation-cap"></i></span>
+                        畢業於成都中醫藥大學
+                    </h4>
+                    <p class="text-sm text-gray-600 font-light leading-relaxed">中醫內科（脾胃科）碩士學位 · Master's Degree of Internal TCM of Gastroenterology · Chengdu University of Traditional Chinese Medicine, P.R. China</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ PRICING ══════════ -->
+<section id="pricing" class="py-20 max-w-5xl mx-auto px-6">
+    <div class="text-center max-w-2xl mx-auto mb-16">
+        <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Pricing</span>
+        <h2 class="text-3xl md:text-4xl font-serif text-primary font-bold">อัตราค่าบริการ</h2>
+        <div class="w-12 h-[2px] bg-accent mx-auto mt-4"></div>
+        <p class="text-gray-400 text-xs font-light mt-3">ราคาอาจเปลี่ยนแปลงตามความซับซ้อนของการรักษา กรุณาสอบถามก่อนรับบริการ</p>
+    </div>
+    <div id="pricing-grid" class="space-y-3">
+        <div class="text-center text-gray-400 py-10 text-sm">กำลังโหลดอัตราค่าบริการ...</div>
+    </div>
+    <div class="mt-10 bg-primary rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-4 border border-accent/20">
+        <div>
+            <p class="text-accent font-semibold text-sm">สอบถามราคาเพิ่มเติม</p>
+            <p class="text-gray-300 text-xs font-light mt-1">ปรึกษาฟรี ไม่มีค่าใช้จ่าย หมอขวัญยินดีให้คำแนะนำครับ</p>
+        </div>
+        <div class="flex gap-3 shrink-0">
+            <a href="https://line.me/R/ti/p/@687dobfj" target="_blank" rel="noopener noreferrer"
+               class="flex items-center gap-2 bg-[#06C755] text-white font-bold px-5 py-2.5 rounded-xl text-xs transition-all shadow-md hover:bg-green-500">
+                <i class="fa-brands fa-line text-base"></i> Line
+            </a>
+            <a href="tel:0646689544"
+               class="flex items-center gap-2 bg-accent text-primary font-bold px-5 py-2.5 rounded-xl text-xs transition-all shadow-md hover:bg-yellow-600">
+                <i class="fa-solid fa-phone"></i> โทร
+            </a>
+        </div>
+    </div>
+</section>
+
 <!-- CONTACT -->
 <section id="contact" class="py-20 bg-primary text-white">
     <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-12 items-stretch">
@@ -341,6 +447,20 @@
         <i class="fa-solid fa-phone"></i>
     </a>
 </div>
+
+
+<!-- MOBILE STICKY BAR -->
+<div class="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-white border-t border-gray-100 shadow-2xl px-4 py-3 flex gap-3">
+    <a href="tel:0646689544" class="flex-1 flex items-center justify-center gap-2 bg-primary text-white font-bold py-3 rounded-xl text-sm transition-all">
+        <i class="fa-solid fa-phone text-accent"></i> โทรนัดหมาย
+    </a>
+    <a href="https://line.me/R/ti/p/@687dobfj" target="_blank" rel="noopener noreferrer"
+       class="flex-1 flex items-center justify-center gap-2 bg-[#06C755] text-white font-bold py-3 rounded-xl text-sm transition-all">
+        <i class="fa-brands fa-line"></i> แชท Line
+    </a>
+</div>
+<!-- padding for mobile sticky bar -->
+<div class="h-16 md:hidden"></div>
 
 <!-- ══════════════════ ARTICLE DRAWER ══════════════════ -->
 <div id="drawer-backdrop" class="fixed inset-0 bg-black/50 z-40 backdrop-blur-sm" onclick="closeDrawer()"></div>
@@ -386,19 +506,41 @@
         <div id="admin-content-box" class="hidden flex flex-col overflow-hidden flex-1">
             <!-- Tabs -->
             <div class="flex gap-2 px-8 pb-4 shrink-0">
-                <button class="admin-tab active" onclick="switchTab('announcement')">📢 ประกาศ</button>
+                <button class="admin-tab active" onclick="switchTab('announcements')">📢 ประกาศ</button>
                 <button class="admin-tab" onclick="switchTab('articles')">📝 บทความ</button>
                 <button class="admin-tab" onclick="switchTab('reviews')">⭐ รีวิว</button>
                 <button class="admin-tab" onclick="switchTab('faq')">❓ FAQ</button>
+                <button class="admin-tab" onclick="switchTab('pricing')">💰 ค่าบริการ</button>
+                <button class="admin-tab" onclick="switchTab('doctor')">👩‍⚕️ ประวัติหมอ</button>
             </div>
 
             <div class="overflow-y-auto flex-1 px-8 pb-8">
-                <!-- Tab: Announcement -->
-                <div id="tab-announcement" class="space-y-4">
-                    <label class="block text-xs font-semibold text-gray-600 mb-1.5">ข้อความประกาศแถบบนสุด</label>
-                    <textarea id="input-announcement" rows="3" class="w-full border p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent text-xs leading-relaxed"></textarea>
-                    <button onclick="saveAnnouncement()" id="save-ann-btn" class="w-full bg-accent text-primary py-3 rounded-xl hover:bg-yellow-500 font-bold text-sm shadow-md transition-colors">บันทึกประกาศ</button>
-                    <p id="save-status" class="text-xs text-center font-medium min-h-[16px]"></p>
+                <!-- Tab: Announcements -->
+                <div id="tab-announcements" class="space-y-4">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-semibold text-gray-600">ประกาศทั้งหมด (<span id="announcements-count">0</span>)</span>
+                        <button onclick="openNewAnnouncementForm()" class="bg-primary text-white px-4 py-2 rounded-lg text-xs font-semibold hover:bg-emeraldLight transition-colors"><i class="fa-solid fa-plus mr-1"></i>เพิ่มประกาศ</button>
+                    </div>
+                    <div id="admin-announcements-list" class="space-y-3"></div>
+                    <div id="announcement-form" class="hidden space-y-3 border border-accent/30 rounded-xl p-4 bg-bgLight">
+                        <h4 id="announcement-form-title" class="font-semibold text-sm text-primary">เพิ่มประกาศใหม่</h4>
+                        <input type="hidden" id="form-announcement-id">
+                        <div><label class="text-xs text-gray-500 block mb-1">ประเภท</label>
+                            <select id="form-announcement-type" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent">
+                                <option value="info">📋 ข้อมูลทั่วไป</option>
+                                <option value="warning">⚠️ แจ้งเตือน</option>
+                                <option value="holiday">🎉 วันหยุด / ปิดทำการ</option>
+                                <option value="promo">🎁 โปรโมชัน</option>
+                            </select>
+                        </div>
+                        <div><label class="text-xs text-gray-500 block mb-1">หัวข้อประกาศ *</label><input type="text" id="form-announcement-title" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent" placeholder="เช่น ปิดทำการวันที่ 1-3 มิถุนายน"></div>
+                        <div><label class="text-xs text-gray-500 block mb-1">รายละเอียด</label><textarea id="form-announcement-body" rows="2" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent resize-none" placeholder="รายละเอียดเพิ่มเติม (ถ้ามี)"></textarea></div>
+                        <div class="flex gap-2 pt-1">
+                            <button onclick="saveAnnouncementForm()" id="save-announcement-btn" class="flex-1 bg-accent text-primary py-2.5 rounded-lg text-xs font-bold hover:bg-yellow-500 transition-colors">บันทึกประกาศ</button>
+                            <button onclick="cancelAnnouncementForm()" class="px-4 py-2.5 rounded-lg text-xs text-gray-500 hover:bg-gray-100 border transition-colors">ยกเลิก</button>
+                        </div>
+                        <p id="announcement-save-status" class="text-xs text-center font-medium min-h-[16px]"></p>
+                    </div>
                 </div>
 
 
@@ -449,6 +591,83 @@
                         <p id="faq-save-status" class="text-xs text-center font-medium min-h-[16px]"></p>
                     </div>
                 </div>
+
+                <!-- Tab: Pricing -->
+                <div id="tab-pricing" class="hidden space-y-4">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-semibold text-gray-600">รายการทั้งหมด (<span id="pricing-count">0</span>)</span>
+                        <button onclick="openNewPricingForm()" class="bg-primary text-white px-4 py-2 rounded-lg text-xs font-semibold hover:bg-emeraldLight transition-colors"><i class="fa-solid fa-plus mr-1"></i>เพิ่มรายการ</button>
+                    </div>
+                    <div id="admin-pricing-list" class="space-y-2"></div>
+                    <div id="pricing-form" class="hidden space-y-3 border border-accent/30 rounded-xl p-4 bg-bgLight">
+                        <h4 id="pricing-form-title" class="font-semibold text-sm text-primary">เพิ่มรายการใหม่</h4>
+                        <input type="hidden" id="form-pricing-id">
+                        <div><label class="text-xs text-gray-500 block mb-1">หมวดหมู่</label><input type="text" id="form-pricing-category" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent" placeholder="เช่น ฝังเข็ม, ครอบแก้ว"></div>
+                        <div><label class="text-xs text-gray-500 block mb-1">รายการบริการ *</label><input type="text" id="form-pricing-name" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent" placeholder="เช่น ฝังเข็มทั่วไป"></div>
+                        <div><label class="text-xs text-gray-500 block mb-1">ราคา *</label><input type="text" id="form-pricing-price" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent" placeholder="เช่น 500 หรือ 500-800"></div>
+                        <div><label class="text-xs text-gray-500 block mb-1">หมายเหตุ</label><input type="text" id="form-pricing-note" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent" placeholder="เช่น ราคาขึ้นอยู่กับจำนวนจุด"></div>
+                        <div class="flex gap-2 pt-1">
+                            <button onclick="savePricingForm()" id="save-pricing-btn" class="flex-1 bg-accent text-primary py-2.5 rounded-lg text-xs font-bold hover:bg-yellow-500 transition-colors">บันทึก</button>
+                            <button onclick="cancelPricingForm()" class="px-4 py-2.5 rounded-lg text-xs text-gray-500 hover:bg-gray-100 border transition-colors">ยกเลิก</button>
+                        </div>
+                        <p id="pricing-save-status" class="text-xs text-center font-medium min-h-[16px]"></p>
+                    </div>
+                </div>
+
+                <!-- Tab: Doctor Profile -->
+                <div id="tab-doctor" class="hidden space-y-4">
+                    <p class="text-xs text-gray-500">แก้ไขข้อมูลและรูปภาพคุณหมอที่แสดงในเว็บไซต์</p>
+
+                    <!-- รูปภาพ -->
+                    <div class="border border-gray-100 rounded-xl p-4 bg-bgLight space-y-3">
+                        <p class="text-xs font-semibold text-primary">📸 รูปภาพหมอขวัญ</p>
+                        <div class="flex items-center gap-4">
+                            <div id="doctor-img-preview" class="w-20 h-20 rounded-full bg-primary/10 border-2 border-accent/30 flex items-center justify-center text-3xl overflow-hidden shrink-0">👩‍⚕️</div>
+                            <div class="flex-1 space-y-2">
+                                <input type="text" id="form-doctor-image" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent" placeholder="วาง URL รูปภาพ เช่น https://drive.google.com/...">
+                                <button onclick="previewDoctorImage()" class="bg-gray-100 hover:bg-gray-200 text-gray-600 px-3 py-1.5 rounded-lg text-xs transition-colors">Preview รูป</button>
+                            </div>
+                        </div>
+                        <p class="text-[11px] text-gray-400">💡 วิธีเอา URL จาก Facebook: คลิกขวาที่รูป → "เปิดรูปภาพในแท็บใหม่" → Copy URL</p>
+                    </div>
+
+                    <!-- ข้อมูลหมอ -->
+                    <div class="space-y-3">
+                        <div><label class="text-xs text-gray-500 block mb-1">ชื่อไทย *</label>
+                            <input type="text" id="form-doctor-name-th" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent" value="แพทย์จีน ศิริขวัญ ก้าวสัมพันธ์ (แพทย์จีน สวี่ ถาน ลี่)">
+                        </div>
+                        <div><label class="text-xs text-gray-500 block mb-1">ชื่อจีน</label>
+                            <input type="text" id="form-doctor-name-cn" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent" value="许谭丽 中医师">
+                        </div>
+                        <div><label class="text-xs text-gray-500 block mb-1">ชื่ออังกฤษ</label>
+                            <input type="text" id="form-doctor-name-en" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent" value="TCM.Dr.Sirikwan Kaosamphan (XU TAN LI)">
+                        </div>
+                        <div><label class="text-xs text-gray-500 block mb-1">เลขใบประกอบโรคศิลปะ</label>
+                            <input type="text" id="form-doctor-license" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent" value="พจ.675">
+                        </div>
+                        <div><label class="text-xs text-gray-500 block mb-1">ประสบการณ์ (ภาษาไทย)</label>
+                            <textarea id="form-doctor-exp-th" rows="4" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent resize-none">รักษาโรคอายุรกรรมทั่วไป โรคระบบทางเดินอาหาร โรคกระเพาะอาหารและลำไส้อักเสบแปรปรวนเรื้อรัง แผลในกระเพาะและลำไส้ กรดไหลย้อน อาหารไม่ย่อย ท้องผูก ท้องเสียเรื้อรัง โรคเกี่ยวกับตับ ตับแข็ง ไวรัสตับอักเสบ โรคผู้สูงอายุ นอนไม่หลับ อ่อนเพลียเรื้อรัง</textarea>
+                        </div>
+                        <div><label class="text-xs text-gray-500 block mb-1">ประสบการณ์ (ภาษาจีน)</label>
+                            <textarea id="form-doctor-exp-cn" rows="3" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent resize-none">普通内科、消化系统疾病、慢性胃肠炎、功能性胃肠病、胃肠溃疡、胃食管反流、消化不良、慢性便秘腹泻、肝胆胰脾疾病、肝硬化、乙肝、老年病、失眠、虚劳等。</textarea>
+                        </div>
+                        <div><label class="text-xs text-gray-500 block mb-1">ประสบการณ์ (ภาษาอังกฤษ)</label>
+                            <textarea id="form-doctor-exp-en" rows="3" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent resize-none">Diseases of general internal medicine, Gastrointestinal diseases, Chronic gastroenteritis, Functional gastrointestinal disorder (FGID), Gastrointestinal ulcer, GERD, Dyspepsia, Chronic constipation and diarrhea, Liver/Gallbladder/Pancreas and spleen disease, Cirrhosis, Hepatitis B, Disease in the elderly, Insomnia, Chronic Fatigue syndrome etc.</textarea>
+                        </div>
+                        <div><label class="text-xs text-gray-500 block mb-1">การศึกษา (ภาษาไทย)</label>
+                            <textarea id="form-doctor-edu-th" rows="2" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent resize-none">ปริญญาโท สาขาอายุรกรรมโรคทางเดินอาหาร มหาวิทยาลัยการแพทย์แผนจีนเฉิงตู สาธารณรัฐประชาชนจีน</textarea>
+                        </div>
+                        <div><label class="text-xs text-gray-500 block mb-1">การศึกษา (ภาษาอังกฤษ/จีน)</label>
+                            <textarea id="form-doctor-edu-en" rows="2" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent resize-none">畢業於成都中醫藥大學中醫內科（脾胃科）碩士學位 · Master's Degree of Internal TCM of Gastroenterology · Chengdu University of Traditional Chinese Medicine</textarea>
+                        </div>
+                    </div>
+
+                    <button onclick="saveDoctorProfile()" id="save-doctor-btn" class="w-full bg-accent text-primary py-3 rounded-xl hover:bg-yellow-500 font-bold text-sm shadow-md transition-colors">
+                        <i class="fa-solid fa-floppy-disk mr-2"></i>บันทึกข้อมูลหมอขวัญ
+                    </button>
+                    <p id="doctor-save-status" class="text-xs text-center font-medium min-h-[16px]"></p>
+                </div>
+
                 <!-- Tab: Articles -->
                 <div id="tab-articles" class="hidden space-y-4">
                     <div class="flex justify-between items-center">
@@ -489,10 +708,12 @@ let articlesCache  = [];
 
 // ── โหลดข้อมูลเมื่อเปิดหน้า ───────────────────────────────
 window.addEventListener("DOMContentLoaded", async () => {
-    loadAnnouncement();
+    loadAnnouncements();
     loadArticles();
+    loadDoctorProfile();
     loadReviews();
     loadFaq();
+    loadPricing();
 });
 
 async function loadAnnouncement() {
@@ -620,16 +841,37 @@ async function checkAdminPassword() {
 }
 
 function switchTab(tab) {
-    ["announcement","articles","reviews","faq"].forEach(t => {
+    ["announcements","articles","reviews","faq","pricing","doctor"].forEach(t => {
         document.getElementById("tab-" + t).classList.toggle("hidden", t !== tab);
     });
     document.querySelectorAll(".admin-tab").forEach(el => {
         const t = el.getAttribute("onclick").match(/switchTab\('(\w+)'\)/)?.[1];
         el.classList.toggle("active", t === tab);
     });
+    if (tab === "announcements") renderAdminAnnouncements();
     if (tab === "articles") renderAdminArticles();
     if (tab === "reviews")  renderAdminReviews();
     if (tab === "faq")      renderAdminFaq();
+    if (tab === "pricing")  renderAdminPricing();
+    if (tab === "doctor") {
+        const d = doctorCache;
+        if (d && d.name_th) {
+            document.getElementById("form-doctor-image").value    = d.image   || '';
+            document.getElementById("form-doctor-name-th").value  = d.name_th || '';
+            document.getElementById("form-doctor-name-cn").value  = d.name_cn || '';
+            document.getElementById("form-doctor-name-en").value  = d.name_en || '';
+            document.getElementById("form-doctor-license").value  = d.license || '';
+            document.getElementById("form-doctor-exp-th").value   = d.exp_th  || '';
+            document.getElementById("form-doctor-exp-cn").value   = d.exp_cn  || '';
+            document.getElementById("form-doctor-exp-en").value   = d.exp_en  || '';
+            document.getElementById("form-doctor-edu-th").value   = d.edu_th  || '';
+            document.getElementById("form-doctor-edu-en").value   = d.edu_en  || '';
+            if (d.image) {
+                document.getElementById("doctor-img-preview").innerHTML =
+                    `<img src="${d.image}" class="w-full h-full object-cover rounded-full" onerror="this.parentElement.innerHTML='👩\u200d⚕️'">`;
+            }
+        }
+    }
 }
 
 // ── Save Announcement ──────────────────────────────────────
@@ -1073,6 +1315,369 @@ async function deleteFaq(id) {
     });
     if ((await res.json()).ok) { faqCache = newList; renderAdminFaq(); renderFaq(faqCache.filter(f => f.published)); }
 }
+
+
+// ── Pricing ───────────────────────────────────────────────
+let pricingCache = [];
+
+async function loadPricing() {
+    try {
+        const res  = await fetch(`${API_BASE}/api/announcement?type=pricing`);
+        const data = await res.json();
+        pricingCache = data.pricing || [];
+        renderPricing(pricingCache.filter(p => p.published));
+    } catch {
+        document.getElementById("pricing-grid").innerHTML =
+            '<p class="text-center text-gray-400 text-sm py-10">ยังไม่มีข้อมูลอัตราค่าบริการ</p>';
+    }
+}
+
+function renderPricing(items) {
+    const grid = document.getElementById("pricing-grid");
+    if (!items.length) {
+        grid.innerHTML = '<p class="text-center text-gray-400 text-sm py-10">ยังไม่มีข้อมูลอัตราค่าบริการในขณะนี้</p>';
+        return;
+    }
+    const groups = {};
+    items.forEach(item => {
+        const cat = item.category || 'บริการทั่วไป';
+        if (!groups[cat]) groups[cat] = [];
+        groups[cat].push(item);
+    });
+    grid.innerHTML = Object.entries(groups).map(([cat, list]) => `
+        <div class="bg-white rounded-2xl overflow-hidden border border-gray-100 premium-shadow mb-4">
+            <div class="bg-primary px-6 py-3 flex items-center gap-2">
+                <i class="fa-solid fa-tag text-accent text-xs"></i>
+                <span class="text-accent text-xs font-bold uppercase tracking-wider">${cat}</span>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="bg-bgLight border-b border-gray-100">
+                            <th class="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider w-8">#</th>
+                            <th class="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">รายการบริการ</th>
+                            <th class="text-right px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">ราคา (บาท)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-50">
+                        ${list.map((item, i) => `
+                            <tr class="hover:bg-bgLight transition-colors">
+                                <td class="px-6 py-4 text-xs text-gray-400">${i+1}</td>
+                                <td class="px-6 py-4">
+                                    <p class="text-sm font-medium text-primary">${item.name}</p>
+                                    ${item.note ? `<p class="text-[11px] text-gray-400 mt-0.5 italic">${item.note}</p>` : ''}
+                                </td>
+                                <td class="px-6 py-4 text-right">
+                                    <span class="text-accent font-bold text-base">${item.price}</span>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderAdminPricing() {
+    const list = document.getElementById("admin-pricing-list");
+    document.getElementById("pricing-count").innerText = pricingCache.length;
+    if (!pricingCache.length) { list.innerHTML = '<p class="text-xs text-gray-400 text-center py-4">ยังไม่มีรายการ</p>'; return; }
+    list.innerHTML = pricingCache.map(p => `
+        <div class="flex items-center justify-between gap-3 border border-gray-100 rounded-xl p-3 bg-white">
+            <div class="flex-1 min-w-0">
+                <p class="text-xs font-semibold text-primary">${p.name}</p>
+                <p class="text-[11px] text-gray-400">${p.category || ''} · <span class="text-accent font-bold">${p.price} บาท</span></p>
+            </div>
+            <div class="flex gap-1 shrink-0">
+                <button onclick="togglePricingPublish('${p.id}')" class="w-7 h-7 rounded-lg bg-gray-50 hover:bg-gray-100 flex items-center justify-center text-gray-500 text-xs">
+                    <i class="fa-solid ${p.published ? 'fa-eye-slash' : 'fa-eye'}"></i>
+                </button>
+                <button onclick="editPricing('${p.id}')" class="w-7 h-7 rounded-lg bg-gray-50 hover:bg-gray-100 flex items-center justify-center text-gray-500 text-xs"><i class="fa-solid fa-pen"></i></button>
+                <button onclick="deletePricing('${p.id}')" class="w-7 h-7 rounded-lg bg-red-50 hover:bg-red-100 flex items-center justify-center text-red-400 text-xs"><i class="fa-solid fa-trash"></i></button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function openNewPricingForm() {
+    document.getElementById("pricing-form-title").innerText = "เพิ่มรายการใหม่";
+    ["form-pricing-id","form-pricing-category","form-pricing-name","form-pricing-price","form-pricing-note"].forEach(id => {
+        document.getElementById(id).value = "";
+    });
+    document.getElementById("pricing-save-status").innerText = "";
+    document.getElementById("pricing-form").classList.remove("hidden");
+}
+
+function editPricing(id) {
+    const p = pricingCache.find(x => x.id === id);
+    if (!p) return;
+    document.getElementById("pricing-form-title").innerText = "แก้ไขรายการ";
+    document.getElementById("form-pricing-id").value       = p.id;
+    document.getElementById("form-pricing-category").value = p.category || '';
+    document.getElementById("form-pricing-name").value     = p.name;
+    document.getElementById("form-pricing-price").value    = p.price;
+    document.getElementById("form-pricing-note").value     = p.note || '';
+    document.getElementById("pricing-save-status").innerText = "";
+    document.getElementById("pricing-form").classList.remove("hidden");
+}
+
+function cancelPricingForm() { document.getElementById("pricing-form").classList.add("hidden"); }
+
+async function savePricingForm() {
+    const name  = document.getElementById("form-pricing-name").value.trim();
+    const price = document.getElementById("form-pricing-price").value.trim();
+    const status = document.getElementById("pricing-save-status");
+    const btn    = document.getElementById("save-pricing-btn");
+    if (!name || !price) { status.innerText = "กรุณากรอกชื่อบริการและราคาครับ"; status.className = "text-xs text-center font-medium text-red-500"; return; }
+    const id   = document.getElementById("form-pricing-id").value;
+    const item = { id: id || String(Date.now()), category: document.getElementById("form-pricing-category").value.trim(), name, price, note: document.getElementById("form-pricing-note").value.trim(), published: true };
+    const newList = id ? pricingCache.map(p => p.id === id ? item : p) : [...pricingCache, item];
+    btn.disabled = true; status.innerText = "กำลังบันทึก..."; status.className = "text-xs text-center font-medium text-blue-600";
+    try {
+        const res  = await fetch(`${API_BASE}/api/announcement?type=pricing`, {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ password: adminPassword, pricing: newList }),
+        });
+        const data = await res.json();
+        if (res.ok && data.ok) {
+            pricingCache = newList; renderAdminPricing(); renderPricing(pricingCache.filter(p => p.published));
+            cancelPricingForm(); status.innerText = "บันทึกสำเร็จ! 🎉"; status.className = "text-xs text-center font-medium text-green-600";
+        } else { status.innerText = data.error || "เกิดข้อผิดพลาด"; status.className = "text-xs text-center font-medium text-red-500"; }
+    } catch { status.innerText = "ไม่สามารถเชื่อมต่อได้"; status.className = "text-xs text-center font-medium text-red-500"; }
+    finally { btn.disabled = false; }
+}
+
+async function togglePricingPublish(id) {
+    const newList = pricingCache.map(p => p.id === id ? { ...p, published: !p.published } : p);
+    const res = await fetch(`${API_BASE}/api/announcement?type=pricing`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: adminPassword, pricing: newList }),
+    });
+    if ((await res.json()).ok) { pricingCache = newList; renderAdminPricing(); renderPricing(pricingCache.filter(p => p.published)); }
+}
+
+async function deletePricing(id) {
+    if (!confirm("ยืนยันลบรายการนี้?")) return;
+    const newList = pricingCache.filter(p => p.id !== id);
+    const res = await fetch(`${API_BASE}/api/announcement?type=pricing`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: adminPassword, pricing: newList }),
+    });
+    if ((await res.json()).ok) { pricingCache = newList; renderAdminPricing(); renderPricing(pricingCache.filter(p => p.published)); }
+}
+
+
+// ── Announcements (multi) ──────────────────────────────────
+let announcementsCache = [];
+const ANN_ICONS = { info: '📋', warning: '⚠️', holiday: '🎉', promo: '🎁' };
+const ANN_COLORS = {
+    info:    'bg-blue-50 border-blue-200 text-blue-800',
+    warning: 'bg-yellow-50 border-yellow-200 text-yellow-800',
+    holiday: 'bg-purple-50 border-purple-200 text-purple-800',
+    promo:   'bg-green-50 border-green-200 text-green-800',
+};
+
+async function loadAnnouncements() {
+    try {
+        const res  = await fetch(`${API_BASE}/api/announcement?type=announcements`);
+        const data = await res.json();
+        announcementsCache = data.announcements || [];
+        renderAnnouncements(announcementsCache.filter(a => a.published));
+    } catch {
+        document.getElementById("announcements-grid").innerHTML = '';
+    }
+}
+
+function renderAnnouncements(items) {
+    const grid = document.getElementById("announcements-grid");
+    if (!items.length) {
+        grid.innerHTML = '<p class="text-gray-400 text-sm">ไม่มีประกาศในขณะนี้</p>';
+        return;
+    }
+    grid.innerHTML = items.map(a => `
+        <div class="rounded-xl border p-5 ${ANN_COLORS[a.type] || ANN_COLORS.info} flex gap-3 items-start">
+            <span class="text-xl shrink-0 mt-0.5">${ANN_ICONS[a.type] || '📋'}</span>
+            <div>
+                <p class="font-semibold text-sm leading-snug">${a.title}</p>
+                ${a.body ? `<p class="text-xs font-light mt-1 opacity-80 leading-relaxed">${a.body}</p>` : ''}
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderAdminAnnouncements() {
+    const list = document.getElementById("admin-announcements-list");
+    document.getElementById("announcements-count").innerText = announcementsCache.length;
+    if (!announcementsCache.length) { list.innerHTML = '<p class="text-xs text-gray-400 text-center py-4">ยังไม่มีประกาศ</p>'; return; }
+    list.innerHTML = announcementsCache.map(a => `
+        <div class="flex items-start justify-between gap-3 border border-gray-100 rounded-xl p-3 bg-white">
+            <div class="flex-1 min-w-0 flex gap-2">
+                <span class="text-base">${ANN_ICONS[a.type] || '📋'}</span>
+                <div>
+                    <p class="text-xs font-semibold text-primary truncate">${a.title}</p>
+                    <p class="text-[11px] text-gray-400 truncate mt-0.5">${a.body || ''}</p>
+                </div>
+            </div>
+            <div class="flex gap-1 shrink-0">
+                <button onclick="toggleAnnouncementPublish('${a.id}')" class="w-7 h-7 rounded-lg bg-gray-50 hover:bg-gray-100 flex items-center justify-center text-gray-500 text-xs">
+                    <i class="fa-solid ${a.published ? 'fa-eye-slash' : 'fa-eye'}"></i>
+                </button>
+                <button onclick="editAnnouncement('${a.id}')" class="w-7 h-7 rounded-lg bg-gray-50 hover:bg-gray-100 flex items-center justify-center text-gray-500 text-xs"><i class="fa-solid fa-pen"></i></button>
+                <button onclick="deleteAnnouncement('${a.id}')" class="w-7 h-7 rounded-lg bg-red-50 hover:bg-red-100 flex items-center justify-center text-red-400 text-xs"><i class="fa-solid fa-trash"></i></button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function openNewAnnouncementForm() {
+    document.getElementById("announcement-form-title").innerText = "เพิ่มประกาศใหม่";
+    document.getElementById("form-announcement-id").value    = "";
+    document.getElementById("form-announcement-title").value = "";
+    document.getElementById("form-announcement-body").value  = "";
+    document.getElementById("form-announcement-type").value  = "info";
+    document.getElementById("announcement-save-status").innerText = "";
+    document.getElementById("announcement-form").classList.remove("hidden");
+}
+
+function editAnnouncement(id) {
+    const a = announcementsCache.find(x => x.id === id);
+    if (!a) return;
+    document.getElementById("announcement-form-title").innerText = "แก้ไขประกาศ";
+    document.getElementById("form-announcement-id").value    = a.id;
+    document.getElementById("form-announcement-title").value = a.title;
+    document.getElementById("form-announcement-body").value  = a.body || '';
+    document.getElementById("form-announcement-type").value  = a.type || 'info';
+    document.getElementById("announcement-save-status").innerText = "";
+    document.getElementById("announcement-form").classList.remove("hidden");
+}
+
+function cancelAnnouncementForm() { document.getElementById("announcement-form").classList.add("hidden"); }
+
+async function saveAnnouncementForm() {
+    const title  = document.getElementById("form-announcement-title").value.trim();
+    const status = document.getElementById("announcement-save-status");
+    const btn    = document.getElementById("save-announcement-btn");
+    if (!title) { status.innerText = "กรุณากรอกหัวข้อประกาศครับ"; status.className = "text-xs text-center font-medium text-red-500"; return; }
+    const id   = document.getElementById("form-announcement-id").value;
+    const item = { id: id || String(Date.now()), type: document.getElementById("form-announcement-type").value, title, body: document.getElementById("form-announcement-body").value.trim(), published: true };
+    const newList = id ? announcementsCache.map(a => a.id === id ? item : a) : [...announcementsCache, item];
+    btn.disabled = true; status.innerText = "กำลังบันทึก..."; status.className = "text-xs text-center font-medium text-blue-600";
+    try {
+        const res  = await fetch(`${API_BASE}/api/announcement?type=announcements`, {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ password: adminPassword, announcements: newList }),
+        });
+        const data = await res.json();
+        if (res.ok && data.ok) {
+            announcementsCache = newList;
+            renderAdminAnnouncements();
+            renderAnnouncements(announcementsCache.filter(a => a.published));
+            cancelAnnouncementForm();
+            status.innerText = "บันทึกสำเร็จ! 🎉"; status.className = "text-xs text-center font-medium text-green-600";
+        } else { status.innerText = data.error || "เกิดข้อผิดพลาด"; status.className = "text-xs text-center font-medium text-red-500"; }
+    } catch { status.innerText = "ไม่สามารถเชื่อมต่อได้"; status.className = "text-xs text-center font-medium text-red-500"; }
+    finally { btn.disabled = false; }
+}
+
+async function toggleAnnouncementPublish(id) {
+    const newList = announcementsCache.map(a => a.id === id ? { ...a, published: !a.published } : a);
+    const res = await fetch(`${API_BASE}/api/announcement?type=announcements`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: adminPassword, announcements: newList }),
+    });
+    if ((await res.json()).ok) { announcementsCache = newList; renderAdminAnnouncements(); renderAnnouncements(announcementsCache.filter(a => a.published)); }
+}
+
+async function deleteAnnouncement(id) {
+    if (!confirm("ยืนยันลบประกาศนี้?")) return;
+    const newList = announcementsCache.filter(a => a.id !== id);
+    const res = await fetch(`${API_BASE}/api/announcement?type=announcements`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: adminPassword, announcements: newList }),
+    });
+    if ((await res.json()).ok) { announcementsCache = newList; renderAdminAnnouncements(); renderAnnouncements(announcementsCache.filter(a => a.published)); }
+}
+
+
+// ── Doctor Profile ─────────────────────────────────────────
+let doctorCache = {};
+
+async function loadDoctorProfile() {
+    try {
+        const res  = await fetch(`${API_BASE}/api/announcement?type=doctor`);
+        const data = await res.json();
+        doctorCache = data.doctor || {};
+        renderDoctorSection(doctorCache);
+    } catch { /* ใช้ข้อมูล default ใน HTML */ }
+}
+
+function renderDoctorSection(d) {
+    if (!d || !d.name_th) return;
+    const safe = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val || ''; };
+    // รูปภาพ
+    if (d.image) {
+        const photo = document.getElementById("doctor-photo");
+        const placeholder = document.getElementById("doctor-photo-placeholder");
+        if (photo) { photo.src = d.image; photo.classList.remove("hidden"); photo.onerror = () => { photo.classList.add("hidden"); if(placeholder) placeholder.classList.remove("hidden"); }; }
+        if (placeholder) placeholder.classList.add("hidden");
+    }
+    safe("doctor-name-th",  d.name_th);
+    safe("doctor-name-cn",  d.name_cn);
+    safe("doctor-name-en",  d.name_en);
+    safe("doctor-license",  d.license);
+    safe("doctor-exp-th",   d.exp_th);
+    safe("doctor-exp-cn",   d.exp_cn);
+    safe("doctor-exp-en",   d.exp_en);
+    safe("doctor-edu-th",   d.edu_th);
+    safe("doctor-edu-en",   d.edu_en);
+
+}
+
+function previewDoctorImage() {
+    const url = document.getElementById("form-doctor-image").value.trim();
+    const preview = document.getElementById("doctor-img-preview");
+    if (!url) { preview.innerHTML = "👩‍⚕️"; return; }
+    preview.innerHTML = `<img src="${url}" class="w-full h-full object-cover rounded-full"
+        onerror="this.parentElement.innerHTML='❌ URL ไม่ถูกต้อง'"
+        onload="this.style.display='block'">`;
+}
+
+async function saveDoctorProfile() {
+    const btn    = document.getElementById("save-doctor-btn");
+    const status = document.getElementById("doctor-save-status");
+    const getVal = id => document.getElementById(id)?.value.trim() || '';
+    const data = {
+        image:   getVal("form-doctor-image"),
+        name_th: getVal("form-doctor-name-th"),
+        name_cn: getVal("form-doctor-name-cn"),
+        name_en: getVal("form-doctor-name-en"),
+        license: getVal("form-doctor-license"),
+        exp_th:  getVal("form-doctor-exp-th"),
+        exp_cn:  getVal("form-doctor-exp-cn"),
+        exp_en:  getVal("form-doctor-exp-en"),
+        edu_th:  getVal("form-doctor-edu-th"),
+        edu_en:  getVal("form-doctor-edu-en"),
+    };
+    if (!data.name_th) { status.innerText = "กรุณากรอกชื่อหมอครับ"; status.className = "text-xs text-center font-medium text-red-500"; return; }
+    btn.disabled = true; status.innerText = "กำลังบันทึก..."; status.className = "text-xs text-center font-medium text-blue-600";
+    try {
+        const res  = await fetch(`${API_BASE}/api/announcement?type=doctor`, {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ password: adminPassword, doctor: data }),
+        });
+        const resData = await res.json();
+        if (res.ok && resData.ok) {
+            doctorCache = data;
+            renderDoctorSection(data);
+            status.innerText = "บันทึกสำเร็จ! 🎉"; status.className = "text-xs text-center font-medium text-green-600";
+        } else { status.innerText = resData.error || "เกิดข้อผิดพลาด"; status.className = "text-xs text-center font-medium text-red-500"; }
+    } catch { status.innerText = "ไม่สามารถเชื่อมต่อได้"; status.className = "text-xs text-center font-medium text-red-500"; }
+    finally { btn.disabled = false; }
+}
+
+// โหลดข้อมูลใน form เมื่อเปิด tab
+const _origSwitchTab = switchTab;
 
 </script>
 </body>
