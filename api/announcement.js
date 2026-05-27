@@ -63,7 +63,14 @@ export default async function handler(req, res) {
             if (type === "announcement") {
                 return res.status(200).json({ text: parsed.text, sha: data.sha });
             }
-            return res.status(200).json({ [type]: parsed, sha: data.sha });
+            if (type === "doctor") {
+                return res.status(200).json({ doctor: parsed, sha: data.sha });
+            }
+            if (type === "announcements") {
+                const arr = Array.isArray(parsed) ? parsed : [];
+                return res.status(200).json({ announcements: arr, sha: data.sha });
+            }
+            return res.status(200).json({ [type]: Array.isArray(parsed) ? parsed : [], sha: data.sha });
         } catch (err) {
             // ถ้าไฟล์ยังไม่มี return ค่าว่าง
             if (err.message.includes("404") || err.message.includes("GET failed")) {
@@ -85,8 +92,15 @@ export default async function handler(req, res) {
             if (type === "announcement") {
                 if (!body.text) return res.status(400).json({ error: "ข้อมูลไม่ครบถ้วน" });
                 newContent = { text: body.text.trim() };
+            } else if (type === "doctor") {
+                // doctor เป็น object ไม่ใช่ array
+                if (!body.doctor || typeof body.doctor !== "object") return res.status(400).json({ error: "ข้อมูลไม่ถูกต้อง" });
+                newContent = body.doctor;
+            } else if (type === "announcements") {
+                if (!Array.isArray(body.announcements)) return res.status(400).json({ error: "ข้อมูลไม่ถูกต้อง" });
+                newContent = body.announcements;
             } else {
-                const key = type; // articles / reviews / faq
+                const key = type; // articles / reviews / faq / pricing
                 if (!Array.isArray(body[key])) return res.status(400).json({ error: "ข้อมูลไม่ถูกต้อง" });
                 newContent = body[key];
             }
