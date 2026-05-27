@@ -929,6 +929,42 @@
     </div>
 </div>
 
+
+<!-- ══════════ ANNOUNCEMENT POPUP ══════════ -->
+<div id="ann-popup" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden">
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-primary/70 backdrop-blur-sm" onclick="closeAnnPopup()"></div>
+    <!-- Card -->
+    <div class="relative bg-[#F8F3E8] rounded-2xl shadow-2xl border border-[#D4C9A8] w-full max-w-md overflow-hidden animate-fade-in">
+        <!-- Top bar ทอง -->
+        <div class="h-1.5 bg-gradient-to-r from-accent via-yellow-300 to-accent"></div>
+        <!-- Header -->
+        <div class="flex items-center justify-between px-6 pt-5 pb-3">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-primary flex items-center justify-center shadow-md shrink-0">
+                    <i class="fa-solid fa-bullhorn text-accent text-sm"></i>
+                </div>
+                <div>
+                    <h3 class="font-serif font-bold text-primary text-base leading-tight">ประกาศจากคลินิก</h3>
+                    <p class="text-primary/40 text-[10px] uppercase tracking-widest">Clinic Announcements</p>
+                </div>
+            </div>
+            <button onclick="closeAnnPopup()" class="w-8 h-8 rounded-full bg-primary/5 hover:bg-primary/10 flex items-center justify-center text-primary/40 hover:text-primary transition-colors">
+                <i class="fa-solid fa-xmark text-sm"></i>
+            </button>
+        </div>
+        <!-- Items -->
+        <div id="ann-popup-list" class="px-6 pb-2 space-y-2 max-h-64 overflow-y-auto"></div>
+        <!-- Footer -->
+        <div class="px-6 pb-5 pt-3">
+            <button onclick="closeAnnPopup()" class="w-full bg-primary hover:bg-emeraldLight text-white font-bold py-3 rounded-xl text-sm transition-all shadow-md flex items-center justify-center gap-2">
+                <i class="fa-solid fa-check text-accent text-xs"></i>
+                รับทราบแล้ว
+            </button>
+        </div>
+    </div>
+</div>
+
 <!-- ══════════════════ SCRIPTS ══════════════════ -->
 <script>
 const API_BASE = "https://morkwantcm.vercel.app";
@@ -1801,7 +1837,10 @@ async function loadAnnouncements() {
         const res  = await fetchWithTimeout(`${API_BASE}/api/announcement?type=announcements`);
         const data = await res.json();
         announcementsCache = data.announcements || [];
-        renderAnnouncements(announcementsCache.filter(a => a.published));
+        const published = announcementsCache.filter(a => a.published);
+        renderAnnouncements(published);
+        // แสดง popup ถ้ามีประกาศ
+        setTimeout(() => showAnnPopup(published), 800);
     } catch {
         document.getElementById("announcements-grid").innerHTML = '';
     }
@@ -2300,6 +2339,51 @@ async function testWebhook() {
         status.innerText = "ส่งทดสอบสำเร็จ! เช็ก Discord ได้เลยครับ 🎉"; status.className = "text-xs text-center font-medium text-green-600";
     } catch { status.innerText = "ส่งไม่สำเร็จ ตรวจสอบ URL อีกครั้งครับ"; status.className = "text-xs text-center font-medium text-red-500"; }
     finally { btn.disabled = false; }
+}
+
+
+// ── Announcement Popup ────────────────────────────────
+function showAnnPopup(items) {
+    if (!items || !items.length) return;
+
+    // เช็ก localStorage — ถ้าปิดไปแล้วใน 24 ชม. ไม่แสดง
+    const lastClosed = localStorage.getItem("ann_popup_closed");
+    if (lastClosed) {
+        const diff = Date.now() - parseInt(lastClosed);
+        if (diff < 24 * 60 * 60 * 1000) return;
+    }
+
+    const TYPE_CONFIG = {
+        info:    { icon: 'fa-circle-info',          bg: 'bg-primary/8  border-primary/20', label: 'ข้อมูล',     labelColor: 'bg-primary/10 text-primary'   },
+        warning: { icon: 'fa-triangle-exclamation', bg: 'bg-accent/8   border-accent/20',  label: 'แจ้งเตือน',  labelColor: 'bg-accent/15 text-primary'    },
+        holiday: { icon: 'fa-calendar-xmark',       bg: 'bg-accent/8   border-accent/20',  label: 'หยุดทำการ', labelColor: 'bg-accent/15 text-primary'    },
+        promo:   { icon: 'fa-tag',                  bg: 'bg-primary/5  border-primary/10', label: 'โปรโมชัน',   labelColor: 'bg-primary/10 text-primary'   },
+    };
+
+    const list = document.getElementById("ann-popup-list");
+    list.innerHTML = items.map(a => {
+        const cfg = TYPE_CONFIG[a.type] || TYPE_CONFIG.info;
+        return `
+        <div class="flex items-start gap-3 rounded-xl border p-4 ${cfg.bg}">
+            <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0 mt-0.5">
+                <i class="fa-solid ${cfg.icon} text-accent text-xs"></i>
+            </div>
+            <div class="flex-1 min-w-0">
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${cfg.labelColor} inline-block mb-1">${cfg.label}</span>
+                <p class="font-semibold text-primary text-sm leading-snug">${a.title}</p>
+                ${a.body ? `<p class="text-primary/50 text-xs mt-1 leading-relaxed">${a.body}</p>` : ''}
+            </div>
+        </div>`;
+    }).join('');
+
+    document.getElementById("ann-popup").classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+}
+
+function closeAnnPopup() {
+    document.getElementById("ann-popup").classList.add("hidden");
+    document.body.style.overflow = "";
+    localStorage.setItem("ann_popup_closed", String(Date.now()));
 }
 
 </script>
