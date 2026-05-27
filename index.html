@@ -743,6 +743,20 @@
 <script>
 const API_BASE = "https://morkwantcm.vercel.app";
 
+// fetch พร้อม timeout 10 วินาที
+async function fetchWithTimeout(url, options = {}, timeout = 10000) {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeout);
+    try {
+        const res = await fetch(url, { ...options, signal: controller.signal });
+        clearTimeout(id);
+        return res;
+    } catch (err) {
+        clearTimeout(id);
+        throw err;
+    }
+}
+
 let adminPassword  = "";
 let articlesCache  = [];
 
@@ -768,7 +782,7 @@ async function loadAnnouncement() {
 
 async function loadArticles() {
     try {
-        const res  = await fetch(`${API_BASE}/api/announcement?type=articles`);
+        const res  = await fetchWithTimeout(`${API_BASE}/api/announcement?type=articles`);
         const data = await res.json();
         articlesCache = data.articles || [];
         renderArticles(articlesCache.filter(a => a.published));
@@ -900,18 +914,15 @@ async function checkAdminPassword() {
             document.getElementById("admin-login-box").classList.add("hidden");
             document.getElementById("admin-content-box").classList.remove("hidden");
             document.getElementById("input-announcement").value = document.getElementById("announcement-text").innerText;
-            // โหลดและ render ทันทีหลัง login — await เพื่อรอให้ได้ข้อมูลจริงๆ
-            // โหลดและ render ทันทีหลัง login — parallel load ทุก tab
-            const [,,,] = await Promise.all([
-                loadAnnouncements(),
-                loadArticles(),
-                loadReviews(),
-                loadFaq(),
-                loadPricing(),
-                loadDoctorProfile(),
-            ]);
+            // โหลด announcements ก่อน → render tab แรกทันที
+            await loadAnnouncements();
             renderAdminAnnouncements();
-            renderAdminArticles();
+            // โหลดที่เหลือ background — ไม่ block UI
+            loadArticles().then(renderAdminArticles).catch(()=>{});
+            loadReviews().catch(()=>{});
+            loadFaq().catch(()=>{});
+            loadPricing().catch(()=>{});
+            loadDoctorProfile().catch(()=>{});
         } else { err.innerText = "เกิดข้อผิดพลาด กรุณาลองใหม่"; }
     } catch { err.innerText = "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้"; }
     finally { btn.disabled = false; btn.innerText = "ยืนยันเข้าสู่ระบบ"; }
@@ -925,14 +936,24 @@ function switchTab(tab) {
         const t = el.getAttribute("onclick").match(/switchTab\('(\w+)'\)/)?.[1];
         el.classList.toggle("active", t === tab);
     });
-    const loaders = {
-        announcements: () => loadAnnouncements().then(renderAdminAnnouncements),
-        articles:      () => loadArticles().then(renderAdminArticles),
-        reviews:       () => loadReviews().then(renderAdminReviews),
-        faq:           () => loadFaq().then(renderAdminFaq),
-        pricing:       () => loadPricing().then(renderAdminPricing),
+    const tabLoaders = {
+        announcements: { load: loadAnnouncements,  render: renderAdminAnnouncements, listId: 'admin-announcements-list' },
+        articles:      { load: loadArticles,        render: renderAdminArticles,       listId: 'admin-articles-list'      },
+        reviews:       { load: loadReviews,         render: renderAdminReviews,        listId: 'admin-reviews-list'       },
+        faq:           { load: loadFaq,             render: renderAdminFaq,            listId: 'admin-faq-list'           },
+        pricing:       { load: loadPricing,         render: renderAdminPricing,        listId: 'admin-pricing-list'       },
     };
-    if (loaders[tab]) loaders[tab]();
+    const t = tabLoaders[tab];
+    if (t) {
+        // แสดง loading ก่อน
+        const listEl = document.getElementById(t.listId);
+        if (listEl) listEl.innerHTML = '<p class="text-xs text-gray-400 text-center py-6 animate-pulse">กำลังโหลดข้อมูล...</p>';
+        t.load()
+            .then(t.render)
+            .catch(() => {
+                if (listEl) listEl.innerHTML = '<p class="text-xs text-red-400 text-center py-6">โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่</p>';
+            });
+    }
     if (tab === "doctor") {
         const d = doctorCache;
         if (d && d.name_th) {
@@ -1138,7 +1159,7 @@ let reviewsCache = [];
 
 async function loadReviews() {
     try {
-        const res  = await fetch(`${API_BASE}/api/announcement?type=reviews`);
+        const res  = await fetchWithTimeout(`${API_BASE}/api/announcement?type=reviews`);
         const data = await res.json();
         reviewsCache = data.reviews || [];
         renderReviews(reviewsCache.filter(r => r.published));
@@ -1176,7 +1197,7 @@ let faqCache = [];
 
 async function loadFaq() {
     try {
-        const res  = await fetch(`${API_BASE}/api/announcement?type=faq`);
+        const res  = await fetchWithTimeout(`${API_BASE}/api/announcement?type=faq`);
         const data = await res.json();
         faqCache = data.faq || [];
         renderFaq(faqCache.filter(f => f.published));
@@ -1404,7 +1425,7 @@ let pricingCache = [];
 
 async function loadPricing() {
     try {
-        const res  = await fetch(`${API_BASE}/api/announcement?type=pricing`);
+        const res  = await fetchWithTimeout(`${API_BASE}/api/announcement?type=pricing`);
         const data = await res.json();
         pricingCache = data.pricing || [];
         renderPricing(pricingCache.filter(p => p.published));
@@ -1571,7 +1592,7 @@ const ANN_COLORS = {
 
 async function loadAnnouncements() {
     try {
-        const res  = await fetch(`${API_BASE}/api/announcement?type=announcements`);
+        const res  = await fetchWithTimeout(`${API_BASE}/api/announcement?type=announcements`);
         const data = await res.json();
         announcementsCache = data.announcements || [];
         renderAnnouncements(announcementsCache.filter(a => a.published));
@@ -1717,7 +1738,7 @@ let doctorCache = {};
 
 async function loadDoctorProfile() {
     try {
-        const res  = await fetch(`${API_BASE}/api/announcement?type=doctor`);
+        const res  = await fetchWithTimeout(`${API_BASE}/api/announcement?type=doctor`);
         const data = await res.json();
         doctorCache = data.doctor || {};
         renderDoctorSection(doctorCache);
