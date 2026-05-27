@@ -204,15 +204,15 @@
 
 
 <!-- ══════════ ANNOUNCEMENTS SECTION ══════════ -->
-<section id="announcements" class="py-10 bg-gradient-to-r from-primary to-emeraldLight">
-    <div class="max-w-7xl mx-auto px-6">
-        <div class="flex items-center gap-3 mb-5">
+<section id="announcements" class="py-8 bg-gradient-to-r from-primary to-emeraldLight">
+    <div class="max-w-4xl mx-auto px-6">
+        <div class="flex items-center gap-3 mb-4">
             <div class="w-8 h-8 rounded-full bg-accent/20 border border-accent/40 flex items-center justify-center text-accent shrink-0">
                 <i class="fa-solid fa-bullhorn text-xs"></i>
             </div>
             <h2 class="font-serif font-bold text-lg text-white">ประกาศจากคลินิก</h2>
         </div>
-        <div id="announcements-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
+        <div id="announcements-grid" class="space-y-3">
             <div class="text-gray-400 text-sm py-4">กำลังโหลดประกาศ...</div>
         </div>
     </div>
@@ -875,6 +875,12 @@ async function checkAdminPassword() {
             document.getElementById("admin-login-box").classList.add("hidden");
             document.getElementById("admin-content-box").classList.remove("hidden");
             document.getElementById("input-announcement").value = document.getElementById("announcement-text").innerText;
+            // โหลดและแสดงประกาศทันทีหลัง login
+            if (announcementsCache.length > 0) {
+                renderAdminAnnouncements();
+            } else {
+                loadAnnouncements().then(() => renderAdminAnnouncements());
+            }
             renderAdminArticles();
         } else { err.innerText = "เกิดข้อผิดพลาด กรุณาลองใหม่"; }
     } catch { err.innerText = "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้"; }
@@ -890,8 +896,11 @@ function switchTab(tab) {
         el.classList.toggle("active", t === tab);
     });
     if (tab === "announcements") {
-        // โหลดใหม่ทุกครั้งที่เปิด tab เพื่อให้ข้อมูลล่าสุดเสมอ
-        loadAnnouncements().then(() => renderAdminAnnouncements());
+        if (announcementsCache.length > 0) {
+            renderAdminAnnouncements();
+        } else {
+            loadAnnouncements().then(() => renderAdminAnnouncements());
+        }
     }
     if (tab === "articles") renderAdminArticles();
     if (tab === "reviews")  renderAdminReviews();
