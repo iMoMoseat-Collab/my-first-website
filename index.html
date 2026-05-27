@@ -87,7 +87,7 @@
                     colors: {
                         primary: '#1A4731',
                         emeraldLight: '#2D6A4F',
-                        accent: '#B8860B',
+                        accent: '#C9962A',
                         accentLight: '#F5E6C8',
                         bgLight: '#F8F3E8',
                         darkText: '#2D3748'
@@ -208,11 +208,29 @@
 
 
 <!-- ══════════ ANNOUNCEMENTS SECTION ══════════ -->
-<section id="announcements" class="py-6 bg-[#EEE8D8] border-b border-[#D4C9A8]">
+<section id="announcements" class="py-10 bg-[#EEE8D8] border-b border-[#D4C9A8]">
     <div class="max-w-5xl mx-auto px-6">
-        <div id="announcements-grid" class="space-y-2">
-            <div class="text-gray-400 text-sm py-2">กำลังโหลด...</div>
+
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-5">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-primary flex items-center justify-center shadow-md shrink-0">
+                    <i class="fa-solid fa-bullhorn text-accent text-sm"></i>
+                </div>
+                <div>
+                    <h2 class="font-serif font-bold text-primary text-lg leading-tight">ประกาศจากคลินิก</h2>
+                    <p class="text-primary/50 text-[11px] tracking-widest uppercase font-medium">Clinic Announcements</p>
+                </div>
+            </div>
+            <div class="hidden md:block h-px flex-1 bg-[#D4C9A8] mx-6"></div>
+            <span id="ann-date" class="text-primary/40 text-xs font-light shrink-0"></span>
         </div>
+
+        <!-- Grid -->
+        <div id="announcements-grid" class="flex flex-col gap-2">
+            <div class="text-primary/40 text-sm py-3 text-center">กำลังโหลดประกาศ...</div>
+        </div>
+
     </div>
 </section>
 
@@ -855,17 +873,12 @@ function toggleAdminModal() {
         document.getElementById("admin-password").value  = "";
         document.getElementById("login-error").innerText = "";
         adminPassword = "";
-        // โหลดข้อมูลทั้งหมดทันทีที่เปิด modal
-        Promise.all([
-            announcementsCache.length ? Promise.resolve() : loadAnnouncements(),
-            articlesCache.length      ? Promise.resolve() : loadArticles(),
-            reviewsCache.length       ? Promise.resolve() : loadReviews(),
-            faqCache.length           ? Promise.resolve() : loadFaq(),
-            pricingCache.length       ? Promise.resolve() : loadPricing(),
-        ]).then(() => {
-            // ถ้า login แล้ว render ทันที
-            if (adminPassword) renderAdminAnnouncements();
-        });
+        // reset cache เพื่อให้โหลดใหม่ทุกครั้งหลัง login
+        announcementsCache = [];
+        articlesCache = [];
+        reviewsCache = [];
+        faqCache = [];
+        pricingCache = [];
     }
 }
 
@@ -887,11 +900,14 @@ async function checkAdminPassword() {
             document.getElementById("admin-login-box").classList.add("hidden");
             document.getElementById("admin-content-box").classList.remove("hidden");
             document.getElementById("input-announcement").value = document.getElementById("announcement-text").innerText;
-            // render ทันทีหลัง login
-            setTimeout(() => {
-                renderAdminAnnouncements();
-                renderAdminArticles();
-            }, 100);
+            // โหลดและ render ทันทีหลัง login — await เพื่อรอให้ได้ข้อมูลจริงๆ
+            await loadAnnouncements();
+            renderAdminAnnouncements();
+            await loadArticles();
+            renderAdminArticles();
+            loadReviews();
+            loadFaq();
+            loadPricing();
         } else { err.innerText = "เกิดข้อผิดพลาด กรุณาลองใหม่"; }
     } catch { err.innerText = "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้"; }
     finally { btn.disabled = false; btn.innerText = "ยืนยันเข้าสู่ระบบ"; }
@@ -905,7 +921,9 @@ function switchTab(tab) {
         const t = el.getAttribute("onclick").match(/switchTab\('(\w+)'\)/)?.[1];
         el.classList.toggle("active", t === tab);
     });
-    if (tab === "announcements") renderAdminAnnouncements();
+    if (tab === "announcements") {
+        loadAnnouncements().then(() => renderAdminAnnouncements());
+    }
     if (tab === "articles") renderAdminArticles();
     if (tab === "reviews")  renderAdminReviews();
     if (tab === "faq")      renderAdminFaq();
@@ -1556,9 +1574,13 @@ async function loadAnnouncements() {
 
 function renderAnnouncements(items) {
     const grid = document.getElementById("announcements-grid");
-
+    // แสดงวันที่ปัจจุบัน
+    const dateEl = document.getElementById("ann-date");
+    if (dateEl) {
+        dateEl.innerText = new Date().toLocaleDateString('th-TH', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+    }
     if (!items.length) {
-        grid.innerHTML = '<p class="text-gray-300 text-sm opacity-60">ไม่มีประกาศในขณะนี้</p>';
+        grid.innerHTML = '<p class="text-primary/40 text-sm text-center py-3">ไม่มีประกาศในขณะนี้</p>';
         return;
     }
 
