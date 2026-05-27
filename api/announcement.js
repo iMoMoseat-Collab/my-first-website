@@ -18,6 +18,9 @@ const FILES = {
     articles:     process.env.GITHUB_ARTICLES_FILE     || "_data/articles.json",
     reviews:      process.env.GITHUB_REVIEWS_FILE      || "_data/reviews.json",
     faq:          process.env.GITHUB_FAQ_FILE          || "_data/faq.json",
+    pricing:      process.env.GITHUB_PRICING_FILE       || "_data/pricing.json",
+    announcements: process.env.GITHUB_ANNOUNCEMENTS_FILE || "_data/announcements.json",
+    doctor:        process.env.GITHUB_DOCTOR_FILE        || "_data/doctor.json",
 };
 
 async function ghGet(path) {
