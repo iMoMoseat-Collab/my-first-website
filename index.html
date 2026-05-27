@@ -1616,8 +1616,8 @@ async function saveAnnouncementForm() {
             announcementsCache = newList;
             renderAdminAnnouncements();
             renderAnnouncements(announcementsCache.filter(a => a.published));
-            cancelAnnouncementForm();
             status.innerText = "บันทึกสำเร็จ! 🎉"; status.className = "text-xs text-center font-medium text-green-600";
+            setTimeout(cancelAnnouncementForm, 1500);
         } else { status.innerText = data.error || "เกิดข้อผิดพลาด"; status.className = "text-xs text-center font-medium text-red-500"; }
     } catch { status.innerText = "ไม่สามารถเชื่อมต่อได้"; status.className = "text-xs text-center font-medium text-red-500"; }
     finally { btn.disabled = false; }
