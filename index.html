@@ -85,9 +85,12 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#03301F', emeraldLight: '#05472E',
-                        accent: '#C5A059', accentLight: '#EADCB9',
-                        bgLight: '#FAF9F6', darkText: '#2D3748'
+                        primary: '#1A4731',
+                        emeraldLight: '#2D6A4F',
+                        accent: '#B8860B',
+                        accentLight: '#F5E6C8',
+                        bgLight: '#F8F3E8',
+                        darkText: '#2D3748'
                     },
                     fontFamily: {
                         serif: ['"Noto Serif Thai"', 'serif'],
@@ -98,9 +101,9 @@
         }
     </script>
     <style>
-        body { background-color:#FAF9F6; font-family:'Anuphan',sans-serif; color:#2D3748; overflow-x:hidden; }
+        body { background-color:#F8F3E8; font-family:'Anuphan',sans-serif; color:#2D3748; overflow-x:hidden; }
         .glass-nav { background:rgba(255,255,255,0.85); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); }
-        .hero-gradient { background:linear-gradient(135deg,#03301F 0%,#05472E 100%); }
+        .hero-gradient { background:linear-gradient(135deg,#1A4731 0%,#2D6A4F 60%,#1A4731 100%); }
         .premium-shadow { box-shadow:0 10px 30px -10px rgba(3,48,31,0.08); }
         .premium-shadow-hover:hover { box-shadow:0 20px 40px -15px rgba(197,160,89,0.15); transform:translateY(-4px); }
         #admin-modal.hidden { display:none; } #admin-modal:not(.hidden) { display:flex; }
@@ -140,7 +143,7 @@
         #copy-toast:empty { display:none; }
         /* Admin tabs */
         .admin-tab { cursor:pointer; padding:8px 16px; border-radius:8px; font-size:13px; font-weight:500; transition:all .2s; }
-        .admin-tab.active { background:#03301F; color:#fff; }
+        .admin-tab.active { background:#1A4731; color:#fff; }
         .admin-tab:not(.active) { color:#6b7280; }
         .admin-tab:not(.active):hover { background:#f3f4f6; }
     </style>
@@ -161,6 +164,7 @@
             <a href="#doctor" class="hover:text-accent transition-colors duration-200">เกี่ยวกับหมอ</a>
             <a href="#services" class="hover:text-accent transition-colors duration-200">บริการ</a>
             <a href="#pricing" class="hover:text-accent transition-colors duration-200">ค่าบริการ</a>
+            <a href="#articles" class="hover:text-accent transition-colors duration-200">บทความ</a>
             <a href="#checker" class="hover:text-accent font-semibold text-emerald-700 transition-colors duration-200">✨ เช็กสุขภาพ</a>
             <a href="#reviews" class="hover:text-accent transition-colors duration-200">รีวิว</a>
             <a href="#faq" class="hover:text-accent transition-colors duration-200">FAQ</a>
@@ -204,22 +208,16 @@
 
 
 <!-- ══════════ ANNOUNCEMENTS SECTION ══════════ -->
-<section id="announcements" class="py-8 bg-gradient-to-r from-primary to-emeraldLight">
-    <div class="max-w-4xl mx-auto px-6">
-        <div class="flex items-center gap-3 mb-4">
-            <div class="w-8 h-8 rounded-full bg-accent/20 border border-accent/40 flex items-center justify-center text-accent shrink-0">
-                <i class="fa-solid fa-bullhorn text-xs"></i>
-            </div>
-            <h2 class="font-serif font-bold text-lg text-white">ประกาศจากคลินิก</h2>
-        </div>
-        <div id="announcements-grid" class="space-y-3">
-            <div class="text-gray-400 text-sm py-4">กำลังโหลดประกาศ...</div>
+<section id="announcements" class="py-6 bg-[#EEE8D8] border-b border-[#D4C9A8]">
+    <div class="max-w-5xl mx-auto px-6">
+        <div id="announcements-grid" class="space-y-2">
+            <div class="text-gray-400 text-sm py-2">กำลังโหลด...</div>
         </div>
     </div>
 </section>
 
 <!-- ══════════ DOCTOR PROFILE ══════════ -->
-<section id="doctor" class="py-20 bg-white border-y border-gray-100">
+<section id="doctor" class="py-20 bg-[#F7F4EF] border-y border-[#E8E0D0]">
     <div class="max-w-7xl mx-auto px-6">
         <div class="text-center max-w-2xl mx-auto mb-16">
             <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">About Doctor</span>
@@ -295,7 +293,7 @@
 </section>
 
 <!-- SERVICES -->
-<section id="services" class="py-20 bg-white border-y border-gray-100">
+<section id="services" class="py-20 bg-[#F7F4EF] border-y border-[#E8E0D0]">
     <div class="max-w-7xl mx-auto px-6">
         <div class="text-center max-w-2xl mx-auto mb-16">
             <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Treatments</span>
@@ -318,7 +316,7 @@
 </section>
 
 <!-- ══════════ PRICING ══════════ -->
-<section id="pricing" class="py-20 bg-white border-y border-gray-100">
+<section id="pricing" class="py-20 bg-[#F7F4EF] border-y border-[#E8E0D0]">
     <div class="max-w-5xl mx-auto px-6">
         <div class="text-center max-w-2xl mx-auto mb-12">
             <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Pricing</span>
@@ -348,6 +346,19 @@
     </div>
 </section>
 
+<!-- ARTICLES -->
+<section id="articles" class="py-20 max-w-7xl mx-auto px-6">
+    <div class="text-center max-w-2xl mx-auto mb-16">
+        <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Journal</span>
+        <h2 class="text-3xl md:text-4xl font-serif text-primary font-bold">บทความความรู้เพื่อสุขภาพ</h2>
+        <div class="w-12 h-[2px] bg-accent mx-auto mt-4"></div>
+    </div>
+    <div id="articles-grid" class="columns-1 sm:columns-2 lg:columns-3 gap-8 space-y-8">
+        <div class="text-center text-gray-400 py-10 col-span-3">กำลังโหลดบทความ...</div>
+    </div>
+</section>
+
+
 <!-- HEALTH QUIZ -->
 <section id="checker" class="py-20 max-w-4xl mx-auto px-6">
     <div class="text-center mb-12">
@@ -356,7 +367,7 @@
         <div class="w-12 h-[2px] bg-accent mx-auto mt-3"></div>
         <p class="text-gray-500 text-xs font-light mt-3">ลองเช็กอาการของคุณเบื้องต้น เพื่อดูสภาวะหยิน-หยางและลมปราณภายในร่างกาย</p>
     </div>
-    <div class="bg-white rounded-2xl border border-gray-100 shadow-xl p-8 md:p-10 relative overflow-hidden">
+    <div class="bg-[#FAF6EC] rounded-2xl border border-gray-100 shadow-xl p-8 md:p-10 relative overflow-hidden">
         <div class="absolute top-0 left-0 w-full h-1.5 bg-accent"></div>
         <div id="quiz-container" class="space-y-8">
             <div><h4 class="font-semibold text-primary text-sm mb-3">1. สภาวะพลังกายและความเหนื่อยล้าของคุณในปัจจุบันเป็นอย่างไร?</h4><div class="grid grid-cols-1 sm:grid-cols-2 gap-3"><label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors"><input type="radio" name="q1" value="qi_deficient" class="accent-accent scale-110"> เหนื่อยง่าย อ่อนเพลีย พูดไม่ค่อยมีแรง ไม่อยากขยับตัว</label><label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors"><input type="radio" name="q1" value="normal" class="accent-accent scale-110" checked> ปกติ กระปรี้กระเปร่าดี พลังงานสม่ำเสมอทั้งวัน</label></div></div>
@@ -379,7 +390,7 @@
 </section>
 
 <!-- REVIEWS -->
-<section id="reviews" class="py-20 bg-white border-y border-gray-100">
+<section id="reviews" class="py-20 bg-[#F7F4EF] border-y border-[#E8E0D0]">
     <div class="max-w-7xl mx-auto px-6">
         <div class="text-center max-w-2xl mx-auto mb-16">
             <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Testimonials</span>
@@ -422,19 +433,6 @@
 </section>
 
 
-<!-- ARTICLES -->
-<section id="articles" class="py-20 max-w-7xl mx-auto px-6">
-    <div class="text-center max-w-2xl mx-auto mb-16">
-        <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Journal</span>
-        <h2 class="text-3xl md:text-4xl font-serif text-primary font-bold">บทความความรู้เพื่อสุขภาพ</h2>
-        <div class="w-12 h-[2px] bg-accent mx-auto mt-4"></div>
-    </div>
-    <div id="articles-grid" class="columns-1 sm:columns-2 lg:columns-3 gap-8 space-y-8">
-        <div class="text-center text-gray-400 py-10 col-span-3">กำลังโหลดบทความ...</div>
-    </div>
-</section>
-
-
 <!-- CONTACT -->
 <section id="contact" class="py-20 bg-primary text-white">
     <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-12 items-stretch">
@@ -457,7 +455,7 @@
     </div>
 </section>
 
-<footer class="bg-[#022216] text-center py-8 text-xs text-gray-500 border-t border-white/5 tracking-wider">
+<footer class="bg-[#111F17] text-center py-8 text-xs text-gray-500 border-t border-white/5 tracking-wider">
     <p>© 2026 หมอขวัญแพทย์แผนจีน คลินิกฝังเข็มและสมุนไพรจีนศรีราชา. All Rights Reserved.</p>
 </footer>
 
@@ -512,7 +510,7 @@
 
 <!-- ══════════════════ ADMIN MODAL ══════════════════ -->
 <div id="admin-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg border-t-4 border-accent text-gray-700 relative max-h-[90vh] flex flex-col">
+    <div class="bg-[#FAF6EC] rounded-2xl shadow-2xl w-full max-w-lg border-t-4 border-accent text-gray-700 relative max-h-[90vh] flex flex-col">
         <div class="flex justify-between items-center px-8 pt-8 pb-4 shrink-0">
             <h3 class="text-xl font-bold text-primary font-serif"><i class="fa-solid fa-sliders mr-2 text-accent"></i>ระบบจัดการหลังบ้าน</h3>
             <button onclick="toggleAdminModal()" class="text-gray-400 hover:text-gray-600 text-2xl leading-none">×</button>
@@ -849,12 +847,26 @@ function formatDate(d) {
 // ── Admin Modal ────────────────────────────────────────────
 function toggleAdminModal() {
     const modal = document.getElementById("admin-modal");
+    const isOpening = modal.classList.contains("hidden");
     modal.classList.toggle("hidden");
-    document.getElementById("admin-login-box").classList.remove("hidden");
-    document.getElementById("admin-content-box").classList.add("hidden");
-    document.getElementById("admin-password").value  = "";
-    document.getElementById("login-error").innerText = "";
-    adminPassword = "";
+    if (isOpening) {
+        document.getElementById("admin-login-box").classList.remove("hidden");
+        document.getElementById("admin-content-box").classList.add("hidden");
+        document.getElementById("admin-password").value  = "";
+        document.getElementById("login-error").innerText = "";
+        adminPassword = "";
+        // โหลดข้อมูลทั้งหมดทันทีที่เปิด modal
+        Promise.all([
+            announcementsCache.length ? Promise.resolve() : loadAnnouncements(),
+            articlesCache.length      ? Promise.resolve() : loadArticles(),
+            reviewsCache.length       ? Promise.resolve() : loadReviews(),
+            faqCache.length           ? Promise.resolve() : loadFaq(),
+            pricingCache.length       ? Promise.resolve() : loadPricing(),
+        ]).then(() => {
+            // ถ้า login แล้ว render ทันที
+            if (adminPassword) renderAdminAnnouncements();
+        });
+    }
 }
 
 async function checkAdminPassword() {
@@ -875,13 +887,11 @@ async function checkAdminPassword() {
             document.getElementById("admin-login-box").classList.add("hidden");
             document.getElementById("admin-content-box").classList.remove("hidden");
             document.getElementById("input-announcement").value = document.getElementById("announcement-text").innerText;
-            // โหลดและแสดงประกาศทันทีหลัง login
-            if (announcementsCache.length > 0) {
+            // render ทันทีหลัง login
+            setTimeout(() => {
                 renderAdminAnnouncements();
-            } else {
-                loadAnnouncements().then(() => renderAdminAnnouncements());
-            }
-            renderAdminArticles();
+                renderAdminArticles();
+            }, 100);
         } else { err.innerText = "เกิดข้อผิดพลาด กรุณาลองใหม่"; }
     } catch { err.innerText = "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้"; }
     finally { btn.disabled = false; btn.innerText = "ยืนยันเข้าสู่ระบบ"; }
@@ -895,13 +905,7 @@ function switchTab(tab) {
         const t = el.getAttribute("onclick").match(/switchTab\('(\w+)'\)/)?.[1];
         el.classList.toggle("active", t === tab);
     });
-    if (tab === "announcements") {
-        if (announcementsCache.length > 0) {
-            renderAdminAnnouncements();
-        } else {
-            loadAnnouncements().then(() => renderAdminAnnouncements());
-        }
-    }
+    if (tab === "announcements") renderAdminAnnouncements();
     if (tab === "articles") renderAdminArticles();
     if (tab === "reviews")  renderAdminReviews();
     if (tab === "faq")      renderAdminFaq();
@@ -1166,7 +1170,7 @@ function renderFaq(faqs) {
         return;
     }
     list.innerHTML = faqs.map((f, i) => `
-        <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden premium-shadow">
+        <div class="bg-[#FAF6EC] rounded-2xl border border-gray-100 overflow-hidden premium-shadow">
             <button onclick="toggleFaq(${i})" class="w-full flex items-center justify-between px-6 py-4 text-left gap-4 hover:bg-bgLight transition-colors">
                 <span class="font-semibold text-sm text-primary">${f.question}</span>
                 <i id="faq-icon-${i}" class="fa-solid fa-plus text-accent shrink-0 transition-transform"></i>
@@ -1401,30 +1405,28 @@ function renderPricing(items) {
         groups[cat].push(item);
     });
 
-    const rows = Object.entries(groups).map(([cat, list]) => `
-        <tr class="bg-primary/5">
-            <td colspan="2" class="px-5 py-2.5">
-                <div class="flex items-center gap-2">
-                    <span class="text-base">${catIcons[cat] || '✨'}</span>
-                    <span class="text-primary font-bold text-xs uppercase tracking-wider">${cat}</span>
+    const rows = Object.entries(groups).map(([cat, list], gi) => `
+        ${gi > 0 ? '<tr><td colspan="2" class="px-6 py-0"><div class="border-t-2 border-dashed border-[#D4C9A8]"></div></td></tr>' : ''}
+        ${list.map((item, i) => `
+        <tr class="${i % 2 === 0 ? 'bg-[#FAF6EC]' : 'bg-[#F2ECD8]'} hover:bg-accent/10 transition-colors border-b border-[#E0D8C4]">
+            <td class="px-6 py-4">
+                <div class="flex items-center gap-3">
+                    <span class="text-lg shrink-0">${catIcons[cat] || '✨'}</span>
+                    <div>
+                        <p class="text-sm font-semibold text-primary">${item.name}</p>
+                        ${item.note ? `<p class="text-xs text-gray-400 mt-0.5 italic">${item.note}</p>` : ''}
+                    </div>
                 </div>
             </td>
-        </tr>
-        ${list.map((item, i) => `
-        <tr class="border-b border-gray-50 hover:bg-accent/5 transition-colors">
-            <td class="px-5 py-3.5 pl-10">
-                <p class="text-sm font-medium text-primary">${item.name}</p>
-                ${item.note ? `<p class="text-[11px] text-gray-400 mt-0.5 italic">${item.note}</p>` : ''}
-            </td>
-            <td class="px-5 py-3.5 text-right whitespace-nowrap">
-                <span class="text-accent font-bold text-base">${item.price}</span>
-                <span class="text-gray-400 text-xs ml-1">บาท</span>
+            <td class="px-6 py-4 text-right whitespace-nowrap">
+                <span class="text-accent font-bold text-lg">${item.price}</span>
+                <span class="text-gray-400 text-xs ml-1">฿</span>
             </td>
         </tr>`).join('')}
     `).join('');
 
     grid.innerHTML = `
-        <div class="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-md">
+        <div class="bg-[#FAF6EC] rounded-2xl overflow-hidden border border-gray-100 shadow-md">
             <div class="bg-gradient-to-r from-primary to-emeraldLight px-6 py-4 flex items-center gap-3">
                 <i class="fa-solid fa-list text-accent"></i>
                 <span class="text-white font-serif font-bold text-lg">รายการค่าบริการ</span>
