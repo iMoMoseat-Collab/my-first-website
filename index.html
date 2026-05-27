@@ -208,31 +208,20 @@
 
 
 <!-- ══════════ ANNOUNCEMENTS SECTION ══════════ -->
-<section id="announcements" class="py-10 bg-[#EEE8D8] border-b border-[#D4C9A8]">
-    <div class="max-w-5xl mx-auto px-6">
-
-        <!-- Header -->
-        <div class="flex items-center justify-between mb-5">
-            <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-full bg-primary flex items-center justify-center shadow-md shrink-0">
-                    <i class="fa-solid fa-bullhorn text-accent text-sm"></i>
-                </div>
-                <div>
-                    <h2 class="font-serif font-bold text-primary text-lg leading-tight">ประกาศจากคลินิก</h2>
-                    <p class="text-primary/50 text-[11px] tracking-widest uppercase font-medium">Clinic Announcements</p>
-                </div>
+<div id="announcements-wrapper" class="hidden">
+    <div class="bg-primary/95 backdrop-blur-sm border-b border-accent/20">
+        <div class="max-w-5xl mx-auto px-6 py-3 flex items-center gap-4">
+            <div class="flex items-center gap-2 shrink-0">
+                <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
+                <span class="text-accent text-[11px] font-bold uppercase tracking-widest whitespace-nowrap">ประกาศวันหยุดคลินิก</span>
             </div>
-            <div class="hidden md:block h-px flex-1 bg-[#D4C9A8] mx-6"></div>
-            <span id="ann-date" class="text-primary/40 text-xs font-light shrink-0"></span>
+            <div class="w-px h-4 bg-white/20 shrink-0"></div>
+            <div id="announcements-grid" class="flex items-center gap-3 flex-wrap flex-1">
+                <span class="text-white/40 text-xs">กำลังโหลด...</span>
+            </div>
         </div>
-
-        <!-- Grid -->
-        <div id="announcements-grid" class="flex flex-col gap-2">
-            <div class="text-primary/40 text-sm py-3 text-center">กำลังโหลดประกาศ...</div>
-        </div>
-
     </div>
-</section>
+</div>
 
 <!-- ══════════ DOCTOR PROFILE ══════════ -->
 <section id="doctor" class="py-20 bg-[#F7F4EF] border-y border-[#E8E0D0]">
@@ -1820,40 +1809,30 @@ async function loadAnnouncements() {
 
 function renderAnnouncements(items) {
     const grid = document.getElementById("announcements-grid");
-    // แสดงวันที่ปัจจุบัน
-    const dateEl = document.getElementById("ann-date");
-    if (dateEl) {
-        dateEl.innerText = new Date().toLocaleDateString('th-TH', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
-    }
+    const wrapper = document.getElementById("announcements-wrapper");
+    if (!grid) return;
+
     if (!items.length) {
-        grid.innerHTML = '<p class="text-primary/40 text-sm text-center py-3">ไม่มีประกาศในขณะนี้</p>';
+        if (wrapper) wrapper.classList.add("hidden");
         return;
     }
 
-    grid.innerHTML = items.map(a => {
-        const isHoliday = a.type === "holiday";
-        if (isHoliday) {
-            return `
-            <div class="rounded-2xl border-2 border-red-400 bg-red-50 p-5 flex gap-4 items-start col-span-full md:col-span-2 lg:col-span-3 shadow-lg">
-                <div class="w-12 h-12 rounded-full bg-red-500 flex items-center justify-center text-white text-xl shrink-0 shadow-md">🔔</div>
-                <div class="flex-1">
-                    <div class="flex items-center gap-2 mb-1">
-                        <span class="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">หยุดทำการ</span>
-                    </div>
-                    <p class="font-bold text-red-700 text-base leading-snug">${a.title}</p>
-                    ${a.body ? `<p class="text-red-600 text-xs font-light mt-1.5 leading-relaxed">${a.body}</p>` : ''}
-                </div>
-            </div>`;
-        }
-        return `
-        <div class="rounded-xl border p-5 ${ANN_COLORS[a.type] || ANN_COLORS.info} flex gap-3 items-start">
-            <span class="text-xl shrink-0 mt-0.5">${ANN_ICONS[a.type] || '📋'}</span>
-            <div>
-                <p class="font-semibold text-sm leading-snug">${a.title}</p>
-                ${a.body ? `<p class="text-xs font-light mt-1 opacity-80 leading-relaxed">${a.body}</p>` : ''}
-            </div>
-        </div>`;
-    }).join('');
+    if (wrapper) wrapper.classList.remove("hidden");
+
+    const TYPE_ICONS = {
+        info:    '📋',
+        warning: '⚠️',
+        holiday: '🗓',
+        promo:   '🎁',
+    };
+
+    grid.innerHTML = items.map(a => `
+        <div class="flex items-center gap-2 bg-white/8 hover:bg-white/15 border border-white/10 rounded-full px-3 py-1.5 transition-colors cursor-default">
+            <span class="text-sm leading-none">${TYPE_ICONS[a.type] || '📋'}</span>
+            <span class="text-white text-xs font-medium whitespace-nowrap">${a.title}</span>
+            ${a.body ? `<span class="text-white/50 text-xs hidden md:inline">· ${a.body}</span>` : ''}
+        </div>`
+    ).join('');
 }
 
 function renderAdminAnnouncements() {
