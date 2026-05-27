@@ -544,9 +544,48 @@
 
         <!-- Content after login -->
         <div id="admin-content-box" class="hidden flex flex-col overflow-hidden flex-1">
+
+            <!-- Welcome Screen -->
+            <div id="admin-welcome" class="flex flex-col items-center justify-center py-8 px-8 text-center space-y-4">
+                <div class="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-3xl shadow-lg">☯️</div>
+                <div>
+                    <h3 class="font-serif font-bold text-xl text-primary">ยินดีต้อนรับ Admin</h3>
+                    <p class="text-gray-400 text-xs font-light mt-1">ระบบจัดการหลังบ้าน คลินิกหมอขวัญแพทย์แผนจีน</p>
+                </div>
+                <div class="grid grid-cols-3 gap-3 w-full pt-2">
+                    <button onclick="enterTab('announcements')" class="flex flex-col items-center gap-2 bg-bgLight hover:bg-accent/10 border border-gray-100 hover:border-accent/30 rounded-xl p-4 transition-all group">
+                        <span class="text-2xl">📢</span>
+                        <span class="text-xs font-semibold text-primary group-hover:text-accent">ประกาศ</span>
+                    </button>
+                    <button onclick="enterTab('articles')" class="flex flex-col items-center gap-2 bg-bgLight hover:bg-accent/10 border border-gray-100 hover:border-accent/30 rounded-xl p-4 transition-all group">
+                        <span class="text-2xl">📝</span>
+                        <span class="text-xs font-semibold text-primary group-hover:text-accent">บทความ</span>
+                    </button>
+                    <button onclick="enterTab('reviews')" class="flex flex-col items-center gap-2 bg-bgLight hover:bg-accent/10 border border-gray-100 hover:border-accent/30 rounded-xl p-4 transition-all group">
+                        <span class="text-2xl">⭐</span>
+                        <span class="text-xs font-semibold text-primary group-hover:text-accent">รีวิว</span>
+                    </button>
+                    <button onclick="enterTab('faq')" class="flex flex-col items-center gap-2 bg-bgLight hover:bg-accent/10 border border-gray-100 hover:border-accent/30 rounded-xl p-4 transition-all group">
+                        <span class="text-2xl">❓</span>
+                        <span class="text-xs font-semibold text-primary group-hover:text-accent">FAQ</span>
+                    </button>
+                    <button onclick="enterTab('pricing')" class="flex flex-col items-center gap-2 bg-bgLight hover:bg-accent/10 border border-gray-100 hover:border-accent/30 rounded-xl p-4 transition-all group">
+                        <span class="text-2xl">💰</span>
+                        <span class="text-xs font-semibold text-primary group-hover:text-accent">ค่าบริการ</span>
+                    </button>
+                    <button onclick="enterTab('doctor')" class="flex flex-col items-center gap-2 bg-bgLight hover:bg-accent/10 border border-gray-100 hover:border-accent/30 rounded-xl p-4 transition-all group">
+                        <span class="text-2xl">👩‍⚕️</span>
+                        <span class="text-xs font-semibold text-primary group-hover:text-accent">ประวัติหมอ</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab Area (ซ่อนไว้จนกว่าจะเลือก) -->
+            <div id="admin-tab-area" class="hidden flex flex-col overflow-hidden flex-1">
             <!-- Tabs -->
-            <div class="flex gap-2 px-8 pb-4 shrink-0">
-                <button class="admin-tab active" onclick="switchTab('announcements')">📢 ประกาศ</button>
+            <div class="flex gap-2 px-8 pb-4 shrink-0 flex-wrap">
+                <button onclick="backToWelcome()" class="admin-tab text-gray-400 hover:text-gray-600">← กลับ</button>
+                <button class="admin-tab active" id="active-tab-btn" onclick="switchTab('announcements')">📢 ประกาศ</button>
                 <button class="admin-tab" onclick="switchTab('articles')">📝 บทความ</button>
                 <button class="admin-tab" onclick="switchTab('reviews')">⭐ รีวิว</button>
                 <button class="admin-tab" onclick="switchTab('faq')">❓ FAQ</button>
@@ -735,6 +774,7 @@
                     </div>
                 </div>
             </div>
+            </div><!-- end admin-tab-area -->
         </div>
     </div>
 </div>
@@ -742,6 +782,18 @@
 <!-- ══════════════════ SCRIPTS ══════════════════ -->
 <script>
 const API_BASE = "https://morkwantcm.vercel.app";
+
+// ── Admin Welcome ─────────────────────────────────────
+function enterTab(tab) {
+    document.getElementById("admin-welcome").classList.add("hidden");
+    document.getElementById("admin-tab-area").classList.remove("hidden");
+    switchTab(tab);
+}
+
+function backToWelcome() {
+    document.getElementById("admin-welcome").classList.remove("hidden");
+    document.getElementById("admin-tab-area").classList.add("hidden");
+}
 
 // fetch พร้อม timeout 10 วินาที
 async function fetchWithTimeout(url, options = {}, timeout = 10000) {
@@ -914,11 +966,9 @@ async function checkAdminPassword() {
             document.getElementById("admin-login-box").classList.add("hidden");
             document.getElementById("admin-content-box").classList.remove("hidden");
             document.getElementById("input-announcement").value = document.getElementById("announcement-text").innerText;
-            // โหลด announcements ก่อน → render tab แรกทันที
-            await loadAnnouncements();
-            renderAdminAnnouncements();
-            // โหลดที่เหลือ background — ไม่ block UI
-            loadArticles().then(renderAdminArticles).catch(()=>{});
+            // preload ทุก tab background — แสดง welcome screen ก่อน
+            loadAnnouncements().catch(()=>{});
+            loadArticles().catch(()=>{});
             loadReviews().catch(()=>{});
             loadFaq().catch(()=>{});
             loadPricing().catch(()=>{});
