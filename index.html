@@ -136,13 +136,13 @@
             <span class="text-[10px] md:text-xs text-accent font-medium tracking-widest uppercase leading-tight">MorKwan TCM · ศรีราชา ชลบุรี</span>
         </button>
         <div class="hidden md:flex space-x-6 text-sm font-medium text-primary/90">
-            <a href="#specialties" class="hover:text-accent transition-colors duration-200">อาการที่เชี่ยวชาญ</a>
-            <a href="#services" class="hover:text-accent transition-colors duration-200">บริการหัตถการ</a>
-            <a href="#checker" class="hover:text-accent font-semibold text-emerald-700 transition-colors duration-200">✨ เช็กสุขภาพออนไลน์</a>
-            <a href="#articles" class="hover:text-accent transition-colors duration-200">บทความความรู้</a>
             <a href="#doctor" class="hover:text-accent transition-colors duration-200">เกี่ยวกับหมอ</a>
+            <a href="#services" class="hover:text-accent transition-colors duration-200">บริการ</a>
             <a href="#pricing" class="hover:text-accent transition-colors duration-200">ค่าบริการ</a>
+            <a href="#checker" class="hover:text-accent font-semibold text-emerald-700 transition-colors duration-200">✨ เช็กสุขภาพ</a>
+            <a href="#reviews" class="hover:text-accent transition-colors duration-200">รีวิว</a>
             <a href="#faq" class="hover:text-accent transition-colors duration-200">FAQ</a>
+            <a href="#contact" class="hover:text-accent transition-colors duration-200">ติดต่อ</a>
             <a href="#contact" class="hover:text-accent transition-colors duration-200">ติดต่อคลินิก</a>
         </div>
         <a href="tel:0646689544" class="bg-primary hover:bg-emeraldLight text-white px-5 py-2.5 text-xs font-semibold rounded tracking-wider shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5">
@@ -182,145 +182,28 @@
 
 
 <!-- ══════════ ANNOUNCEMENTS SECTION ══════════ -->
-<section id="announcements" class="py-12 bg-gradient-to-r from-primary to-emeraldLight">
+<!-- Holiday Alert Bar — แสดงเฉพาะตอนมีประกาศปิดทำการ -->
+<div id="holiday-alert-bar" class="hidden bg-red-600 text-white py-3 px-4 sticky top-0 z-50 shadow-xl">
+    <div class="max-w-7xl mx-auto flex items-center justify-center gap-3 text-center">
+        <span class="text-lg animate-bounce">🔔</span>
+        <span id="holiday-alert-text" class="text-sm font-semibold tracking-wide"></span>
+        <span class="text-lg animate-bounce">🔔</span>
+    </div>
+</div>
+
+<section id="announcements" class="py-10 bg-gradient-to-r from-primary to-emeraldLight">
     <div class="max-w-7xl mx-auto px-6">
-        <div class="flex items-center gap-3 mb-6">
-            <div class="w-9 h-9 rounded-full bg-accent/20 border border-accent/40 flex items-center justify-center text-accent shrink-0">
-                <i class="fa-solid fa-bullhorn text-sm"></i>
+        <div class="flex items-center gap-3 mb-5">
+            <div class="w-8 h-8 rounded-full bg-accent/20 border border-accent/40 flex items-center justify-center text-accent shrink-0">
+                <i class="fa-solid fa-bullhorn text-xs"></i>
             </div>
-            <h2 class="font-serif font-bold text-xl text-white">ประกาศจากคลินิก</h2>
+            <h2 class="font-serif font-bold text-lg text-white">ประกาศจากคลินิก</h2>
         </div>
         <div id="announcements-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <div class="text-gray-400 text-sm py-4">กำลังโหลดประกาศ...</div>
         </div>
     </div>
 </section>
-
-<!-- SPECIALTIES -->
-<section id="specialties" class="py-20 max-w-7xl mx-auto px-6">
-    <div class="text-center max-w-2xl mx-auto mb-16">
-        <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Expertise</span>
-        <h2 class="text-3xl md:text-4xl font-serif text-primary font-bold">อาการที่เชี่ยวชาญเป็นพิเศษ</h2>
-        <div class="w-12 h-[2px] bg-accent mx-auto mt-4"></div>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6">
-        <div class="bg-primary text-white p-6 rounded-xl shadow-md text-center border border-accent/20 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1"><div class="w-12 h-12 bg-accent/10 border border-accent/30 rounded-full flex items-center justify-center text-accent text-xl mx-auto mb-4"><i class="fa-solid fa-laptop-medical"></i></div><h4 class="font-semibold text-sm tracking-wide">ออฟฟิศซินโดรม</h4><p class="text-[11px] text-gray-400 font-light mt-1">ปวดบ่า คอ ตึงสะบัก</p></div>
-        <div class="bg-primary text-white p-6 rounded-xl shadow-md text-center border border-accent/20 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1"><div class="w-12 h-12 bg-accent/10 border border-accent/30 rounded-full flex items-center justify-center text-accent text-xl mx-auto mb-4"><i class="fa-solid fa-brain"></i></div><h4 class="font-semibold text-sm tracking-wide">ไมเกรน / ปวดหัว</h4><p class="text-[11px] text-gray-400 font-light mt-1">ปวดขมับ ตึงท้ายทอย</p></div>
-        <div class="bg-primary text-white p-6 rounded-xl shadow-md text-center border border-accent/20 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1"><div class="w-12 h-12 bg-accent/10 border border-accent/30 rounded-full flex items-center justify-center text-accent text-xl mx-auto mb-4"><i class="fa-solid fa-bolt"></i></div><h4 class="font-semibold text-sm tracking-wide">ปวดหลังร้าวลงขา</h4><p class="text-[11px] text-gray-400 font-light mt-1">หมอนรองกระดูกทับเส้น</p></div>
-        <div class="bg-primary text-white p-6 rounded-xl shadow-md text-center border border-accent/20 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1"><div class="w-12 h-12 bg-accent/10 border border-accent/30 rounded-full flex items-center justify-center text-accent text-xl mx-auto mb-4"><i class="fa-solid fa-moon"></i></div><h4 class="font-semibold text-sm tracking-wide">นอนไม่หลับ / เครียด</h4><p class="text-[11px] text-gray-400 font-light mt-1">หลับยาก ตื่นกลางดึกบ่อย</p></div>
-        <div class="bg-primary text-white p-6 rounded-xl shadow-md text-center border border-accent/20 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1"><div class="w-12 h-12 bg-accent/10 border border-accent/30 rounded-full flex items-center justify-center text-accent text-xl mx-auto mb-4"><i class="fa-solid fa-baby"></i></div><h4 class="font-semibold text-sm tracking-wide">ปรับสมดุลมีบุตร</h4><p class="text-[11px] text-gray-400 font-light mt-1">บำรุงมดลูก เพิ่มโอกาสสำเร็จ</p></div>
-    </div>
-</section>
-
-<!-- SERVICES -->
-<section id="services" class="py-20 bg-white border-y border-gray-100">
-    <div class="max-w-7xl mx-auto px-6">
-        <div class="text-center max-w-2xl mx-auto mb-16">
-            <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Treatments</span>
-            <h2 class="text-3xl md:text-4xl font-serif text-primary font-bold">บริการด้านหัตถการรักษา</h2>
-            <div class="w-12 h-[2px] bg-accent mx-auto mt-4"></div>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="bg-bgLight p-8 rounded-2xl border-l-4 border-accent premium-shadow premium-shadow-hover transition-all duration-300"><span class="text-accent text-xs font-bold uppercase tracking-wider block mb-2">01 / Acupuncture</span><h3 class="text-xl font-serif font-bold text-primary mb-3">ฝังเข็มบำบัด</h3><p class="text-sm text-gray-600 font-light leading-relaxed">กระตุ้นจุดลมปราณตามหลักวิชาการแพทย์แผนจีนดั้งเดิม เพื่อปรับการทำงานของระบบประสาท กระตุ้นการไหลเวียนโลหิต และระงับปวดเรื้อรังอย่างตรงจุด</p></div>
-            <div class="bg-bgLight p-8 rounded-2xl border-l-4 border-accent premium-shadow premium-shadow-hover transition-all duration-300"><span class="text-accent text-xs font-bold uppercase tracking-wider block mb-2">02 / Cupping</span><h3 class="text-xl font-serif font-bold text-primary mb-3">ครอบแก้วบำบัด</h3><p class="text-sm text-gray-600 font-light leading-relaxed">ใช้ระบบสูญญากาศช่วยคลายการยึดเกาะของผังผืดและมัดกล้ามเนื้อ ขับความชื้นสะสมในร่างกาย ดึงเลือดเสียออกเพื่อเร่งการซ่อมแซมเนื้อเยื่อส่วนลึก</p></div>
-            <div class="bg-bgLight p-8 rounded-2xl border-l-4 border-accent premium-shadow premium-shadow-hover transition-all duration-300"><span class="text-accent text-xs font-bold uppercase tracking-wider block mb-2">03 / Gua Sha</span><h3 class="text-xl font-serif font-bold text-primary mb-3">กัวซาบำบัด</h3><p class="text-sm text-gray-600 font-light leading-relaxed">ขูดกระตุ้นตามเส้นลมปราณเพื่อระบายความร้อนพิษ ขับสารสะสมใต้ผิวหนัง และช่วยลดความตึงเกร็งสะสมของกล้ามเนื้อหลังและคอบ่าไหล่</p></div>
-            <div class="bg-bgLight p-8 rounded-2xl border-l-4 border-accent premium-shadow premium-shadow-hover transition-all duration-300"><span class="text-accent text-xs font-bold uppercase tracking-wider block mb-2">04 / Moxibustion</span><h3 class="text-xl font-serif font-bold text-primary mb-3">รมยาจีน</h3><p class="text-sm text-gray-600 font-light leading-relaxed">กระตุ้นจุดรักษาด้วยความร้อนนุ่มนวลจากสมุนไพรอ้ายเฉ่าบริสุทธิ์ ช่วยเพิ่มพลังงานหยาง อบอุ่นเส้นลมปราณ และกระจายความเย็นที่อุดกั้น</p></div>
-            <div class="bg-bgLight p-8 rounded-2xl border-l-4 border-accent premium-shadow premium-shadow-hover transition-all duration-300"><span class="text-accent text-xs font-bold uppercase tracking-wider block mb-2">05 / Medicine</span><h3 class="text-xl font-serif font-bold text-primary mb-3">ยาสมุนไพรจีน</h3><p class="text-sm text-gray-600 font-light leading-relaxed">การตรวจวินิจฉัยเพื่อจัดตำรับยาสมุนไพรจีนเฉพาะบุคคล ปรับการทำงานของตับ ไต ม้าม หัวใจ ปอด รักษาโรคเรื้อรังจากโครงสร้างระบบภายใน</p></div>
-            <div class="bg-gradient-to-br from-primary to-emerald-950 p-8 rounded-2xl shadow-xl border border-accent/30 text-white flex flex-col justify-center items-center text-center space-y-4">
-                <h3 class="text-xl font-serif font-bold text-accent">ตรวจสุขภาพแผนจีน</h3>
-                <p class="text-xs text-gray-300 font-light max-w-xs leading-relaxed">ตรวจประเมินร่างกายครบองค์รวมผ่านการ "แมะ" (ตรวจชีพจร) และ "วินิจฉัยลิ้น"</p>
-                <a href="tel:0646689544" class="inline-block bg-accent hover:bg-yellow-600 text-primary font-bold px-6 py-2.5 rounded text-xs transition-all shadow-md"><i class="fa-solid fa-user-doctor mr-1.5"></i>นัดคิวตรวจกับหมอขวัญ</a>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- HEALTH QUIZ -->
-<section id="checker" class="py-20 max-w-4xl mx-auto px-6">
-    <div class="text-center mb-12">
-        <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Interactive Quiz</span>
-        <h2 class="text-3xl font-serif text-primary font-bold">ระบบวิเคราะห์สมดุลร่างกายแผนจีน</h2>
-        <div class="w-12 h-[2px] bg-accent mx-auto mt-3"></div>
-        <p class="text-gray-500 text-xs font-light mt-3">ลองเช็กอาการของคุณเบื้องต้น เพื่อดูสภาวะหยิน-หยางและลมปราณภายในร่างกาย</p>
-    </div>
-    <div class="bg-white rounded-2xl border border-gray-100 shadow-xl p-8 md:p-10 relative overflow-hidden">
-        <div class="absolute top-0 left-0 w-full h-1.5 bg-accent"></div>
-        <div id="quiz-container" class="space-y-8">
-            <div><h4 class="font-semibold text-primary text-sm mb-3">1. สภาวะพลังกายและความเหนื่อยล้าของคุณในปัจจุบันเป็นอย่างไร?</h4><div class="grid grid-cols-1 sm:grid-cols-2 gap-3"><label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors"><input type="radio" name="q1" value="qi_deficient" class="accent-accent scale-110"> เหนื่อยง่าย อ่อนเพลีย พูดไม่ค่อยมีแรง ไม่อยากขยับตัว</label><label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors"><input type="radio" name="q1" value="normal" class="accent-accent scale-110" checked> ปกติ กระปรี้กระเปร่าดี พลังงานสม่ำเสมอทั้งวัน</label></div></div>
-            <div><h4 class="font-semibold text-primary text-sm mb-3">2. ระบบการย่อยอาหารและสภาวะในร่างกายของคุณเป็นอย่างไร?</h4><div class="grid grid-cols-1 sm:grid-cols-2 gap-3"><label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors"><input type="radio" name="q2" value="dampness" class="accent-accent scale-110"> ท้องอืดง่าย ตัวบวม ตื่นนอนแล้วรู้สึกหนักเนื้อหนักตัว ถ่ายเหลว</label><label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors"><input type="radio" name="q2" value="normal" class="accent-accent scale-110" checked> ขับถ่ายปกติ ย่อยดี ไม่มีอาการตัวบวมหรือหนักตัว</label></div></div>
-            <div><h4 class="font-semibold text-primary text-sm mb-3">3. อาการปวดเมื่อยตามร่างกายและกล้ามเนื้อของคุณเป็นแบบไหน?</h4><div class="grid grid-cols-1 sm:grid-cols-2 gap-3"><label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors"><input type="radio" name="q3" value="blood_stasis" class="accent-accent scale-110"> ปวดเสียวแปลบ ๆ เจาะจงจุดชัดเจน ปวดสะสมตึงเกร็งเรื้อรัง</label><label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors"><input type="radio" name="q3" value="normal" class="accent-accent scale-110" checked> ไม่มีอาการปวดรุนแรง หรือปวดเมื่อยธรรมดาจากการล้าทั่วไป</label></div></div>
-            <div><h4 class="font-semibold text-primary text-sm mb-3">4. สภาวะอารมณ์ การนอนหลับ และความเครียดของคุณ?</h4><div class="grid grid-cols-1 sm:grid-cols-2 gap-3"><label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors"><input type="radio" name="q4" value="liver_qi" class="accent-accent scale-110"> เครียดง่าย หงุดหงิด แน่นหน้าอก นอนหลับยาก ตื่นกลางดึกบ่อย</label><label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors"><input type="radio" name="q4" value="normal" class="accent-accent scale-110" checked> อารมณ์คงที่ หลับสบายดี ไม่มีเรื่องกังวลรบกวนการนอน</label></div></div>
-            <div class="text-center pt-4"><button onclick="calculateHealthResult()" class="bg-primary hover:bg-emeraldLight text-white font-semibold px-8 py-3 rounded-xl text-sm transition-all shadow-md"><i class="fa-solid fa-calculator mr-2 text-accent"></i>ดูผลวิเคราะห์ร่างกายของคุณ</button></div>
-        </div>
-        <div id="quiz-result-box" class="hidden space-y-6 text-center fade-up">
-            <div class="w-16 h-16 bg-accent/10 border border-accent/30 rounded-full flex items-center justify-center text-accent text-3xl mx-auto">☯️</div>
-            <h3 class="font-serif font-bold text-2xl text-primary" id="result-title">ผลประเมินของคุณ</h3>
-            <p class="text-xs text-gray-600 max-w-xl mx-auto leading-relaxed border border-dashed border-gray-200 p-4 rounded-xl bg-bgLight whitespace-pre-line" id="result-desc"></p>
-            <div class="pt-4 flex flex-wrap justify-center gap-4">
-                <button onclick="copyResultAndNotify()" class="bg-accent hover:bg-yellow-600 text-primary font-bold px-6 py-3 rounded-xl text-xs shadow-md transition-all"><i class="fa-solid fa-copy mr-1.5"></i>ก๊อปปี้ผลลัพธ์เพื่อส่งให้หมอขวัญ</button>
-                <button onclick="resetHealthQuiz()" class="text-gray-400 hover:text-gray-600 text-xs underline">ทำแบบทดสอบอีกครั้ง</button>
-            </div>
-            <p id="copy-toast" class="text-[11px] text-green-600 font-medium min-h-[16px]"></p>
-        </div>
-    </div>
-</section>
-
-<!-- ARTICLES -->
-<section id="articles" class="py-20 max-w-7xl mx-auto px-6">
-    <div class="text-center max-w-2xl mx-auto mb-16">
-        <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Journal</span>
-        <h2 class="text-3xl md:text-4xl font-serif text-primary font-bold">บทความความรู้เพื่อสุขภาพ</h2>
-        <div class="w-12 h-[2px] bg-accent mx-auto mt-4"></div>
-    </div>
-    <div id="articles-grid" class="columns-1 sm:columns-2 lg:columns-3 gap-8 space-y-8">
-        <div class="text-center text-gray-400 py-10 col-span-3">กำลังโหลดบทความ...</div>
-    </div>
-</section>
-
-
-<!-- REVIEWS -->
-<section id="reviews" class="py-20 bg-white border-y border-gray-100">
-    <div class="max-w-7xl mx-auto px-6">
-        <div class="text-center max-w-2xl mx-auto mb-16">
-            <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Testimonials</span>
-            <h2 class="text-3xl md:text-4xl font-serif text-primary font-bold">เสียงจากผู้รับการรักษา</h2>
-            <div class="w-12 h-[2px] bg-accent mx-auto mt-4"></div>
-        </div>
-        <div id="reviews-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="text-center text-gray-400 py-10 col-span-3 text-sm">กำลังโหลดรีวิว...</div>
-        </div>
-        <!-- Line CTA -->
-        <div class="mt-16 bg-gradient-to-r from-primary to-emeraldLight rounded-2xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
-            <div>
-                <h3 class="font-serif font-bold text-xl text-accent mb-2">พร้อมรับการดูแลจากหมอขวัญแล้วหรือยัง?</h3>
-                <p class="text-gray-300 text-sm font-light">ติดต่อได้ทาง Line หรือโทรตรงได้เลยครับ ตอบเร็ว ไม่มีค่าใช้จ่ายในการปรึกษา</p>
-            </div>
-            <div class="flex gap-3 shrink-0">
-                <a href="https://line.me/R/ti/p/@687dobfj" target="_blank" rel="noopener noreferrer"
-                   class="flex items-center gap-2 bg-[#06C755] hover:bg-green-500 text-white font-bold px-6 py-3 rounded-xl text-sm transition-all shadow-md">
-                    <i class="fa-brands fa-line text-lg"></i> แชท Line
-                </a>
-                <a href="tel:0646689544"
-                   class="flex items-center gap-2 bg-accent hover:bg-yellow-600 text-primary font-bold px-6 py-3 rounded-xl text-sm transition-all shadow-md">
-                    <i class="fa-solid fa-phone"></i> โทรเลย
-                </a>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- FAQ -->
-<section id="faq" class="py-20 max-w-3xl mx-auto px-6">
-    <div class="text-center mb-16">
-        <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">FAQ</span>
-        <h2 class="text-3xl md:text-4xl font-serif text-primary font-bold">คำถามที่พบบ่อย</h2>
-        <div class="w-12 h-[2px] bg-accent mx-auto mt-4"></div>
-    </div>
-    <div id="faq-list" class="space-y-3">
-        <div class="text-center text-gray-400 py-10 text-sm">กำลังโหลด FAQ...</div>
-    </div>
-</section>
-
 
 <!-- ══════════ DOCTOR PROFILE ══════════ -->
 <section id="doctor" class="py-20 bg-white border-y border-gray-100">
@@ -382,34 +265,162 @@
     </div>
 </section>
 
-<!-- ══════════ PRICING ══════════ -->
-<section id="pricing" class="py-20 max-w-5xl mx-auto px-6">
+<!-- SPECIALTIES -->
+<section id="specialties" class="py-20 max-w-7xl mx-auto px-6">
     <div class="text-center max-w-2xl mx-auto mb-16">
-        <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Pricing</span>
-        <h2 class="text-3xl md:text-4xl font-serif text-primary font-bold">อัตราค่าบริการ</h2>
+        <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Expertise</span>
+        <h2 class="text-3xl md:text-4xl font-serif text-primary font-bold">อาการที่เชี่ยวชาญเป็นพิเศษ</h2>
         <div class="w-12 h-[2px] bg-accent mx-auto mt-4"></div>
-        <p class="text-gray-400 text-xs font-light mt-3">ราคาอาจเปลี่ยนแปลงตามความซับซ้อนของการรักษา กรุณาสอบถามก่อนรับบริการ</p>
     </div>
-    <div id="pricing-grid" class="space-y-3">
-        <div class="text-center text-gray-400 py-10 text-sm">กำลังโหลดอัตราค่าบริการ...</div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6">
+        <div class="bg-primary text-white p-6 rounded-xl shadow-md text-center border border-accent/20 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1"><div class="w-12 h-12 bg-accent/10 border border-accent/30 rounded-full flex items-center justify-center text-accent text-xl mx-auto mb-4"><i class="fa-solid fa-laptop-medical"></i></div><h4 class="font-semibold text-sm tracking-wide">ออฟฟิศซินโดรม</h4><p class="text-[11px] text-gray-400 font-light mt-1">ปวดบ่า คอ ตึงสะบัก</p></div>
+        <div class="bg-primary text-white p-6 rounded-xl shadow-md text-center border border-accent/20 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1"><div class="w-12 h-12 bg-accent/10 border border-accent/30 rounded-full flex items-center justify-center text-accent text-xl mx-auto mb-4"><i class="fa-solid fa-brain"></i></div><h4 class="font-semibold text-sm tracking-wide">ไมเกรน / ปวดหัว</h4><p class="text-[11px] text-gray-400 font-light mt-1">ปวดขมับ ตึงท้ายทอย</p></div>
+        <div class="bg-primary text-white p-6 rounded-xl shadow-md text-center border border-accent/20 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1"><div class="w-12 h-12 bg-accent/10 border border-accent/30 rounded-full flex items-center justify-center text-accent text-xl mx-auto mb-4"><i class="fa-solid fa-bolt"></i></div><h4 class="font-semibold text-sm tracking-wide">ปวดหลังร้าวลงขา</h4><p class="text-[11px] text-gray-400 font-light mt-1">หมอนรองกระดูกทับเส้น</p></div>
+        <div class="bg-primary text-white p-6 rounded-xl shadow-md text-center border border-accent/20 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1"><div class="w-12 h-12 bg-accent/10 border border-accent/30 rounded-full flex items-center justify-center text-accent text-xl mx-auto mb-4"><i class="fa-solid fa-moon"></i></div><h4 class="font-semibold text-sm tracking-wide">นอนไม่หลับ / เครียด</h4><p class="text-[11px] text-gray-400 font-light mt-1">หลับยาก ตื่นกลางดึกบ่อย</p></div>
+        <div class="bg-primary text-white p-6 rounded-xl shadow-md text-center border border-accent/20 transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1"><div class="w-12 h-12 bg-accent/10 border border-accent/30 rounded-full flex items-center justify-center text-accent text-xl mx-auto mb-4"><i class="fa-solid fa-baby"></i></div><h4 class="font-semibold text-sm tracking-wide">ปรับสมดุลมีบุตร</h4><p class="text-[11px] text-gray-400 font-light mt-1">บำรุงมดลูก เพิ่มโอกาสสำเร็จ</p></div>
     </div>
-    <div class="mt-10 bg-primary rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-4 border border-accent/20">
-        <div>
-            <p class="text-accent font-semibold text-sm">สอบถามราคาเพิ่มเติม</p>
-            <p class="text-gray-300 text-xs font-light mt-1">ปรึกษาฟรี ไม่มีค่าใช้จ่าย หมอขวัญยินดีให้คำแนะนำครับ</p>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="py-20 bg-white border-y border-gray-100">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center max-w-2xl mx-auto mb-16">
+            <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Treatments</span>
+            <h2 class="text-3xl md:text-4xl font-serif text-primary font-bold">บริการด้านหัตถการรักษา</h2>
+            <div class="w-12 h-[2px] bg-accent mx-auto mt-4"></div>
         </div>
-        <div class="flex gap-3 shrink-0">
-            <a href="https://line.me/R/ti/p/@687dobfj" target="_blank" rel="noopener noreferrer"
-               class="flex items-center gap-2 bg-[#06C755] text-white font-bold px-5 py-2.5 rounded-xl text-xs transition-all shadow-md hover:bg-green-500">
-                <i class="fa-brands fa-line text-base"></i> Line
-            </a>
-            <a href="tel:0646689544"
-               class="flex items-center gap-2 bg-accent text-primary font-bold px-5 py-2.5 rounded-xl text-xs transition-all shadow-md hover:bg-yellow-600">
-                <i class="fa-solid fa-phone"></i> โทร
-            </a>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-bgLight p-8 rounded-2xl border-l-4 border-accent premium-shadow premium-shadow-hover transition-all duration-300"><span class="text-accent text-xs font-bold uppercase tracking-wider block mb-2">01 / Acupuncture</span><h3 class="text-xl font-serif font-bold text-primary mb-3">ฝังเข็มบำบัด</h3><p class="text-sm text-gray-600 font-light leading-relaxed">กระตุ้นจุดลมปราณตามหลักวิชาการแพทย์แผนจีนดั้งเดิม เพื่อปรับการทำงานของระบบประสาท กระตุ้นการไหลเวียนโลหิต และระงับปวดเรื้อรังอย่างตรงจุด</p></div>
+            <div class="bg-bgLight p-8 rounded-2xl border-l-4 border-accent premium-shadow premium-shadow-hover transition-all duration-300"><span class="text-accent text-xs font-bold uppercase tracking-wider block mb-2">02 / Cupping</span><h3 class="text-xl font-serif font-bold text-primary mb-3">ครอบแก้วบำบัด</h3><p class="text-sm text-gray-600 font-light leading-relaxed">ใช้ระบบสูญญากาศช่วยคลายการยึดเกาะของผังผืดและมัดกล้ามเนื้อ ขับความชื้นสะสมในร่างกาย ดึงเลือดเสียออกเพื่อเร่งการซ่อมแซมเนื้อเยื่อส่วนลึก</p></div>
+            <div class="bg-bgLight p-8 rounded-2xl border-l-4 border-accent premium-shadow premium-shadow-hover transition-all duration-300"><span class="text-accent text-xs font-bold uppercase tracking-wider block mb-2">03 / Gua Sha</span><h3 class="text-xl font-serif font-bold text-primary mb-3">กัวซาบำบัด</h3><p class="text-sm text-gray-600 font-light leading-relaxed">ขูดกระตุ้นตามเส้นลมปราณเพื่อระบายความร้อนพิษ ขับสารสะสมใต้ผิวหนัง และช่วยลดความตึงเกร็งสะสมของกล้ามเนื้อหลังและคอบ่าไหล่</p></div>
+            <div class="bg-bgLight p-8 rounded-2xl border-l-4 border-accent premium-shadow premium-shadow-hover transition-all duration-300"><span class="text-accent text-xs font-bold uppercase tracking-wider block mb-2">04 / Moxibustion</span><h3 class="text-xl font-serif font-bold text-primary mb-3">รมยาจีน</h3><p class="text-sm text-gray-600 font-light leading-relaxed">กระตุ้นจุดรักษาด้วยความร้อนนุ่มนวลจากสมุนไพรอ้ายเฉ่าบริสุทธิ์ ช่วยเพิ่มพลังงานหยาง อบอุ่นเส้นลมปราณ และกระจายความเย็นที่อุดกั้น</p></div>
+            <div class="bg-bgLight p-8 rounded-2xl border-l-4 border-accent premium-shadow premium-shadow-hover transition-all duration-300"><span class="text-accent text-xs font-bold uppercase tracking-wider block mb-2">05 / Medicine</span><h3 class="text-xl font-serif font-bold text-primary mb-3">ยาสมุนไพรจีน</h3><p class="text-sm text-gray-600 font-light leading-relaxed">การตรวจวินิจฉัยเพื่อจัดตำรับยาสมุนไพรจีนเฉพาะบุคคล ปรับการทำงานของตับ ไต ม้าม หัวใจ ปอด รักษาโรคเรื้อรังจากโครงสร้างระบบภายใน</p></div>
+            <div class="bg-gradient-to-br from-primary to-emerald-950 p-8 rounded-2xl shadow-xl border border-accent/30 text-white flex flex-col justify-center items-center text-center space-y-4">
+                <h3 class="text-xl font-serif font-bold text-accent">ตรวจสุขภาพแผนจีน</h3>
+                <p class="text-xs text-gray-300 font-light max-w-xs leading-relaxed">ตรวจประเมินร่างกายครบองค์รวมผ่านการ "แมะ" (ตรวจชีพจร) และ "วินิจฉัยลิ้น"</p>
+                <a href="tel:0646689544" class="inline-block bg-accent hover:bg-yellow-600 text-primary font-bold px-6 py-2.5 rounded text-xs transition-all shadow-md"><i class="fa-solid fa-user-doctor mr-1.5"></i>นัดคิวตรวจกับหมอขวัญ</a>
+            </div>
         </div>
     </div>
 </section>
+
+<!-- ══════════ PRICING ══════════ -->
+<section id="pricing" class="py-20 bg-white border-y border-gray-100">
+    <div class="max-w-5xl mx-auto px-6">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+            <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Pricing</span>
+            <h2 class="text-3xl md:text-4xl font-serif text-primary font-bold">อัตราค่าบริการ</h2>
+            <div class="w-12 h-[2px] bg-accent mx-auto mt-4"></div>
+            <p class="text-gray-400 text-xs font-light mt-3">ราคาอาจเปลี่ยนแปลงตามความซับซ้อนของการรักษา</p>
+        </div>
+        <div id="pricing-grid" class="space-y-6">
+            <div class="text-center text-gray-400 py-10 text-sm">กำลังโหลดอัตราค่าบริการ...</div>
+        </div>
+        <div class="mt-10 bg-primary rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-4 border border-accent/20">
+            <div>
+                <p class="text-accent font-semibold text-sm">สอบถามราคาเพิ่มเติม</p>
+                <p class="text-gray-300 text-xs font-light mt-1">ปรึกษาฟรี ไม่มีค่าใช้จ่าย หมอขวัญยินดีให้คำแนะนำครับ</p>
+            </div>
+            <div class="flex gap-3 shrink-0">
+                <a href="https://line.me/R/ti/p/@687dobfj" target="_blank" rel="noopener noreferrer"
+                   class="flex items-center gap-2 bg-[#06C755] text-white font-bold px-5 py-2.5 rounded-xl text-xs transition-all shadow-md hover:bg-green-500">
+                    <i class="fa-brands fa-line text-base"></i> Line
+                </a>
+                <a href="tel:0646689544"
+                   class="flex items-center gap-2 bg-accent text-primary font-bold px-5 py-2.5 rounded-xl text-xs transition-all shadow-md hover:bg-yellow-600">
+                    <i class="fa-solid fa-phone"></i> โทร
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HEALTH QUIZ -->
+<section id="checker" class="py-20 max-w-4xl mx-auto px-6">
+    <div class="text-center mb-12">
+        <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Interactive Quiz</span>
+        <h2 class="text-3xl font-serif text-primary font-bold">ระบบวิเคราะห์สมดุลร่างกายแผนจีน</h2>
+        <div class="w-12 h-[2px] bg-accent mx-auto mt-3"></div>
+        <p class="text-gray-500 text-xs font-light mt-3">ลองเช็กอาการของคุณเบื้องต้น เพื่อดูสภาวะหยิน-หยางและลมปราณภายในร่างกาย</p>
+    </div>
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-xl p-8 md:p-10 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-1.5 bg-accent"></div>
+        <div id="quiz-container" class="space-y-8">
+            <div><h4 class="font-semibold text-primary text-sm mb-3">1. สภาวะพลังกายและความเหนื่อยล้าของคุณในปัจจุบันเป็นอย่างไร?</h4><div class="grid grid-cols-1 sm:grid-cols-2 gap-3"><label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors"><input type="radio" name="q1" value="qi_deficient" class="accent-accent scale-110"> เหนื่อยง่าย อ่อนเพลีย พูดไม่ค่อยมีแรง ไม่อยากขยับตัว</label><label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors"><input type="radio" name="q1" value="normal" class="accent-accent scale-110" checked> ปกติ กระปรี้กระเปร่าดี พลังงานสม่ำเสมอทั้งวัน</label></div></div>
+            <div><h4 class="font-semibold text-primary text-sm mb-3">2. ระบบการย่อยอาหารและสภาวะในร่างกายของคุณเป็นอย่างไร?</h4><div class="grid grid-cols-1 sm:grid-cols-2 gap-3"><label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors"><input type="radio" name="q2" value="dampness" class="accent-accent scale-110"> ท้องอืดง่าย ตัวบวม ตื่นนอนแล้วรู้สึกหนักเนื้อหนักตัว ถ่ายเหลว</label><label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors"><input type="radio" name="q2" value="normal" class="accent-accent scale-110" checked> ขับถ่ายปกติ ย่อยดี ไม่มีอาการตัวบวมหรือหนักตัว</label></div></div>
+            <div><h4 class="font-semibold text-primary text-sm mb-3">3. อาการปวดเมื่อยตามร่างกายและกล้ามเนื้อของคุณเป็นแบบไหน?</h4><div class="grid grid-cols-1 sm:grid-cols-2 gap-3"><label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors"><input type="radio" name="q3" value="blood_stasis" class="accent-accent scale-110"> ปวดเสียวแปลบ ๆ เจาะจงจุดชัดเจน ปวดสะสมตึงเกร็งเรื้อรัง</label><label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors"><input type="radio" name="q3" value="normal" class="accent-accent scale-110" checked> ไม่มีอาการปวดรุนแรง หรือปวดเมื่อยธรรมดาจากการล้าทั่วไป</label></div></div>
+            <div><h4 class="font-semibold text-primary text-sm mb-3">4. สภาวะอารมณ์ การนอนหลับ และความเครียดของคุณ?</h4><div class="grid grid-cols-1 sm:grid-cols-2 gap-3"><label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors"><input type="radio" name="q4" value="liver_qi" class="accent-accent scale-110"> เครียดง่าย หงุดหงิด แน่นหน้าอก นอนหลับยาก ตื่นกลางดึกบ่อย</label><label class="flex items-center gap-3 border border-gray-200 p-3 rounded-xl cursor-pointer hover:bg-bgLight text-xs transition-colors"><input type="radio" name="q4" value="normal" class="accent-accent scale-110" checked> อารมณ์คงที่ หลับสบายดี ไม่มีเรื่องกังวลรบกวนการนอน</label></div></div>
+            <div class="text-center pt-4"><button onclick="calculateHealthResult()" class="bg-primary hover:bg-emeraldLight text-white font-semibold px-8 py-3 rounded-xl text-sm transition-all shadow-md"><i class="fa-solid fa-calculator mr-2 text-accent"></i>ดูผลวิเคราะห์ร่างกายของคุณ</button></div>
+        </div>
+        <div id="quiz-result-box" class="hidden space-y-6 text-center fade-up">
+            <div class="w-16 h-16 bg-accent/10 border border-accent/30 rounded-full flex items-center justify-center text-accent text-3xl mx-auto">☯️</div>
+            <h3 class="font-serif font-bold text-2xl text-primary" id="result-title">ผลประเมินของคุณ</h3>
+            <p class="text-xs text-gray-600 max-w-xl mx-auto leading-relaxed border border-dashed border-gray-200 p-4 rounded-xl bg-bgLight whitespace-pre-line" id="result-desc"></p>
+            <div class="pt-4 flex flex-wrap justify-center gap-4">
+                <button onclick="copyResultAndNotify()" class="bg-accent hover:bg-yellow-600 text-primary font-bold px-6 py-3 rounded-xl text-xs shadow-md transition-all"><i class="fa-solid fa-copy mr-1.5"></i>ก๊อปปี้ผลลัพธ์เพื่อส่งให้หมอขวัญ</button>
+                <button onclick="resetHealthQuiz()" class="text-gray-400 hover:text-gray-600 text-xs underline">ทำแบบทดสอบอีกครั้ง</button>
+            </div>
+            <p id="copy-toast" class="text-[11px] text-green-600 font-medium min-h-[16px]"></p>
+        </div>
+    </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews" class="py-20 bg-white border-y border-gray-100">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center max-w-2xl mx-auto mb-16">
+            <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Testimonials</span>
+            <h2 class="text-3xl md:text-4xl font-serif text-primary font-bold">เสียงจากผู้รับการรักษา</h2>
+            <div class="w-12 h-[2px] bg-accent mx-auto mt-4"></div>
+        </div>
+        <div id="reviews-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="text-center text-gray-400 py-10 col-span-3 text-sm">กำลังโหลดรีวิว...</div>
+        </div>
+        <!-- Line CTA -->
+        <div class="mt-16 bg-gradient-to-r from-primary to-emeraldLight rounded-2xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+            <div>
+                <h3 class="font-serif font-bold text-xl text-accent mb-2">พร้อมรับการดูแลจากหมอขวัญแล้วหรือยัง?</h3>
+                <p class="text-gray-300 text-sm font-light">ติดต่อได้ทาง Line หรือโทรตรงได้เลยครับ ตอบเร็ว ไม่มีค่าใช้จ่ายในการปรึกษา</p>
+            </div>
+            <div class="flex gap-3 shrink-0">
+                <a href="https://line.me/R/ti/p/@687dobfj" target="_blank" rel="noopener noreferrer"
+                   class="flex items-center gap-2 bg-[#06C755] hover:bg-green-500 text-white font-bold px-6 py-3 rounded-xl text-sm transition-all shadow-md">
+                    <i class="fa-brands fa-line text-lg"></i> แชท Line
+                </a>
+                <a href="tel:0646689544"
+                   class="flex items-center gap-2 bg-accent hover:bg-yellow-600 text-primary font-bold px-6 py-3 rounded-xl text-sm transition-all shadow-md">
+                    <i class="fa-solid fa-phone"></i> โทรเลย
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="py-20 max-w-3xl mx-auto px-6">
+    <div class="text-center mb-16">
+        <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">FAQ</span>
+        <h2 class="text-3xl md:text-4xl font-serif text-primary font-bold">คำถามที่พบบ่อย</h2>
+        <div class="w-12 h-[2px] bg-accent mx-auto mt-4"></div>
+    </div>
+    <div id="faq-list" class="space-y-3">
+        <div class="text-center text-gray-400 py-10 text-sm">กำลังโหลด FAQ...</div>
+    </div>
+</section>
+
+
+<!-- ARTICLES -->
+<section id="articles" class="py-20 max-w-7xl mx-auto px-6">
+    <div class="text-center max-w-2xl mx-auto mb-16">
+        <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Journal</span>
+        <h2 class="text-3xl md:text-4xl font-serif text-primary font-bold">บทความความรู้เพื่อสุขภาพ</h2>
+        <div class="w-12 h-[2px] bg-accent mx-auto mt-4"></div>
+    </div>
+    <div id="articles-grid" class="columns-1 sm:columns-2 lg:columns-3 gap-8 space-y-8">
+        <div class="text-center text-gray-400 py-10 col-span-3">กำลังโหลดบทความ...</div>
+    </div>
+</section>
+
 
 <!-- CONTACT -->
 <section id="contact" class="py-20 bg-primary text-white">
@@ -1344,31 +1355,44 @@ function renderPricing(items) {
         if (!groups[cat]) groups[cat] = [];
         groups[cat].push(item);
     });
+    const catIcons = {
+        'ฝังเข็ม': '🪡', 'ครอบแก้ว': '🫙', 'กัวซา': '🖐️',
+        'รมยา': '🌿', 'ยาสมุนไพรจีน': '🍵', 'ครอบแก้ว / กัวซา': '🫙'
+    };
     grid.innerHTML = Object.entries(groups).map(([cat, list]) => `
-        <div class="bg-white rounded-2xl overflow-hidden border border-gray-100 premium-shadow mb-4">
-            <div class="bg-primary px-6 py-3 flex items-center gap-2">
-                <i class="fa-solid fa-tag text-accent text-xs"></i>
-                <span class="text-accent text-xs font-bold uppercase tracking-wider">${cat}</span>
+        <div class="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-md">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-primary to-emeraldLight px-6 py-4 flex items-center gap-3">
+                <span class="text-2xl">${catIcons[cat] || '✨'}</span>
+                <span class="text-white font-serif font-bold text-lg">${cat}</span>
+                <span class="ml-auto bg-white/10 text-white text-[11px] px-2.5 py-1 rounded-full">${list.length} รายการ</span>
             </div>
+            <!-- Table -->
             <div class="overflow-x-auto">
                 <table class="w-full">
                     <thead>
-                        <tr class="bg-bgLight border-b border-gray-100">
-                            <th class="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider w-8">#</th>
-                            <th class="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">รายการบริการ</th>
-                            <th class="text-right px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">ราคา (บาท)</th>
+                        <tr class="bg-bgLight border-b-2 border-gray-100">
+                            <th class="text-left px-6 py-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider">รายการบริการ</th>
+                            <th class="text-right px-6 py-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider w-32">ราคา</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-50">
+                    <tbody>
                         ${list.map((item, i) => `
-                            <tr class="hover:bg-bgLight transition-colors">
-                                <td class="px-6 py-4 text-xs text-gray-400">${i+1}</td>
+                            <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-bgLight/50'} hover:bg-accent/5 transition-colors border-b border-gray-50">
                                 <td class="px-6 py-4">
-                                    <p class="text-sm font-medium text-primary">${item.name}</p>
-                                    ${item.note ? `<p class="text-[11px] text-gray-400 mt-0.5 italic">${item.note}</p>` : ''}
+                                    <div class="flex items-start gap-3">
+                                        <span class="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5">${i+1}</span>
+                                        <div>
+                                            <p class="text-sm font-semibold text-primary">${item.name}</p>
+                                            ${item.note ? `<p class="text-[11px] text-gray-400 mt-0.5 italic">${item.note}</p>` : ''}
+                                        </div>
+                                    </div>
                                 </td>
                                 <td class="px-6 py-4 text-right">
-                                    <span class="text-accent font-bold text-base">${item.price}</span>
+                                    <div class="inline-flex flex-col items-end">
+                                        <span class="text-accent font-bold text-xl leading-tight">${item.price}</span>
+                                        <span class="text-gray-400 text-[10px] uppercase tracking-wider">บาท</span>
+                                    </div>
                                 </td>
                             </tr>
                         `).join('')}
@@ -1491,19 +1515,50 @@ async function loadAnnouncements() {
 
 function renderAnnouncements(items) {
     const grid = document.getElementById("announcements-grid");
+    const alertBar  = document.getElementById("holiday-alert-bar");
+    const alertText = document.getElementById("holiday-alert-text");
+
+    // เช็กว่ามีประกาศปิดทำการไหม
+    const holidays = items.filter(a => a.type === "holiday");
+    if (holidays.length > 0) {
+        alertBar.classList.remove("hidden");
+        alertText.innerText = "⚠️ " + holidays.map(h => h.title).join(" / ") + " ⚠️";
+        // ปรับ navbar top
+        document.querySelector("nav").style.top = alertBar.offsetHeight + "px";
+    } else {
+        alertBar.classList.add("hidden");
+        document.querySelector("nav").style.top = "0px";
+    }
+
     if (!items.length) {
-        grid.innerHTML = '<p class="text-gray-400 text-sm">ไม่มีประกาศในขณะนี้</p>';
+        grid.innerHTML = '<p class="text-gray-300 text-sm opacity-60">ไม่มีประกาศในขณะนี้</p>';
         return;
     }
-    grid.innerHTML = items.map(a => `
+
+    grid.innerHTML = items.map(a => {
+        const isHoliday = a.type === "holiday";
+        if (isHoliday) {
+            return `
+            <div class="rounded-2xl border-2 border-red-400 bg-red-50 p-5 flex gap-4 items-start col-span-full md:col-span-2 lg:col-span-3 shadow-lg">
+                <div class="w-12 h-12 rounded-full bg-red-500 flex items-center justify-center text-white text-xl shrink-0 shadow-md">🔔</div>
+                <div class="flex-1">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">ปิดทำการ</span>
+                    </div>
+                    <p class="font-bold text-red-700 text-base leading-snug">${a.title}</p>
+                    ${a.body ? `<p class="text-red-600 text-xs font-light mt-1.5 leading-relaxed">${a.body}</p>` : ''}
+                </div>
+            </div>`;
+        }
+        return `
         <div class="rounded-xl border p-5 ${ANN_COLORS[a.type] || ANN_COLORS.info} flex gap-3 items-start">
             <span class="text-xl shrink-0 mt-0.5">${ANN_ICONS[a.type] || '📋'}</span>
             <div>
                 <p class="font-semibold text-sm leading-snug">${a.title}</p>
                 ${a.body ? `<p class="text-xs font-light mt-1 opacity-80 leading-relaxed">${a.body}</p>` : ''}
             </div>
-        </div>
-    `).join('');
+        </div>`;
+    }).join('');
 }
 
 function renderAdminAnnouncements() {
