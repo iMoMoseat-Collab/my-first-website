@@ -89,7 +89,10 @@ export default async function handler(req, res) {
     // ── POST ─────────────────────────────────────────────────
     if (req.method === "POST") {
         const body = req.body || {};
-        if (!body.password || body.password !== PASSWORD) {
+        // bookings POST จากลูกค้า ไม่ต้อง password
+        // แต่ถ้าเป็น admin update (body.bookings) ต้อง password
+        const needsAuth = type !== "bookings" || body.bookings;
+        if (needsAuth && (!body.password || body.password !== PASSWORD)) {
             return res.status(401).json({ error: "รหัสผ่านไม่ถูกต้อง" });
         }
         try {
