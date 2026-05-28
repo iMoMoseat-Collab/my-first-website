@@ -2262,43 +2262,84 @@ async function loadBookingsAdmin() {
     }
 }
 
+function getAutoDeleteCountdown(b) {
+    if (b.status !== "confirmed" || !b.confirmedAt) return null;
+    const deleteAt = new Date(b.confirmedAt);
+    deleteAt.setDate(deleteAt.getDate() + 30);
+    const diff = Math.ceil((deleteAt - Date.now()) / (1000 * 60 * 60 * 24));
+    return diff > 0 ? diff : 0;
+}
+
+function autoDeleteExpiredBookings() {
+    const now = Date.now();
+    const newList = bookingsCache.filter(b => {
+        if (b.status !== "confirmed" || !b.confirmedAt) return true;
+        const deleteAt = new Date(b.confirmedAt).getTime() + 30 * 24 * 60 * 60 * 1000;
+        return now < deleteAt;
+    });
+    if (newList.length < bookingsCache.length) {
+        pushBookings(newList);
+    }
+}
+
 function renderAdminBookings() {
     const list = document.getElementById("admin-bookings-list");
     if (!list) return;
+
+    // auto ลบที่หมดอายุ
+    autoDeleteExpiredBookings();
+
     document.getElementById("bookings-count").innerText = bookingsCache.length;
     if (!bookingsCache.length) {
         list.innerHTML = '<p class="text-xs text-gray-400 text-center py-4">ยังไม่มีการนัดหมาย</p>';
         return;
     }
-    // เรียงจากใหม่สุด
+
     const sorted = [...bookingsCache].sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
     list.innerHTML = sorted.map(b => {
         const thDate = new Date(b.date).toLocaleDateString("th-TH", { weekday:"short", month:"short", day:"numeric" });
+        const countdown = getAutoDeleteCountdown(b);
+
         const statusBadge = b.status === "confirmed"
-            ? '<span class="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold">✅ ยืนยัน</span>'
-            : b.status === "cancelled"
-            ? '<span class="text-[10px] bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-bold">❌ ยกเลิก</span>'
+            ? `<div class="text-right">
+                <span class="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold block">✅ ยืนยัน</span>
+                ${countdown !== null ? `<span class="text-[10px] text-gray-400 mt-0.5 block">🗑 ลบใน ${countdown} วัน</span>` : ''}
+               </div>`
             : '<span class="text-[10px] bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full font-bold">⏳ รอยืนยัน</span>';
+
+        const actionBtns = b.status === "confirmed"
+            ? `<button onclick="deleteBooking('${b.id}')" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs font-semibold py-2 rounded-lg transition-colors">🗑 ลบ</button>`
+            : `<button onclick="confirmBooking('${b.id}')" class="flex-1 bg-green-600 hover:bg-green-700 text-white text-xs font-semibold py-2 rounded-lg transition-colors">✅ ยืนยัน</button>
+               <button onclick="deleteBooking('${b.id}')" class="flex-1 bg-red-500 hover:bg-red-600 text-white text-xs font-semibold py-2 rounded-lg transition-colors">❌ ยกเลิก / ลบ</button>`;
+
         return `
         <div class="border border-[#D4C9A8] rounded-xl p-4 bg-[#FDFAF5] space-y-2">
             <div class="flex items-start justify-between gap-2">
-                <div>
+                <div class="flex-1 min-w-0">
                     <p class="text-sm font-bold text-primary">${b.name} <span class="text-gray-400 font-normal text-xs">· ${b.phone}</span></p>
-                    <p class="text-xs text-gray-500">${thDate} เวลา ${b.time} น. · ${b.service}</p>
+                    <p class="text-xs text-gray-500 mt-0.5">${thDate} · ${b.time} น. · ${b.service}</p>
                     <p class="text-xs text-gray-400 mt-1 italic">"${b.symptom}"</p>
                 </div>
                 <div class="shrink-0">${statusBadge}</div>
             </div>
-            <div class="flex gap-2 pt-1">
-                <button onclick="updateBookingStatus('${b.id}','confirmed')" class="flex-1 bg-green-600 hover:bg-green-700 text-white text-xs font-semibold py-2 rounded-lg transition-colors">✅ ยืนยัน</button>
-                <button onclick="updateBookingStatus('${b.id}','cancelled')" class="flex-1 bg-red-500 hover:bg-red-600 text-white text-xs font-semibold py-2 rounded-lg transition-colors">❌ ยกเลิก</button>
-            </div>
+            <div class="flex gap-2 pt-1">${actionBtns}</div>
         </div>`;
     }).join("");
 }
 
-async function updateBookingStatus(id, status) {
-    const newList = bookingsCache.map(b => b.id === id ? { ...b, status } : b);
+async function confirmBooking(id) {
+    const now = new Date().toISOString();
+    const newList = bookingsCache.map(b => b.id === id ? { ...b, status: "confirmed", confirmedAt: now } : b);
+    await pushBookings(newList);
+}
+
+async function deleteBooking(id) {
+    if (!confirm("ยืนยันลบรายการนัดหมายนี้?")) return;
+    const newList = bookingsCache.filter(b => b.id !== id);
+    await pushBookings(newList);
+}
+
+async function pushBookings(newList) {
     try {
         const res = await fetchWithTimeout(`${API_BASE}/api/announcement?type=bookings`, {
             method: "POST",
@@ -2308,8 +2349,16 @@ async function updateBookingStatus(id, status) {
         if ((await res.json()).ok) {
             bookingsCache = newList;
             renderAdminBookings();
-        }
-    } catch { alert("อัปเดตไม่สำเร็จ"); }
+        } else { alert("อัปเดตไม่สำเร็จ"); }
+    } catch { alert("ไม่สามารถเชื่อมต่อได้"); }
+}
+
+async function updateBookingStatus(id, status) {
+    if (status === "cancelled") {
+        await deleteBooking(id);
+    } else {
+        await confirmBooking(id);
+    }
 }
 
 // ── Settings ───────────────────────────────────────────
