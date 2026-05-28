@@ -310,6 +310,7 @@
                             <span id="doctor-photo-placeholder">👩‍⚕️</span>
                         </div>
                         <h3 id="doctor-name-th" class="font-serif font-bold text-lg text-accent leading-snug">แพทย์จีน ศิริขวัญ ก้าวสัมพันธ์</h3>
+                        <p id="doctor-name-th2" class="text-accent/70 text-sm font-light">(แพทย์จีน สวี่ ถาน ลี่)</p>
                         <p id="doctor-name-cn" class="text-gray-400 text-sm mt-1 font-light tracking-wide">许谭丽 中医师</p>
                         <p id="doctor-name-en" class="text-gray-500 text-[11px] mt-0.5 font-light leading-relaxed">TCM.Dr.Sirikwan Kaosamphan<br>(XU TAN LI)</p>
                         <!-- ใบอนุญาต -->
@@ -855,7 +856,8 @@
                     <!-- ข้อมูลหมอ -->
                     <div class="space-y-3">
                         <div><label class="text-xs text-gray-500 block mb-1">ชื่อไทย *</label>
-                            <input type="text" id="form-doctor-name-th" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent" value="แพทย์จีน ศิริขวัญ ก้าวสัมพันธ์ (แพทย์จีน สวี่ ถาน ลี่)">
+                            <input type="text" id="form-doctor-name-th" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent" value="แพทย์จีน ศิริขวัญ ก้าวสัมพันธ์">
+                            <input type="text" id="form-doctor-name-th2" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent mt-1.5" value="(แพทย์จีน สวี่ ถาน ลี่)" placeholder="ชื่อเรียก / นามแฝง">
                         </div>
                         <div><label class="text-xs text-gray-500 block mb-1">ชื่อจีน</label>
                             <input type="text" id="form-doctor-name-cn" class="w-full border p-2 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-accent" value="许谭丽 中医师">
@@ -1226,7 +1228,9 @@ function switchTab(tab) {
         const d = doctorCache;
         if (d && d.name_th) {
             document.getElementById("form-doctor-image").value    = d.image   || '';
-            document.getElementById("form-doctor-name-th").value  = d.name_th || '';
+            const nameParts = (d.name_th || '').split('\n');
+                            document.getElementById("form-doctor-name-th").value  = nameParts[0] || '';
+                            document.getElementById("form-doctor-name-th2").value = nameParts[1] || '';
             document.getElementById("form-doctor-name-cn").value  = d.name_cn || '';
             document.getElementById("form-doctor-name-en").value  = d.name_en || '';
             document.getElementById("form-doctor-license").value  = d.license || '';
@@ -2054,7 +2058,11 @@ function renderDoctorSection(d) {
         if (photo) { photo.src = d.image; photo.classList.remove("hidden"); photo.onerror = () => { photo.classList.add("hidden"); if(placeholder) placeholder.classList.remove("hidden"); }; }
         if (placeholder) placeholder.classList.add("hidden");
     }
-    safe("doctor-name-th",  d.name_th);
+    if (d.name_th) {
+        const parts = d.name_th.split('\n');
+        const el = document.getElementById('doctor-name-th');
+        if (el) el.innerHTML = parts[0] + (parts[1] ? '<br><span class="text-sm font-normal">' + parts[1] + '</span>' : '');
+    }
     safe("doctor-name-cn",  d.name_cn);
     safe("doctor-name-en",  d.name_en);
     safe("doctor-license",  d.license);
@@ -2081,7 +2089,7 @@ async function saveDoctorProfile() {
     const getVal = id => document.getElementById(id)?.value.trim() || '';
     const data = {
         image:   getVal("form-doctor-image"),
-        name_th: getVal("form-doctor-name-th"),
+        name_th: (getVal("form-doctor-name-th") + (getVal("form-doctor-name-th2") ? '\n' + getVal("form-doctor-name-th2") : '')),
         name_cn: getVal("form-doctor-name-cn"),
         name_en: getVal("form-doctor-name-en"),
         license: getVal("form-doctor-license"),
