@@ -2305,12 +2305,14 @@ function renderAdminBookings() {
                 <span class="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold block">✅ ยืนยัน</span>
                 ${countdown !== null ? `<span class="text-[10px] text-gray-400 mt-0.5 block">🗑 ลบใน ${countdown} วัน</span>` : ''}
                </div>`
+            : b.status === "cancelled"
+            ? '<span class="text-[10px] bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-bold">❌ ยกเลิก</span>'
             : '<span class="text-[10px] bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full font-bold">⏳ รอยืนยัน</span>';
 
-        const actionBtns = b.status === "confirmed"
-            ? `<button onclick="deleteBooking('${b.id}')" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs font-semibold py-2 rounded-lg transition-colors">🗑 ลบ</button>`
-            : `<button onclick="confirmBooking('${b.id}')" class="flex-1 bg-green-600 hover:bg-green-700 text-white text-xs font-semibold py-2 rounded-lg transition-colors">✅ ยืนยัน</button>
-               <button onclick="deleteBooking('${b.id}')" class="flex-1 bg-red-500 hover:bg-red-600 text-white text-xs font-semibold py-2 rounded-lg transition-colors">❌ ยกเลิก / ลบ</button>`;
+        const actionBtns = `
+            <button onclick="confirmBooking('${b.id}')" class="flex-1 bg-green-600 hover:bg-green-700 text-white text-xs font-semibold py-2 rounded-lg transition-colors ${b.status === 'confirmed' ? 'opacity-40 cursor-not-allowed' : ''}">✅ ยืนยัน</button>
+            <button onclick="cancelBooking('${b.id}')" class="flex-1 bg-amber-500 hover:bg-amber-600 text-white text-xs font-semibold py-2 rounded-lg transition-colors ${b.status === 'cancelled' ? 'opacity-40 cursor-not-allowed' : ''}">❌ ยกเลิก</button>
+            <button onclick="deleteBooking('${b.id}')" class="w-9 h-9 bg-gray-200 hover:bg-red-100 hover:text-red-600 text-gray-500 text-sm rounded-lg transition-colors flex items-center justify-center shrink-0">🗑</button>`;
 
         return `
         <div class="border border-[#D4C9A8] rounded-xl p-4 bg-[#FDFAF5] space-y-2">
@@ -2330,6 +2332,11 @@ function renderAdminBookings() {
 async function confirmBooking(id) {
     const now = new Date().toISOString();
     const newList = bookingsCache.map(b => b.id === id ? { ...b, status: "confirmed", confirmedAt: now } : b);
+    await pushBookings(newList);
+}
+
+async function cancelBooking(id) {
+    const newList = bookingsCache.map(b => b.id === id ? { ...b, status: "cancelled" } : b);
     await pushBookings(newList);
 }
 
@@ -2354,11 +2361,9 @@ async function pushBookings(newList) {
 }
 
 async function updateBookingStatus(id, status) {
-    if (status === "cancelled") {
-        await deleteBooking(id);
-    } else {
-        await confirmBooking(id);
-    }
+    if (status === "cancelled") await cancelBooking(id);
+    else if (status === "confirmed") await confirmBooking(id);
+    else await deleteBooking(id);
 }
 
 // ── Settings ───────────────────────────────────────────
