@@ -10,6 +10,34 @@
 // =============================================================
 
 const REPO     = process.env.GITHUB_REPO;
+
+// Rate Limiting — max 5 attempts per IP per 15 min
+const loginAttempts = new Map();
+function checkRateLimit(ip) {
+    const now = Date.now();
+    const windowMs = 15 * 60 * 1000;
+    const maxAttempts = 5;
+    if (!loginAttempts.has(ip)) loginAttempts.set(ip, []);
+    const attempts = loginAttempts.get(ip).filter(t => now - t < windowMs);
+    loginAttempts.set(ip, attempts);
+    if (attempts.length >= maxAttempts) return false;
+    attempts.push(now);
+    return true;
+}
+
+// Rate Limiting — max 5 login attempts per IP per 15 minutes
+const loginAttempts = new Map();
+function checkRateLimit(ip) {
+    const now = Date.now();
+    const windowMs = 15 * 60 * 1000; // 15 นาที
+    const maxAttempts = 5;
+    if (!loginAttempts.has(ip)) loginAttempts.set(ip, []);
+    const attempts = loginAttempts.get(ip).filter(t => now - t < windowMs);
+    loginAttempts.set(ip, attempts);
+    if (attempts.length >= maxAttempts) return false;
+    attempts.push(now);
+    return true;
+}
 const TOKEN    = process.env.GITHUB_TOKEN;
 const PASSWORD = process.env.ADMIN_PASSWORD;
 
@@ -90,10 +118,16 @@ export default async function handler(req, res) {
     if (req.method === "POST") {
         const body = req.body || {};
         // bookings POST จากลูกค้า ไม่ต้อง password
-        // แต่ถ้าเป็น admin update (body.bookings) ต้อง password
         const needsAuth = type !== "bookings" || body.bookings;
-        if (needsAuth && (!body.password || body.password !== PASSWORD)) {
-            return res.status(401).json({ error: "รหัสผ่านไม่ถูกต้อง" });
+        if (needsAuth) {
+            // Rate limiting
+            const ip = req.headers["x-forwarded-for"]?.split(",")[0] || req.socket?.remoteAddress || "unknown";
+            if (!checkRateLimit(ip)) {
+                return res.status(429).json({ error: "ลองใหม่ในอีก 15 นาที (พยายามเข้าสู่ระบบมากเกินไป)" });
+            }
+            if (!body.password || body.password !== PASSWORD) {
+                return res.status(401).json({ error: "รหัสผ่านไม่ถูกต้อง" });
+            }
         }
         try {
             let newContent;
