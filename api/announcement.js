@@ -11,20 +11,6 @@
 
 const REPO     = process.env.GITHUB_REPO;
 
-// Rate Limiting — max 5 attempts per IP per 15 min
-const loginAttempts = new Map();
-function checkRateLimit(ip) {
-    const now = Date.now();
-    const windowMs = 15 * 60 * 1000;
-    const maxAttempts = 5;
-    if (!loginAttempts.has(ip)) loginAttempts.set(ip, []);
-    const attempts = loginAttempts.get(ip).filter(t => now - t < windowMs);
-    loginAttempts.set(ip, attempts);
-    if (attempts.length >= maxAttempts) return false;
-    attempts.push(now);
-    return true;
-}
-
 // Rate Limiting — max 5 login attempts per IP per 15 minutes
 const loginAttempts = new Map();
 function checkRateLimit(ip) {
