@@ -433,11 +433,21 @@
     </div>
 
     <!-- TikTok Videos -->
-    <div class="mb-12" id="tiktok-section">
-        <h3 class="font-serif font-bold text-primary text-xl mb-6 flex items-center gap-2">
-            <span class="text-2xl">🎬</span> วิดีโอจากหมอขวัญ
-        </h3>
-        <div id="tiktok-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 justify-items-center">
+    <div class="mb-16" id="tiktok-section">
+        <div class="flex items-center gap-3 mb-8">
+            <div class="w-9 h-9 rounded-full bg-primary flex items-center justify-center shrink-0">
+                <i class="fa-brands fa-tiktok text-accent text-sm"></i>
+            </div>
+            <div>
+                <h3 class="font-serif font-bold text-primary text-xl leading-tight">วิดีโอจากหมอขวัญ</h3>
+                <p class="text-gray-400 text-xs font-light">ติดตามเพิ่มเติมที่ @sirikwankaosampha</p>
+            </div>
+            <a href="https://www.tiktok.com/@sirikwankaosampha" target="_blank" rel="noopener noreferrer"
+               class="ml-auto flex items-center gap-2 bg-primary hover:bg-emeraldLight text-white text-xs font-semibold px-4 py-2 rounded-full transition-colors shadow-sm">
+                <i class="fa-brands fa-tiktok text-accent"></i> ติดตาม
+            </a>
+        </div>
+        <div id="tiktok-grid" class="grid grid-cols-1 sm:grid-cols-3 gap-6 justify-items-center">
         </div>
     </div>
     <script async src="https://www.tiktok.com/embed.js"></script>
@@ -2462,17 +2472,36 @@ function renderTikTokGrid() {
     if (!grid) return;
     const videos = settingsCache.tiktokVideos || [];
     if (!videos.length) { grid.innerHTML = ''; return; }
-    grid.innerHTML = videos.filter(id => id).map(id => `
-        <div class="w-full max-w-xs">
-            <blockquote class="tiktok-embed"
-                cite="https://www.tiktok.com/@sirikwankaosampha/video/${id}"
-                data-video-id="${id}"
-                style="max-width:325px;min-width:325px;">
-                <section>
-                    <a target="_blank" title="@sirikwankaosampha"
-                       href="https://www.tiktok.com/@sirikwankaosampha?refer=embed">@sirikwankaosampha</a>
-                </section>
-            </blockquote>
+    grid.innerHTML = videos.filter(id => id).map((id, i) => `
+        <div class="w-full max-w-[340px] group">
+            <div class="bg-primary rounded-2xl overflow-hidden shadow-xl border border-accent/20 transition-all duration-300 group-hover:shadow-2xl group-hover:-translate-y-1">
+                <!-- Header card -->
+                <div class="px-4 py-3 flex items-center gap-2 border-b border-white/10">
+                    <div class="w-7 h-7 rounded-full bg-accent/15 flex items-center justify-center">
+                        <i class="fa-brands fa-tiktok text-accent text-xs"></i>
+                    </div>
+                    <span class="text-white text-xs font-semibold">@sirikwankaosampha</span>
+                    <span class="ml-auto text-accent text-[10px] font-bold uppercase tracking-wider">Clip ${i+1}</span>
+                </div>
+                <!-- TikTok embed -->
+                <div class="bg-white">
+                    <blockquote class="tiktok-embed"
+                        cite="https://www.tiktok.com/@sirikwankaosampha/video/${id}"
+                        data-video-id="${id}"
+                        style="max-width:340px;min-width:280px;margin:0;">
+                        <section>
+                            <a target="_blank" title="@sirikwankaosampha"
+                               href="https://www.tiktok.com/@sirikwankaosampha?refer=embed">@sirikwankaosampha</a>
+                        </section>
+                    </blockquote>
+                </div>
+                <!-- Footer card -->
+                <div class="px-4 py-3 flex items-center justify-between">
+                    <span class="text-gray-400 text-[10px]">หมอขวัญแพทย์แผนจีน ศรีราชา</span>
+                    <a href="https://www.tiktok.com/@sirikwankaosampha/video/${id}" target="_blank" rel="noopener noreferrer"
+                       class="text-accent text-[10px] font-semibold hover:underline">ดูใน TikTok →</a>
+                </div>
+            </div>
         </div>`).join('');
     // re-render TikTok embeds
     if (window.tiktok) window.tiktok.reload();
