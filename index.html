@@ -145,6 +145,11 @@
         #faq-list button span { font-size: 15px; }
 
         @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes pulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.05);opacity:0.85} }
+        @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+        /* Scroll Animation */
+        .reveal { opacity:0; transform:translateY(28px); transition:opacity 0.65s ease, transform 0.65s ease; }
+        .reveal.visible { opacity:1; transform:translateY(0); }
         .fade-up { animation:fadeUp .4s ease forwards; }
         #copy-toast:empty { display:none; }
         /* Admin tabs */
@@ -163,6 +168,25 @@
     </script>
 </head>
 <body class="antialiased">
+
+<!-- ══════════ LOADING SCREEN ══════════ -->
+<div id="loading-screen" class="fixed inset-0 z-[200] bg-primary flex flex-col items-center justify-center">
+    <div class="flex flex-col items-center gap-6">
+        <img src="https://drive.google.com/thumbnail?id=1IT-3zvcoCdoaYRKuhum84IOUcbSZVeE_&sz=w200"
+             alt="MorKwan TCM"
+             class="w-24 h-24 rounded-full border-4 border-accent/40 shadow-2xl"
+             style="animation: pulse 1.5s ease-in-out infinite;">
+        <div class="text-center space-y-1">
+            <h1 class="font-serif font-bold text-accent text-2xl">คลินิกหมอขวัญแพทย์แผนจีน</h1>
+            <p class="text-white/60 text-xs tracking-widest uppercase">MorKwan TCM · ศรีราชา ชลบุรี</p>
+        </div>
+        <div class="flex gap-1.5 mt-2">
+            <span class="w-2 h-2 bg-accent rounded-full" style="animation:bounce 1s infinite 0s"></span>
+            <span class="w-2 h-2 bg-accent rounded-full" style="animation:bounce 1s infinite 0.15s"></span>
+            <span class="w-2 h-2 bg-accent rounded-full" style="animation:bounce 1s infinite 0.3s"></span>
+        </div>
+    </div>
+</div>
 
 <!-- BANNER (ซ่อนไว้ใช้สำหรับ JS backward compat) -->
 <div id="announcement-text" class="hidden"></div>
@@ -271,7 +295,7 @@
 
 
 <!-- ══════════ ANNOUNCEMENTS SECTION ══════════ -->
-<section id="announcements" class="py-10 bg-[#EEE8D8] border-b border-[#D4C9A8]">
+<section id="announcements" class="reveal py-10 bg-[#EEE8D8] border-b border-[#D4C9A8]">
     <div class="max-w-4xl mx-auto px-6">
         <div class="flex items-center gap-3 mb-6">
             <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0">
@@ -288,7 +312,7 @@
 </section>
 
 <!-- ══════════ DOCTOR PROFILE ══════════ -->
-<section id="doctor" class="py-20 bg-[#F7F4EF] border-y border-[#E8E0D0]">
+<section id="doctor" class="reveal py-20 bg-[#F7F4EF] border-y border-[#E8E0D0]">
     <div class="max-w-5xl mx-auto px-6">
         <div class="text-center max-w-2xl mx-auto mb-12">
             <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">About Doctor</span>
@@ -359,7 +383,7 @@
 </section>
 
 <!-- SPECIALTIES -->
-<section id="specialties" class="py-20 max-w-7xl mx-auto px-6">
+<section id="specialties" class="reveal py-20 max-w-7xl mx-auto px-6">
     <div class="text-center max-w-2xl mx-auto mb-16">
         <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Expertise</span>
         <h2 class="text-3xl md:text-4xl font-serif text-primary font-bold">อาการที่</h2>
@@ -375,7 +399,7 @@
 </section>
 
 <!-- SERVICES -->
-<section id="services" class="py-20 bg-[#F7F4EF] border-y border-[#E8E0D0]">
+<section id="services" class="reveal py-20 bg-[#F7F4EF] border-y border-[#E8E0D0]">
     <div class="max-w-7xl mx-auto px-6">
         <div class="text-center max-w-2xl mx-auto mb-16">
             <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Treatments</span>
@@ -394,7 +418,7 @@
 </section>
 
 <!-- ══════════ PRICING ══════════ -->
-<section id="pricing" class="py-20 bg-[#F7F4EF] border-y border-[#E8E0D0]">
+<section id="pricing" class="reveal py-20 bg-[#F7F4EF] border-y border-[#E8E0D0]">
     <div class="max-w-5xl mx-auto px-6">
         <div class="text-center max-w-2xl mx-auto mb-12">
             <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Pricing</span>
@@ -425,7 +449,7 @@
 </section>
 
 <!-- ARTICLES -->
-<section id="articles" class="py-20 max-w-7xl mx-auto px-6">
+<section id="articles" class="reveal py-20 max-w-7xl mx-auto px-6">
     <div class="text-center max-w-2xl mx-auto mb-16">
         <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Journal</span>
         <h2 class="text-3xl md:text-4xl font-serif text-primary font-bold">บทความความรู้เพื่อสุขภาพ</h2>
@@ -460,7 +484,7 @@
 
 
 <!-- HEALTH QUIZ -->
-<section id="checker" class="py-20 max-w-4xl mx-auto px-6">
+<section id="checker" class="reveal py-20 max-w-4xl mx-auto px-6">
     <div class="text-center mb-12">
         <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Interactive Quiz</span>
         <h2 class="text-3xl font-serif text-primary font-bold">ระบบวิเคราะห์สมดุลร่างกายแผนจีน</h2>
@@ -490,7 +514,7 @@
 </section>
 
 <!-- REVIEWS -->
-<section id="reviews" class="py-20 bg-[#F7F4EF] border-y border-[#E8E0D0]">
+<section id="reviews" class="reveal py-20 bg-[#F7F4EF] border-y border-[#E8E0D0]">
     <div class="max-w-7xl mx-auto px-6">
         <div class="text-center max-w-2xl mx-auto mb-16">
             <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Testimonials</span>
@@ -521,7 +545,7 @@
 </section>
 
 <!-- FAQ -->
-<section id="faq" class="py-20 max-w-3xl mx-auto px-6">
+<section id="faq" class="reveal py-20 max-w-3xl mx-auto px-6">
     <div class="text-center mb-16">
         <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">FAQ</span>
         <h2 class="text-3xl md:text-4xl font-serif text-primary font-bold">คำถามที่พบบ่อย</h2>
@@ -535,7 +559,7 @@
 
 
 <!-- ══════════ BOOKING ══════════ -->
-<section id="booking" class="py-20 bg-primary relative overflow-hidden">
+<section id="booking" class="reveal py-20 bg-primary relative overflow-hidden">
     <!-- decorative -->
     <div class="absolute inset-0 opacity-5" style="background-image:radial-gradient(circle at 20% 50%, #C9962A 0%, transparent 50%), radial-gradient(circle at 80% 50%, #C9962A 0%, transparent 50%);"></div>
 
@@ -607,7 +631,7 @@
 </section>
 
 <!-- CONTACT -->
-<section id="contact" class="py-20 bg-primary text-white">
+<section id="contact" class="reveal py-20 bg-primary text-white">
     <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-12 items-stretch">
         <div class="md:col-span-5 space-y-6">
             <span class="text-accent text-xs font-bold tracking-widest uppercase block mb-2">Location & Time</span>
@@ -2652,6 +2676,32 @@ async function saveTikTokSettings() {
         } else { status.innerText = data.error || "เกิดข้อผิดพลาด"; status.className = "text-xs text-center font-medium text-red-500"; }
     } catch { status.innerText = "ไม่สามารถเชื่อมต่อได้"; status.className = "text-xs text-center font-medium text-red-500"; }
 }
+
+
+// ── Loading Screen ─────────────────────────────────────
+window.addEventListener("load", () => {
+    const loader = document.getElementById("loading-screen");
+    if (!loader) return;
+    setTimeout(() => {
+        loader.style.transition = "opacity 0.6s ease";
+        loader.style.opacity = "0";
+        setTimeout(() => { loader.style.display = "none"; }, 600);
+    }, 1200);
+});
+
+// ── Scroll Reveal Animation ────────────────────────────
+const _revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            _revealObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.08, rootMargin: "0px 0px -40px 0px" });
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".reveal").forEach(el => _revealObserver.observe(el));
+});
 
 </script>
 </body>
